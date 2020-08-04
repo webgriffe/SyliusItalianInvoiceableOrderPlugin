@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Acme\SyliusExamplePlugin\Behat\Page\Shop;
+namespace Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop;
 
 use FriendsOfBehat\PageObjectExtension\Page\SymfonyPage;
+use Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\WelcomePageInterface;
 
 class DynamicWelcomePage extends SymfonyPage implements WelcomePageInterface
 {
@@ -29,7 +30,7 @@ class DynamicWelcomePage extends SymfonyPage implements WelcomePageInterface
      */
     public function getRouteName(): string
     {
-        return 'acme_sylius_example_dynamic_welcome';
+        return 'webgriffe_sylius_italian_invoiceable_order_dynamic_welcome';
     }
 
     /**

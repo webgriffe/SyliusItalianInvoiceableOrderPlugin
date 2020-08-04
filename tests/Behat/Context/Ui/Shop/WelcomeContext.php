@@ -2,29 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Tests\Acme\SyliusExamplePlugin\Behat\Context\Ui\Shop;
+namespace Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Ui\Shop;
 
 use Behat\Behat\Context\Context;
-use Tests\Acme\SyliusExamplePlugin\Behat\Page\Shop\WelcomePageInterface;
+use Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\WelcomePageInterface;
 use Webmozart\Assert\Assert;
 
 final class WelcomeContext implements Context
 {
     /**
-     * @var WelcomePageInterface
+     * @var \Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\WelcomePageInterface
      */
     private $staticWelcomePage;
 
     /**
-     * @var WelcomePageInterface
+     * @var \Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\WelcomePageInterface
      */
     private $dynamicWelcomePage;
 
     /**
-     * @param WelcomePageInterface $staticWelcomePage
-     * @param WelcomePageInterface $dynamicWelcomePage
+     * @param \Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\WelcomePageInterface $staticWelcomePage
+     * @param \Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\WelcomePageInterface $dynamicWelcomePage
      */
-    public function __construct(WelcomePageInterface $staticWelcomePage, WelcomePageInterface $dynamicWelcomePage)
+    public function __construct(
+        \Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\WelcomePageInterface $staticWelcomePage, \Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\WelcomePageInterface $dynamicWelcomePage)
     {
         $this->staticWelcomePage = $staticWelcomePage;
         $this->dynamicWelcomePage = $dynamicWelcomePage;

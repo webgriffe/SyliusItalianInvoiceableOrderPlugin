@@ -4,7 +4,7 @@ default:
     suites:
         greeting_customer:
             contexts:
-                - acme_sylius_example.context.ui.shop.welcome
+                - webgriffe_sylius_italian_invoiceable_order.context.ui.shop.welcome
 
             filters:
                 tags: "@greeting_customer"

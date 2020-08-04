@@ -1,8 +1,8 @@
 {
-    "name": "sylius/plugin-skeleton",
+    "name": "webgriffe/sylius-italian-invoiceable-order-plugin",
     "type": "sylius-plugin",
     "keywords": ["sylius", "sylius-plugin"],
-    "description": "Acme example plugin for Sylius.",
+    "description": "Sylius plugin which allows Italian merchants to collect invoice data for their orders.",
     "license": "MIT",
     "require": {
         "php": "^7.3",
@@ -39,8 +39,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Acme\\SyliusExamplePlugin\\": "src/",
-            "Tests\\Acme\\SyliusExamplePlugin\\": "tests/"
+            "Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\": "src/",
+            "Tests\\Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\": "tests/"
         }
     },
     "autoload-dev": {
@@ -48,7 +48,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.7-dev"
+            "dev-master": "1.0-dev"
         }
     },
     "config": {
