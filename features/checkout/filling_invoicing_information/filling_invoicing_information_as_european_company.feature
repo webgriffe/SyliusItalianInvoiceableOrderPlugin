@@ -6,7 +6,6 @@ Feature: Filling invoicing information as an european company
 
     Background:
         Given the store operates on a single channel in "Italy"
-        And channel "Italy" uses "minimit/xtend-theme-sylius" theme
         And channel "Italy" billing data is "Merchant S.p.A.", "Via Roma 12", "12345" "Milano", "Italy" with "06549840962" tax ID
         And the store operates in "Germany"
         And this channel operates in the "Germany" country

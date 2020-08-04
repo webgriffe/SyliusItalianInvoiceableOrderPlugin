@@ -6,7 +6,6 @@ Feature: Filling invoicing information as an italian company
 
     Background:
         Given the store operates on a single channel in "Italy"
-        And channel "Italy" uses "minimit/xtend-theme-sylius" theme
         And the store ships everywhere for free
         And the store has a product "PHP T-Shirt" priced at "$19.99"
         And I have product "PHP T-Shirt" in the cart

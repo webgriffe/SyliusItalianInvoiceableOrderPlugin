@@ -6,7 +6,6 @@ Feature: Preventing complete checkout without billing recipient type
 
     Background:
         Given the store operates on a single channel in "United States"
-        And channel "United States" uses "minimit/xtend-theme-sylius" theme
         And the store ships everywhere for free
         And the store allows paying with "Bank Transfer"
         And the store has a product "PHP T-Shirt" priced at "$19.99"
