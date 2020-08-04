@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Ui\Shop\Checkout;
 
+use Faker\Factory;
 use Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\Checkout\AddressPageInterface;
 use Behat\Behat\Context\Context;
 use Faker\Generator;
@@ -26,11 +27,11 @@ final class CheckoutAddressingContext implements Context
      */
     private $fakerGenerator;
 
-    public function __construct(AddressPageInterface $addressPage, SharedStorageInterface $sharedStorage, Generator $fakerGenerator)
+    public function __construct(AddressPageInterface $addressPage, SharedStorageInterface $sharedStorage)
     {
         $this->addressPage = $addressPage;
         $this->sharedStorage = $sharedStorage;
-        $this->fakerGenerator = $fakerGenerator;
+        $this->fakerGenerator = Factory::create();
     }
 
     /**

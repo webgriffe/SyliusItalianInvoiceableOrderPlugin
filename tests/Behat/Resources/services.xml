@@ -25,7 +25,6 @@
         <service id="webgriffe_sylius_italian_invoiceable_order.behat.context.ui.shop.checkout.addressing" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Ui\Shop\Checkout\CheckoutAddressingContext">
             <argument type="service" id="webgriffe_sylius_italian_invoiceable_order.behat.page.shop.checkout.address" />
             <argument type="service" id="sylius.behat.shared_storage" />
-            <argument type="service" id="nelmio_alice.faker.generator" />
         </service>
 
         <service id="webgriffe_sylius_italian_invoiceable_order.behat.context.ui.shop.checkout.complete" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Ui\Shop\Checkout\CheckoutCompleteContext">
