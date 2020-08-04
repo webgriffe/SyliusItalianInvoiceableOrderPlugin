@@ -6,7 +6,7 @@ namespace Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\Ch
 
 use Sylius\Behat\Page\Shop\Checkout\AddressPage as BaseAddressPage;
 use Sylius\Component\Core\Model\AddressInterface;
-use Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\InvoiceableAddressInterface;
+use Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface;
 use Webmozart\Assert\Assert;
 
 class AddressPage extends BaseAddressPage implements AddressPageInterface
@@ -17,11 +17,11 @@ class AddressPage extends BaseAddressPage implements AddressPageInterface
     }
 
     /**
-     * @param AddressInterface&InvoiceableAddressInterface $billingAddress
+     * @param AddressInterface&ItalianInvoiceableAddressInterface $billingAddress
      */
     public function specifyBillingAddress(AddressInterface $billingAddress): void
     {
-        Assert::isInstanceOf($billingAddress, InvoiceableAddressInterface::class);
+        Assert::isInstanceOf($billingAddress, ItalianInvoiceableAddressInterface::class);
         $this->getElement(sprintf('%s_billing_recipient_type', BaseAddressPage::TYPE_BILLING))->selectOption($billingAddress->getBillingRecipientType());
         parent::specifyBillingAddress($billingAddress);
         if (null !== $billingAddress->getCompany()) {

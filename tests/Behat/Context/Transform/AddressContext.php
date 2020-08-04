@@ -8,7 +8,7 @@ use Behat\Behat\Context\Context;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\ExampleFactoryInterface;
 use Sylius\Component\Addressing\Converter\CountryNameConverterInterface;
 use Sylius\Component\Core\Model\AddressInterface;
-use Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\InvoiceableAddressInterface;
+use Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface;
 
 final class AddressContext implements Context
 {
@@ -41,7 +41,7 @@ final class AddressContext implements Context
     ): AddressInterface {
         [$firstName, $lastName] = explode(' ', $customerName);
 
-        /** @var AddressInterface&InvoiceableAddressInterface $address */
+        /** @var AddressInterface&ItalianInvoiceableAddressInterface $address */
         $address = $this->exampleAddressFactory->create([
             'country_code' => $this->countryNameConverter->convertToCode($countryName),
             'first_name' => $firstName,
@@ -54,7 +54,7 @@ final class AddressContext implements Context
             'postcode' => $postcode,
         ]);
 
-        $address->setBillingRecipientType(InvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_INDIVIDUAL);
+        $address->setBillingRecipientType(ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_INDIVIDUAL);
         return $address;
     }
 
@@ -71,7 +71,7 @@ final class AddressContext implements Context
     ): AddressInterface {
         [$firstName, $lastName] = explode(' ', $customerName);
 
-        /** @var AddressInterface&InvoiceableAddressInterface $address */
+        /** @var AddressInterface&ItalianInvoiceableAddressInterface $address */
         $address = $this->exampleAddressFactory->create([
             'country_code' => $this->countryNameConverter->convertToCode($countryName),
             'first_name' => $firstName,
@@ -84,7 +84,7 @@ final class AddressContext implements Context
             'postcode' => $postcode,
         ]);
 
-        $address->setBillingRecipientType(InvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_COMPANY);
+        $address->setBillingRecipientType(ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_COMPANY);
         return $address;
     }
 }

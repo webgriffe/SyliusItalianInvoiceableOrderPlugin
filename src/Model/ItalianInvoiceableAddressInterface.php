@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model;
 
-interface InvoiceableAddressInterface
+interface ItalianInvoiceableAddressInterface
 {
     public const BILLING_RECIPIENT_TYPE_INDIVIDUAL = 'individual';
 
