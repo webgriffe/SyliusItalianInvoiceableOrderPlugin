@@ -3,36 +3,48 @@
         <img src="https://demo.sylius.com/assets/shop/img/logo.png" />
     </a>
 </p>
+<h1 align="center">Italian Invoiceable Order Plugin</h1>
 
-<h1 align="center">Plugin Skeleton</h1>
+<p align="center">Sylius plugin which allows Italian merchants to collect invoice data for their orders.</p>
 
-<p align="center">Skeleton for starting Sylius plugins.</p>
+## Installation
 
-## Documentation
+*To do...*
 
-For a comprehensive guide on Sylius Plugins development please go to Sylius documentation,
-there you will find the <a href="https://docs.sylius.com/en/latest/plugin-development-guide/index.html">Plugin Development Guide</a>, that is full of examples.
+## Contributing
 
-## Quickstart Installation
+To contribute you need to:
 
-1. Run `composer create-project sylius/plugin-skeleton ProjectName`.
+1. Clone this repository into you development environment
 
-2. From the plugin skeleton root directory, run the following commands:
+2. Create `tests/Application/.env.local` and `tests/Application/.env.test.local` files to customize env vars according to your specific development environment (for example the `DATABASE_URL` variable).
 
-    ```bash
-    $ (cd tests/Application && yarn install)
-    $ (cd tests/Application && yarn build)
-    $ (cd tests/Application && APP_ENV=test bin/console assets:install public)
-    
-    $ (cd tests/Application && APP_ENV=test bin/console doctrine:database:create)
-    $ (cd tests/Application && APP_ENV=test bin/console doctrine:schema:create)
-    ```
+3. Then, from the plugin's root directory, run the following commands:
 
-To be able to setup a plugin's database, remember to configure you database credentials in `tests/Application/.env` and `tests/Application/.env.test`.
+   ```bash
+   (cd tests/Application && yarn install)
+   (cd tests/Application && yarn build)
+   (cd tests/Application && bin/console assets:install public)
+   (cd tests/Application && bin/console doctrine:database:create)
+   (cd tests/Application && bin/console doctrine:schema:create)
+   (cd tests/Application && bin/console sylius:fixtures:load)
+   (cd tests/Application && symfony server:start -d) # Requires Symfony CLI (https://symfony.com/download)
+   ```
 
-## Usage
+4. Now at http://localhost:8080/ you have a full Sylius testing application which runs the plugin.
 
 ### Running plugin tests
+
+After your changes you must ensure that the tests are still passing.
+
+First setup your test database:
+
+```bash
+(cd tests/Application && bin/console -e test doctrine:database:create)
+(cd tests/Application && bin/console -e test doctrine:schema:create)
+```
+
+The current CI suite runs the following tests:
 
   - PHPUnit
 
@@ -53,9 +65,9 @@ To be able to setup a plugin's database, remember to configure you database cred
     ```
 
   - Behat (JS scenarios)
- 
+
     1. [Install Symfony CLI command](https://symfony.com/download).
- 
+
     2. Start Headless Chrome:
     
       ```bash
@@ -95,18 +107,10 @@ To be able to setup a plugin's database, remember to configure you database cred
     vendor/bin/ecs check src
     ```
 
-### Opening Sylius with your plugin
+## License
 
-- Using `test` environment:
+This library is under the MIT license. See the complete license in the LICENSE file.
 
-    ```bash
-    (cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load)
-    (cd tests/Application && APP_ENV=test bin/console server:run -d public)
-    ```
-    
-- Using `dev` environment:
+## Credits
 
-    ```bash
-    (cd tests/Application && APP_ENV=dev bin/console sylius:fixtures:load)
-    (cd tests/Application && APP_ENV=dev bin/console server:run -d public)
-    ```
+Developed by [Webgriffe®](http://www.webgriffe.com/).
