@@ -3,7 +3,60 @@
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <defaults public="true" />
-        <!-- Put your Behat services here -->
+
+        <!-- Contexts -->
+
+        <!-- Setup -->
+
+        <service id="webgriffe_sylius_italian_invoiceable_order.behat.context.setup.channel" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Setup\ChannelContext">
+            <argument type="service" id="webgriffe_sylius_italian_invoiceable_order.behat.factory.default_italy_channel" />
+            <argument type="service" id="sylius.behat.shared_storage" />
+        </service>
+
+        <!-- Transform -->
+
+        <service id="webgriffe_sylius_italian_invoiceable_order.behat.context.transform.address" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Transform\AddressContext">
+            <argument type="service" id="sylius.fixture.example_factory.address" />
+            <argument type="service" id="sylius.converter.country_name" />
+        </service>
+
+        <!-- UI -->
+
+        <service id="webgriffe_sylius_italian_invoiceable_order.behat.context.ui.shop.checkout.addressing" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Ui\Shop\Checkout\CheckoutAddressingContext">
+            <argument type="service" id="webgriffe_sylius_italian_invoiceable_order.behat.page.shop.checkout.address" />
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="nelmio_alice.faker.generator" />
+        </service>
+
+        <service id="webgriffe_sylius_italian_invoiceable_order.behat.context.ui.shop.checkout.complete" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Ui\Shop\Checkout\CheckoutCompleteContext">
+            <argument type="service" id="webgriffe_sylius_italian_invoiceable_order.behat.page.shop.checkout.complete" />
+        </service>
+
+        <!-- Pages -->
+
+        <service id="webgriffe_sylius_italian_invoiceable_order.behat.page.shop.checkout.address" parent="sylius.behat.page.shop.checkout.address" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\Checkout\AddressPage" public="true">
+        </service>
+
+        <service id="webgriffe_sylius_italian_invoiceable_order.behat.page.shop.checkout.complete" parent="sylius.behat.page.shop.checkout.complete" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\Checkout\CompletePage" public="true">
+        </service>
+
+        <!-- Others -->
+
+        <service id="webgriffe_sylius_italian_invoiceable_order.behat.factory.default_italy_channel" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Service\DefaultItalyChannelFactory">
+            <argument type="service" id="sylius.repository.channel" />
+            <argument type="service" id="sylius.repository.country" />
+            <argument type="service" id="sylius.repository.currency" />
+            <argument type="service" id="sylius.repository.locale" />
+            <argument type="service" id="sylius.repository.zone" />
+            <argument type="service" id="sylius.factory.channel" />
+            <argument type="service" id="sylius.factory.country" />
+            <argument type="service" id="sylius.factory.currency" />
+            <argument type="service" id="sylius.factory.locale" />
+            <argument type="service" id="sylius.factory.zone" />
+            <argument>%locale%</argument>
+        </service>
+
+        <!-- TODO: remove the following Behat services -->
 
         <service id="webgriffe_sylius_italian_invoiceable_order.context.ui.shop.welcome" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Ui\Shop\WelcomeContext">
             <argument type="service" id="webgriffe_sylius_italian_invoiceable_order.page.shop.static_welcome" />

@@ -2,9 +2,42 @@
 
 default:
     suites:
+        # TODO: remove the greeting_customer Behat suite and related stuff
         greeting_customer:
             contexts:
                 - webgriffe_sylius_italian_invoiceable_order.context.ui.shop.welcome
 
             filters:
                 tags: "@greeting_customer"
+
+        filling_invoicing_information:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.transform.channel
+                - sylius.behat.context.transform.lexical
+                - sylius.behat.context.transform.product
+                - sylius.behat.context.transform.theme
+                - sylius.behat.context.transform.shared_storage
+                - sylius.behat.context.transform.country
+                - sylius.behat.context.transform.address
+                - webgriffe_sylius_italian_invoiceable_order.behat.context.transform.address
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.product
+                - sylius.behat.context.setup.shipping
+                - sylius.behat.context.setup.theme
+                - sylius.behat.context.setup.geographical
+                - sylius.behat.context.setup.payment
+                - webgriffe_sylius_italian_invoiceable_order.behat.context.setup.channel
+
+                - sylius.behat.context.ui.shop.cart
+                - sylius.behat.context.ui.shop.checkout.addressing
+                - sylius.behat.context.ui.shop.checkout.shipping
+                - sylius.behat.context.ui.shop.checkout.payment
+                - sylius.behat.context.ui.shop.checkout.complete
+                - webgriffe_sylius_italian_invoiceable_order.behat.context.ui.shop.checkout.addressing
+                - webgriffe_sylius_italian_invoiceable_order.behat.context.ui.shop.checkout.complete
+
+            filters:
+                tags: "@filling_invoicing_information"
