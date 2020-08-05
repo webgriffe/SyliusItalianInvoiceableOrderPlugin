@@ -12,3 +12,11 @@ doctrine:
         charset: UTF8
 
         url: '%env(resolve:DATABASE_URL)%'
+    orm:
+        mappings:
+            Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\App:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\App'
+                alias: App

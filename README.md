@@ -9,7 +9,34 @@
 
 ## Installation
 
-*To do...*
+1. Require the plugin:
+
+   ```bash
+   composer require webgriffe/sylius-italian-invoiceable-order-plugin
+   ```
+
+2. Your `Address` entity must implement the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface` and you can use the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressTrait` as implementation.
+
+3. You need to run a diff of your Doctrine's migrations and then run it:
+
+   ```bash
+   bin/console doctrine:migrations:diff
+   bin/console doctrine:migrations:migrate
+   ```
+
+4. You need to add invoiceable address fields to you address form template. In the `templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig` you must add the following:
+
+   ```twig
+   {% if type != 'shipping-' %}
+       {{ form_row(form.billingRecipientType, sylius_test_form_attribute(type ~ 'billing-recipient-type')) }}
+       {{ form_row(form.taxCode, sylius_test_form_attribute(type ~ 'tax-code')) }}
+       {{ form_row(form.vatNumber, sylius_test_form_attribute(type ~ 'vat-number')) }}
+       {{ form_row(form.sdiCode, sylius_test_form_attribute(type ~ 'sdi-code')) }}
+       {{ form_row(form.pecAddress, sylius_test_form_attribute(type ~ 'pec-address')) }}    
+   {% endif %}
+   ```
+
+   You can put the fields in the order you want but we recommend to sorround them with the `{% if type != 'shipping-' %}` check. In this way you'll show those fields only in the billing address section of the checkout.
 
 ## Contributing
 

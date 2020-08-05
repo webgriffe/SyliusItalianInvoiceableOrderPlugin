@@ -40,7 +40,8 @@
     "autoload": {
         "psr-4": {
             "Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\": "src/",
-            "Tests\\Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\": "tests/"
+            "Tests\\Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\": "tests/",
+            "Tests\\Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\App\\": "tests/Application/src"
         }
     },
     "autoload-dev": {

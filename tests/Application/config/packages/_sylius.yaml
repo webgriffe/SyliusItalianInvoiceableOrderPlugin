@@ -12,3 +12,9 @@ parameters:
 sylius_shop:
     product_grid:
         include_all_descendants: true
+
+sylius_addressing:
+    resources:
+        address:
+            classes:
+                model: Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\App\Entity\Address
