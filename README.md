@@ -5,7 +5,9 @@
 </p>
 <h1 align="center">Italian Invoiceable Order Plugin</h1>
 
-<p align="center">Sylius plugin which allows Italian merchants to collect invoice data for their orders.</p>
+<p align="center">Sylius plugin which allows Italian merchants to collect invoice data for their orders such as tax code, VAT number, SDI code, etc...</p>
+
+
 
 <p align="center"><a href="https://travis-ci.org/webgriffe/SyliusItalianInvoiceableOrderPlugin"><img src="https://travis-ci.org/webgriffe/SyliusItalianInvoiceableOrderPlugin.svg?branch=master" alt="Build Status" /></a></p>
 
@@ -88,7 +90,7 @@ This plugin will also require the Sylius's *company* field to be populated if th
 
 To contribute you need to:
 
-1. Clone this repository into you development environment
+1. Clone this repository into your development environment
 
 2. Create `tests/Application/.env.local` and `tests/Application/.env.test.local` files to customize env vars according to your specific development environment (for example the `DATABASE_URL` variable).
 
