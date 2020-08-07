@@ -7,6 +7,8 @@
 
 <p align="center">Sylius plugin which allows Italian merchants to collect invoice data for their orders.</p>
 
+<p align="center"><a href="https://travis-ci.org/webgriffe/SyliusItalianInvoiceableOrderPlugin"><img src="https://travis-ci.org/webgriffe/SyliusItalianInvoiceableOrderPlugin.svg?branch=master" alt="Build Status" /></a></p>
+
 ## Installation
 
 1. Require the plugin:
@@ -47,14 +49,14 @@
 
    For more information see [here](https://symfony.com/doc/current/validation/sequence_provider.html).
 
-7. You need to run a diff of your Doctrine's migrations and then run it:
+7. Run a diff of your Doctrine's migrations and then run it:
 
    ```bash
    bin/console doctrine:migrations:diff
    bin/console doctrine:migrations:migrate
    ```
 
-8. You need to add invoiceable address fields to you address form template. In the `templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig` you must add the following:
+8. Add invoiceable address fields to you address form template. In the `templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig` you must add the following:
 
    ```twig
    {% if type != 'shipping-' %}
@@ -66,7 +68,7 @@
    {% endif %}
    ```
 
-   You can put the fields in the order you want but we recommend to sorround them with the `{% if type != 'shipping-' %}` check. In this way you'll show those fields only in the billing address section of the checkout.
+   You can put the fields in the order you want but we recommend to surround them with the `{% if type != 'shipping-' %}` check. In this way you'll show those fields only in the billing address section of the checkout.
 
 ## Features
 
@@ -74,10 +76,10 @@ Once installed this plugin will allow the users of the shop to enter all the inv
 
 This plugin will add the following fields to your address form:
 
-* **Billing recipient type**, which allow the user to specify if the billing address is for a company or for an individual. This field will be required for every address used as the billing address for an order.
-* **Tax code**, which in Italy is also known as "*Codice Fiscale*". It's, more or less, like the social security number (SSN) in the US but in Italy both companies and individuals have a tax code. This field will be required for Italian individuals and companies and validated according the proper checksum algorithm.
-* **VAT Number**, which in Italy is also known as "*Partita IVA*". It's another identification number but for companies only not only in Italy but also in the EU. This field will be required for Italian companies and validated according the proper checksum algorithm. This field will be also required for EU companies and validated using the [EU's VIES service](https://ec.europa.eu/taxation_customs/vies/) using the [MyOnlineStore/ViesBundle](MyOnlineStore/ViesBundle).
-* **SDI Code**, where SDI stands for "Sistema Di Interscambio". It's a code which is needed to be able to properly generate an "electronic invoice" which is mandatory in Italy since January the 1st of 2019. This field will be required for Italian companies and validated according the proper rules of the Italian IRS (called "*Agenzia delle Entrate*" in Italy).
+* **Billing recipient type**, which allows the user to specify if the billing address is for a company or for an individual. This field will be required for every address used as the billing address for an order.
+* **Tax code**, which in Italy is known as "*Codice Fiscale*". It's, more or less, like the social security number (SSN) in the US but in Italy both companies and individuals have a tax code. This field will be required for Italian individuals and companies and validated according the proper checksum algorithm.
+* **VAT Number**, which in Italy is known as "*Partita IVA*". It's another identification number but for companies only not only in Italy but also in the EU. This field will be required for Italian companies and validated according the proper checksum algorithm. This field will be also required for EU companies and validated using the [EU's VIES service](https://ec.europa.eu/taxation_customs/vies/) using the [MyOnlineStore/ViesBundle](MyOnlineStore/ViesBundle).
+* **SDI Code**, where SDI stands for "Sistema Di Interscambio". It's a code that is needed to be able to properly generate an "electronic invoice" which is mandatory in Italy since January the 1st of 2019. This field will be required for Italian companies and validated according the proper rules of the Italian IRS (called "*Agenzia delle Entrate*" in Italy).
 * **PEC address**, where PEC stands for "Posta Elettronica Certificata" (the Italian translation of "certified email"). It's like an email address but for a special email type meant to provide a legal equivalent of the traditional mail. See [here](https://en.wikipedia.org/wiki/Certified_email) for more information. This field will not be required even for Italian companies but if entered it must be a valid email address.
 
 This plugin will also require the Sylius's *company* field to be populated if the billing recipient type is set to company.
