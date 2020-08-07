@@ -18,3 +18,9 @@ sylius_addressing:
         address:
             classes:
                 model: App\Entity\Addressing\Address
+
+sylius_order:
+    resources:
+        order:
+            classes:
+                model: App\Entity\Order\Order

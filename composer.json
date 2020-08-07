@@ -7,7 +7,8 @@
     "require": {
         "php": "^7.3",
         "sandwich/vies-bundle": "^2.1",
-        "sylius/sylius": "^1.7.5"
+        "sylius/sylius": "^1.7.5",
+        "webmozart/assert": "^1.9"
     },
     "require-dev": {
         "behat/behat": "^3.6.1",
