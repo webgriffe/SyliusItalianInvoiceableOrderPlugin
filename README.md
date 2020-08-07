@@ -15,16 +15,23 @@
    composer require webgriffe/sylius-italian-invoiceable-order-plugin
    ```
 
-2. Your `Address` entity must implement the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface` and you can use the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressTrait` as implementation.
+2. Add bundles to `config/bundles.php` file:
 
-3. You need to run a diff of your Doctrine's migrations and then run it:
+   ```php
+       Sandwich\ViesBundle\SandwichViesBundle::class => ['all' => true],
+       Webgriffe\SyliusItalianInvoiceableOrderPlugin\WebgriffeSyliusItalianInvoiceableOrderPlugin::class => ['all' => true],
+   ```
+
+3. Your `Address` entity must implement the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface` and the `Symfony\Component\Validator\GroupSequenceProviderInterface`. You can use the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressTrait` as implementation for both interfaces.
+
+4. You need to run a diff of your Doctrine's migrations and then run it:
 
    ```bash
    bin/console doctrine:migrations:diff
    bin/console doctrine:migrations:migrate
    ```
 
-4. You need to add invoiceable address fields to you address form template. In the `templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig` you must add the following:
+5. You need to add invoiceable address fields to you address form template. In the `templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig` you must add the following:
 
    ```twig
    {% if type != 'shipping-' %}
@@ -37,6 +44,25 @@
    ```
 
    You can put the fields in the order you want but we recommend to sorround them with the `{% if type != 'shipping-' %}` check. In this way you'll show those fields only in the billing address section of the checkout.
+
+6. You need to import the Address entity validation configuration into your project by copying the configuration file provided by this plugin:
+
+   ```bash
+   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/Application/config/validator/Address.xml config/validator/Address.xml
+   ```
+   
+   Or by merging the configuration into your existing Address validation configuration.
+   
+7. To properly enable group sequence validation of your Address entity you must set the `Default` validation group instead of the `sylius` validation group:
+
+   ```yaml
+   # config/services.yaml
+   parameters:
+       # ...
+       sylius.form.type.address.validation_groups: ['Default']
+   ```
+
+   For more information see [here](https://symfony.com/doc/current/validation/sequence_provider.html).
 
 ## Contributing
 

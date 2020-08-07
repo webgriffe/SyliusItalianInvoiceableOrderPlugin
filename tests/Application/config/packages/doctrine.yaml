@@ -14,9 +14,9 @@ doctrine:
         url: '%env(resolve:DATABASE_URL)%'
     orm:
         mappings:
-            Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\App:
+            App:
                 is_bundle: false
                 type: annotation
                 dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\App'
+                prefix: 'App'
                 alias: App

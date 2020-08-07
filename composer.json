@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3",
-
+        "sandwich/vies-bundle": "^2.1",
         "sylius/sylius": "^1.7.5"
     },
     "require-dev": {
@@ -40,11 +40,13 @@
     "autoload": {
         "psr-4": {
             "Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\": "src/",
-            "Tests\\Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\": "tests/",
-            "Tests\\Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\App\\": "tests/Application/src"
+            "Tests\\Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\": "tests/"
         }
     },
     "autoload-dev": {
+        "psr-4": {
+            "App\\": "tests/Application/src"
+        },
         "classmap": ["tests/Application/Kernel.php"]
     },
     "extra": {

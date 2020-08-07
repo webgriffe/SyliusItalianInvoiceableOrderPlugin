@@ -100,4 +100,20 @@ trait ItalianInvoiceableAddressTrait
             ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_COMPANY,
         ];
     }
+
+    public function getGroupSequence(): array
+    {
+        $groupSequence = ['sylius'];
+        if ($this->getCountryCode() !== null) {
+            $groupSequence[] = $this->getCountryCode();
+        }
+        if ($this->getBillingRecipientType() !== null) {
+            $groupSequence[] = $this->getBillingRecipientType();
+            if ($this->getCountryCode() !== null) {
+                $groupSequence[] = sprintf('%s-%s', $this->getBillingRecipientType(), $this->getCountryCode());
+            }
+        }
+
+        return [$groupSequence];
+    }
 }

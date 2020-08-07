@@ -1,0 +1,21 @@
+app:
+    address:
+        italian_tax_code:
+            valid: 'Per favore, inserisci un codice fiscale valido.'
+            not_blank: 'Il codice fiscale non dovrebbe essere vuoto.'
+        italian_vat_number:
+            valid: 'Per favore, inserisci una partita IVA valida.'
+            not_blank: 'La partita IVA non dovrebbe essere vuota.'
+        italian_sdi_code:
+            valid: 'Per favore, inserisci un codice destinatario SDI valido.'
+            not_blank: 'Il codice destinatario SDI non dovrebbe essere vuoto.'
+        pec_address:
+            valid: 'Per favore, inserisci un indirizzo PEC valido.'
+    order:
+        billing_recipient_type:
+            not_blank: 'Un tipo di indirizzo di fatturazione (privato o azienda) dovrebbe essere specificato per questo ordine. Per favore, torna alla sezione d''inserimento dell''indirizzo nel checkout e specifica un tipo di indirizzo di fatturazione (privato o azienda).'
+            choice: 'Il tipo di indirizzo di fatturazione dovrebbe essere uno tra: {{ choices }}.'
+
+
+
+

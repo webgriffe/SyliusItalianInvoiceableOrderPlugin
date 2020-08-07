@@ -17,4 +17,4 @@ sylius_addressing:
     resources:
         address:
             classes:
-                model: Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\App\Entity\Address
+                model: App\Entity\Addressing\Address
