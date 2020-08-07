@@ -1,9 +1,0 @@
-webgriffe_sylius_italian_invoiceable_order_shop:
-    resource: "@WebgriffeSyliusItalianInvoiceableOrderPlugin/Resources/config/shop_routing.yml"
-    prefix: /{_locale}
-    requirements:
-        _locale: ^[a-z]{2}(?:_[A-Z]{2})?$
-
-webgriffe_sylius_italian_invoiceable_order_admin:
-    resource: "@WebgriffeSyliusItalianInvoiceableOrderPlugin/Resources/config/admin_routing.yml"
-    prefix: /admin

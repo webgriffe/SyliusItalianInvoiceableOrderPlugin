@@ -2,14 +2,6 @@
 
 default:
     suites:
-        # TODO: remove the greeting_customer Behat suite and related stuff
-        greeting_customer:
-            contexts:
-                - webgriffe_sylius_italian_invoiceable_order.context.ui.shop.welcome
-
-            filters:
-                tags: "@greeting_customer"
-
         filling_invoicing_information:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
