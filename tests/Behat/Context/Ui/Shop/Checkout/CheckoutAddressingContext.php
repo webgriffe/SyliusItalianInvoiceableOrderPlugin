@@ -124,7 +124,7 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyAnInvalidTaxCodeForAnItalianIndividual(): void
     {
-        $this->addressPage->specifyBillingTaxCode($this->fakerGenerator->bothify('??????##?##?###?'));
+        $this->addressPage->specifyBillingTaxCode('ABCDEF12G34H567I');
     }
 
     /**
@@ -140,7 +140,7 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyAnInvalidTaxCodeForAnItalianCompany(): void
     {
-        $this->addressPage->specifyBillingTaxCode($this->fakerGenerator->numerify('###########'));
+        $this->addressPage->specifyBillingTaxCode('01234567890');
     }
 
     /**
@@ -148,7 +148,7 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyAnInvalidVATNumberForAnItalianCompany(): void
     {
-        $this->addressPage->specifyBillingVatNumber($this->fakerGenerator->numerify('###########'));
+        $this->addressPage->specifyBillingVatNumber('01234567890');
     }
 
     /**
@@ -246,7 +246,7 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyAnInvalidVatNumberForAGermanCompany(): void
     {
-        $this->addressPage->specifyBillingVatNumber($this->fakerGenerator->numerify('DE#########'));
+        $this->addressPage->specifyBillingVatNumber('DE123456789');
     }
 
     /**
