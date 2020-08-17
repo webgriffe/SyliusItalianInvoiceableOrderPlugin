@@ -54,14 +54,6 @@ class AddressPage extends BaseAddressPage implements AddressPageInterface
     {
         return array_merge(
             [
-                'request_cart_assistance_link' => '[data-test-request-cart-assistance-link]',
-                'cart_assistance_request_products' => '[data-test-cart-assistance-request-products]',
-                'cart_assistance_request_form' => '[data-test-cart-assistance-request-form]',
-                'cart_assistance_request_email' => '[data-test-cart-assistance-request-email]',
-                'cart_assistance_request_message' => '[data-test-cart-assistance-request-message]',
-                'cart_assistance_request_privacy' => '[data-test-cart-assistance-request-privacy]',
-                'cart_assistance_request_send' => '[data-test-cart-assistance-request-send]',
-                'cart_assistance_request_product_qty' => '[data-test-cart-assistance-request-product-qty="%product_id%"]',
                 'billing_billing_recipient_type' => '[data-test-billing-billing-recipient-type] input',
                 'billing_tax_code' => '[data-test-billing-tax-code]',
                 'billing_company' => '[data-test-billing-company]',
