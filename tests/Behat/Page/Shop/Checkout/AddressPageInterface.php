@@ -8,8 +8,6 @@ use Sylius\Behat\Page\Shop\Checkout\AddressPageInterface as BaseAddressPageInter
 
 interface AddressPageInterface extends BaseAddressPageInterface
 {
-    public function getEmail(): string;
-
     public function specifyBillingTaxCode(string $ssn): void;
 
     public function specifyBillingVatNumber(string $vatNumber): void;

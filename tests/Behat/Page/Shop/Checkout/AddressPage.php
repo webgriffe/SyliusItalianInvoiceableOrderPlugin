@@ -11,11 +11,6 @@ use Webmozart\Assert\Assert;
 
 class AddressPage extends BaseAddressPage implements AddressPageInterface
 {
-    public function getEmail(): string
-    {
-        return $this->getElement('customer_email')->getValue();
-    }
-
     /**
      * @param AddressInterface&ItalianInvoiceableAddressInterface $billingAddress
      */
