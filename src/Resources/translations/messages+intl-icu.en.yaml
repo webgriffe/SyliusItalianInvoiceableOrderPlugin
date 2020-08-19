@@ -13,3 +13,7 @@ webgriffe_sylius_italian_invoiceable_order:
         label: 'SDI code'
       pec_address:
         label: 'PEC address'
+  ui:
+    address:
+      tax_code_short: 'CF'
+      vat_number_short: 'P.IVA'

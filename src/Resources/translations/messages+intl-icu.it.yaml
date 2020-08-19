@@ -13,3 +13,7 @@ webgriffe_sylius_italian_invoiceable_order:
         label: 'Codice destinatario SDI'
       pec_address:
         label: 'Indirizzo PEC'
+  ui:
+    address:
+      tax_code_short: 'Tax Code'
+      vat_number_short: 'VAT No'
