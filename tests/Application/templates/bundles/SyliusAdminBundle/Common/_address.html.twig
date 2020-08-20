@@ -1,10 +1,6 @@
 {% import "@SyliusUi/Macro/flags.html.twig" as flags %}
 
 <address>
-    <strong>{{ address.firstName }} {{ address.lastName }}</strong>
-    {% if address.company %}
-        {{ address.company }}<br/>
-    {% endif %}
     {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Common/_invoiceableAddressInfo.html.twig' %}
     {{ address.phoneNumber }}<br/>
     {{ address.street }}<br/>

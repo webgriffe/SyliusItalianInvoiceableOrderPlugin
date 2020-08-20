@@ -79,20 +79,43 @@
    cp vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/views/Common/_address.html.twig templates/bundles/SyliusAdminBundle/Common/_address.html.twig
    ```
 
-   And include the invoiceable address fields template provided by this plugin:
+   And replace the printing of company, first name and last name with the invoiceable address information template provided by this plugin. Then, those templates should look like the following:
    
    ```twig
    {# templates/bundles/SyliusShopBundle/Common/_address.html.twig #}
-   {# and #}
-   {# templates/bundles/SyliusAdminBundle/Common/_address.html.twig #}
-   <address>
-       {# ... #}
+   {% import "@SyliusUi/Macro/flags.html.twig" as flags %}
+   
+   <address {{ sylius_test_html_attribute('address-context', "%s %s"|format(address.firstName, address.lastName)) }}>
        {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Common/_invoiceableAddressInfo.html.twig' %}
-       {# ... #}
+       {% if address.phoneNumber is not null %}
+           {{ address.phoneNumber }}<br/>
+       {% endif %}
+       {{ address.street }}<br/>
+       {{ address.city }}, {{ address.postcode }}<br/>
+       {% if address|sylius_province_name is not empty %}
+           {{ address|sylius_province_name }}<br/>
+       {% endif %}
+       {{ flags.fromCountryCode(address.countryCode) }}
+       {{ address.countryCode|sylius_country_name|upper }}
    </address>
    ```
    
-   You can include it in the position you prefer. We recommend to put include the new template under the company information.
+   ```twig
+   {# templates/bundles/SyliusAdminBundle/Common/_address.html.twig #}
+   {% import "@SyliusUi/Macro/flags.html.twig" as flags %}
+   
+   <address>
+       {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Common/_invoiceableAddressInfo.html.twig' %}
+       {{ address.phoneNumber }}<br/>
+       {{ address.street }}<br/>
+       {{ address.city }}<br/>
+       {% if address|sylius_province_name is not empty %}
+           {{ address|sylius_province_name }}<br/>
+       {% endif %}
+       {{ flags.fromCountryCode(address.countryCode) }}
+       {{ address.countryCode|sylius_country_name|upper }} {{ address.postcode }}
+   </address>
+   ```
    
 10. Add invoiceable fields to the address book select data attributes. To do so you have to override the address book select template:
 
@@ -177,7 +200,7 @@ To contribute you need to:
    (cd tests/Application && symfony server:start -d) # Requires Symfony CLI (https://symfony.com/download)
    ```
 
-4. Now at http://localhost:8080/ you have a full Sylius testing application which runs the plugin.
+4. Now at https://127.0.0.1:8000/ you have a full Sylius testing application which runs the plugin.
 
 ### Running plugin tests
 
