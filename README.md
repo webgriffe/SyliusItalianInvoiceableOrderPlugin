@@ -72,14 +72,27 @@
 
    You can put the fields in the order you want but we recommend to surround them with the `{% if type != 'shipping-' %}` check. In this way you'll not show those fields in the shipping address section of the checkout where these fields are not relevant.
    
-9. Copy the address show templates for admin and shop:
+9. Add invoiceable fields to the address show template for admin and shop. To do so you have to override those templates:
 
    ```bash
-   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/Application/templates/bundles/SyliusShopBundle/Common/_address.html.twig templates/bundles/SyliusShopBundle/Common/_address.html.twig
-   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/Application/templates/bundles/SyliusAdminBundle/Common/_address.html.twig templates/bundles/SyliusAdminBundle/Common/_address.html.twig
+   cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Common/_address.html.twig templates/bundles/SyliusShopBundle/Common/_address.html.twig
+   cp vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/views/Common/_address.html.twig templates/bundles/SyliusAdminBundle/Common/_address.html.twig
    ```
 
-   Or merge new fields if you already customized these templates.
+   And include the invoiceable address fields template provided by this plugin:
+   
+   ```twig
+   {# templates/bundles/SyliusShopBundle/Common/_address.html.twig #}
+   {# and #}
+   {# templates/bundles/SyliusAdminBundle/Common/_address.html.twig #}
+   <address>
+       {# ... #}
+       {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Common/_invoiceableAddressInfo.html.twig' %}
+       {# ... #}
+   </address>
+   ```
+   
+   You can include it in the position you prefer. We recommend to put include the new template under the company information.
    
 10. Add invoiceable fields to the address book select data attributes. To do so you have to override the address book select template:
 
@@ -87,7 +100,7 @@
    cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Checkout/Address/_addressBookSelect.html.twig templates/bundles/SyliusShopBundle/Checkout/Address/_addressBookSelect.html.twig
    ```
 
-   And include the invoiceable fields template provided by this plugin:
+   And include the invoiceable fields data attributes template provided by this plugin:
 
    ```twig
    {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Checkout/Address/_addressBookSelectInvoiceableDataAttributes.html.twig' %}
@@ -96,7 +109,7 @@
    You have to add it in the proper location, just after the other data attributes of the address book select tag. So the whole address book template should look like the following: 
 
    ```twig
-   # templates/bundles/SyliusShopBundle/Checkout/Address/_addressBookSelect.html.twig
+   {# templates/bundles/SyliusShopBundle/Checkout/Address/_addressBookSelect.html.twig #}
    {% if app.user is not empty and app.user.customer is not empty and app.user.customer.addresses|length > 0 %}
        <div class="ui fluid floating dropdown labeled search icon button address-book-select" {{ sylius_test_html_attribute('address-book') }}>
            <i class="book icon"></i>
@@ -141,6 +154,8 @@ This plugin will add the following fields to your address form:
 This plugin will also require the Sylius's *company* field to be populated if the billing recipient type is set to company.
 
 This plugin also replaces the Sylius's `Sylius\Component\Addressing\Comparator\AddressComparatorInterface` implementation by decorating it and by comparing also invoiceable fields. So different invoiceable address information provided during checkout are saved in the customer address book as new addresses.
+
+This plugin also allow to select an invoiceable address from the address book in the checkout and properly fill the address form with all the invoicing information.
 
 ## Contributing
 
