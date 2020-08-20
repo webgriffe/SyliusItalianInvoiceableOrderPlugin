@@ -63,7 +63,7 @@ final class InvoiceableAddressContext implements Context
         /** @var ItalianInvoiceableAddressInterface $address */
         $address->setTaxCode($vatNumberAndTaxCode);
         $address->setVatNumber($vatNumberAndTaxCode);
-        $address->setSdiCode($this->fakerGenerator->numerify('#######'));
+        $address->setSdiCode(strtoupper($this->fakerGenerator->bothify('*******')));
         $address->setPecAddress($this->fakerGenerator->email);
 
         $this->customerManager->flush();

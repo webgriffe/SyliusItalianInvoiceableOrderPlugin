@@ -80,4 +80,30 @@ class AddressPage extends BaseAddressPage implements AddressPageInterface
             !$this->hasElement('shipping_sdi_code') &&
             !$this->hasElement('shipping_pec_address');
     }
+
+    public function getPreFilledBillingRecipientType(): string
+    {
+        return $this->getElement('billing_billing_recipient_type')->getValue();
+    }
+
+    public function getPreFilledBillingTaxCode(): string
+    {
+        return $this->getElement('billing_tax_code')->getValue();
+    }
+
+    public function getPreFilledBillingVatNumber(): string
+    {
+        return $this->getElement('billing_vat_number')->getValue();
+    }
+
+    public function getPreFilledBillingSdiCode(): string
+    {
+        return $this->getElement('billing_sdi_code')->getValue();
+    }
+
+    public function getPreFilledBillingPecAddress(): string
+    {
+        return $this->getElement('billing_pec_address')->getValue();
+    }
+
 }

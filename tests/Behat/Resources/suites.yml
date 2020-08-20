@@ -40,6 +40,7 @@ default:
                 - sylius.behat.context.transform.product
                 - sylius.behat.context.transform.shared_storage
                 - sylius.behat.context.transform.user
+                - sylius.behat.context.transform.address
                 - webgriffe_sylius_italian_invoiceable_order.behat.context.transform.address
 
                 - sylius.behat.context.setup.product

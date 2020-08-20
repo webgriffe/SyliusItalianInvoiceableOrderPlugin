@@ -290,4 +290,17 @@ final class CheckoutAddressingContext implements Context
         } while ($newSdiCode === $address->getSdiCode());
         $this->addressPage->specifyBillingSdiCode($newSdiCode);
     }
+
+    /**
+     * @Then /^all invoicing information of (the address) I have in my address book should be filled in billing address$/
+     */
+    public function addressShouldBeFilledAsBillingAddress(AddressInterface $address)
+    {
+        /** @var ItalianInvoiceableAddressInterface $address */
+        Assert::eq($this->addressPage->getPreFilledBillingRecipientType(), $address->getBillingRecipientType());
+        Assert::eq($this->addressPage->getPreFilledBillingTaxCode(), $address->getTaxCode());
+        Assert::eq($this->addressPage->getPreFilledBillingVatNumber(), $address->getVatNumber());
+        Assert::eq($this->addressPage->getPreFilledBillingSdiCode(), $address->getSdiCode());
+        Assert::eq($this->addressPage->getPreFilledBillingPecAddress(), $address->getPecAddress());
+    }
 }

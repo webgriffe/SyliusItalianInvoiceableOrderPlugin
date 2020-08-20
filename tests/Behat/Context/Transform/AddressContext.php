@@ -64,9 +64,9 @@ final class AddressContext implements Context
     public function createNewCompanyAddressWith(
         $company,
         $customerName,
-        $city,
         $street,
         $postcode,
+        $city,
         $countryName
     ): AddressInterface {
         [$firstName, $lastName] = explode(' ', $customerName);

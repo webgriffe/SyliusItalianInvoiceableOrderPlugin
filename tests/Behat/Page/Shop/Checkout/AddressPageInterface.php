@@ -17,4 +17,15 @@ interface AddressPageInterface extends BaseAddressPageInterface
     public function specifyBillingPecAddress(string $pecAddress): void;
 
     public function isWithoutAnyInvoicingRelatedFieldInShippingAddress(): bool;
+
+    public function getPreFilledBillingRecipientType(): string;
+
+    public function getPreFilledBillingTaxCode(): string;
+
+    public function getPreFilledBillingVatNumber(): string;
+
+    public function getPreFilledBillingSdiCode(): string;
+
+    public function getPreFilledBillingPecAddress(): string;
+
 }

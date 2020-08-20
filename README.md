@@ -80,6 +80,51 @@
    ```
 
    Or merge new fields if you already customized these templates.
+   
+10. Add invoiceable fields to the address book select data attributes. To do so you have to override the address book select template:
+
+   ```bash
+   cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Checkout/Address/_addressBookSelect.html.twig templates/bundles/SyliusShopBundle/Checkout/Address/_addressBookSelect.html.twig
+   ```
+
+   And include the invoiceable fields template provided by this plugin:
+
+   ```twig
+   {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Checkout/Address/_addressBookSelectInvoiceableDataAttributes.html.twig' %}
+   ```
+
+   You have to add it in the proper location, just after the other data attributes of the address book select tag. So the whole address book template should look like the following: 
+
+   ```twig
+   # templates/bundles/SyliusShopBundle/Checkout/Address/_addressBookSelect.html.twig
+   {% if app.user is not empty and app.user.customer is not empty and app.user.customer.addresses|length > 0 %}
+       <div class="ui fluid floating dropdown labeled search icon button address-book-select" {{ sylius_test_html_attribute('address-book') }}>
+           <i class="book icon"></i>
+           <span class="text">{{ 'sylius.ui.select_address_from_book'|trans }}</span>
+           <div class="menu">
+               {% for address in app.user.customer.addresses %}
+                   <div class="item" {{ sylius_test_html_attribute('address-book-item') }}
+                        data-id="{{ address.id }}"
+                        data-first-name="{{ address.firstName }}"
+                        data-last-name="{{ address.lastName }}"
+                        data-company="{{ address.company }}"
+                        data-street="{{ address.street }}"
+                        data-country-code="{{ address.countryCode }}"
+                        data-province-code="{{ address.provinceCode }}"
+                        data-province-name="{{ address.provinceName }}"
+                        data-city="{{ address.city }}"
+                        data-postcode="{{ address.postcode }}"
+                        data-phone-number="{{ address.phoneNumber }}"
+   
+                        {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Checkout/Address/_addressBookSelectInvoiceableDataAttributes.html.twig' %}
+                   >
+                       <strong>{{ address.firstName }} {{ address.lastName }}</strong>, {{ address.street }}, {{ address.city }} {{ address.postcode }}, {{ address.countryCode|sylius_country_name }}
+                   </div>
+               {% endfor %}
+           </div>
+       </div>
+   {% endif %}
+   ```
 
 ## Features
 
