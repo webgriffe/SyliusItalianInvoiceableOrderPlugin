@@ -1,0 +1,31 @@
+{% set shouldShowInvoiceableFields = form.parent.vars.data.billingAddress.id is defined and form.vars.data.id is defined and form.parent.vars.data.billingAddress.id == form.vars.data.id %}
+
+{% if shouldShowInvoiceableFields %}
+    {{ form_row(form.billingRecipientType) }}
+{% endif %}
+
+<div class="two fields">
+    {{ form_row(form.firstName) }}
+    {{ form_row(form.lastName) }}
+</div>
+
+{% if shouldShowInvoiceableFields %}
+    {{ form_row(form.taxCode) }}
+    {{ form_row(form.vatNumber) }}
+    {{ form_row(form.sdiCode) }}
+    {{ form_row(form.pecAddress) }}
+{% endif %}
+
+{{ form_row(form.company) }}
+{{ form_row(form.street) }}
+{{ form_row(form.countryCode) }}
+<div class="province-container field" data-url="{{ path('sylius_admin_ajax_render_province_form') }}">
+    {% if form.provinceCode is defined %}
+        {{ form_row(form.provinceCode, {'attr': {'class': 'ui dropdown'}}) }}
+    {% endif %}
+</div>
+<div class="two fields">
+    {{ form_row(form.city) }}
+    {{ form_row(form.postcode) }}
+</div>
+{{ form_row(form.phoneNumber) }}

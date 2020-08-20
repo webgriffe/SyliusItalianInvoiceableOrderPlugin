@@ -58,21 +58,71 @@
    bin/console doctrine:migrations:migrate
    ```
 
-8. Add invoiceable address fields to you address form template. In the `templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig` you must add the following:
+8. Add invoiceable address fields to your shop address form template. To do so you have to override the template:
 
+   ```bash
+   cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Common/Form/_address.html.twig templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig
+   ```
+   
+   Then in the `templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig` you must add the following:
+   
    ```twig
+   {# templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig #}
    {% if type != 'shipping-' %}
-       {{ form_row(form.billingRecipientType, sylius_test_form_attribute(type ~ 'billing-recipient-type')) }}
+    {{ form_row(form.billingRecipientType, sylius_test_form_attribute(type ~ 'billing-recipient-type')) }}
        {{ form_row(form.taxCode, sylius_test_form_attribute(type ~ 'tax-code')) }}
        {{ form_row(form.vatNumber, sylius_test_form_attribute(type ~ 'vat-number')) }}
        {{ form_row(form.sdiCode, sylius_test_form_attribute(type ~ 'sdi-code')) }}
        {{ form_row(form.pecAddress, sylius_test_form_attribute(type ~ 'pec-address')) }}    
    {% endif %}
    ```
-
+   
    You can put the fields in the order you want but we recommend to surround them with the `{% if type != 'shipping-' %}` check. In this way you'll not show those fields in the shipping address section of the checkout where these fields are not relevant.
    
-9. Add invoiceable fields to the address show template for admin and shop. To do so you have to override those templates:
+9. Add invoiceable address fields to your admin address form template. To do so you have to override the template:
+
+  ```bash
+  cp vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/views/Common/Form/_address.html.twig templates/bundles/SyliusAdminBundle/Common/Form/_address.html.twig
+  ```
+
+  Then in the `templates/bundles/SyliusAdminBundle/Common/Form/_address.html.twig` you must add the invoiceable fields. You should add those fields only if the form is bound to the billing address of an order. To do so, your template should like the following:
+
+  ```twig
+  {# templates/bundles/SyliusAdminBundle/Common/Form/_address.html.twig #}
+  {% set shouldShowInvoiceableFields = form.parent.vars.data.billingAddress.id is defined and form.vars.data.id is defined and form.parent.vars.data.billingAddress.id == form.vars.data.id %}
+  
+  {% if shouldShowInvoiceableFields %}
+      {{ form_row(form.billingRecipientType) }}
+  {% endif %}
+  
+  <div class="two fields">
+      {{ form_row(form.firstName) }}
+      {{ form_row(form.lastName) }}
+  </div>
+  
+  {% if shouldShowInvoiceableFields %}
+      {{ form_row(form.taxCode) }}
+      {{ form_row(form.vatNumber) }}
+      {{ form_row(form.sdiCode) }}
+      {{ form_row(form.pecAddress) }}
+  {% endif %}
+  
+  {{ form_row(form.company) }}
+  {{ form_row(form.street) }}
+  {{ form_row(form.countryCode) }}
+  <div class="province-container field" data-url="{{ path('sylius_admin_ajax_render_province_form') }}">
+      {% if form.provinceCode is defined %}
+          {{ form_row(form.provinceCode, {'attr': {'class': 'ui dropdown'}}) }}
+      {% endif %}
+  </div>
+  <div class="two fields">
+      {{ form_row(form.city) }}
+      {{ form_row(form.postcode) }}
+  </div>
+  {{ form_row(form.phoneNumber) }}
+  ```
+
+10. Add invoiceable fields to the address show template for admin and shop. To do so you have to override those templates:
 
    ```bash
    cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Common/_address.html.twig templates/bundles/SyliusShopBundle/Common/_address.html.twig
@@ -80,7 +130,7 @@
    ```
 
    And replace the printing of company, first name and last name with the invoiceable address information template provided by this plugin. Then, those templates should look like the following:
-   
+
    ```twig
    {# templates/bundles/SyliusShopBundle/Common/_address.html.twig #}
    {% import "@SyliusUi/Macro/flags.html.twig" as flags %}
@@ -99,7 +149,7 @@
        {{ address.countryCode|sylius_country_name|upper }}
    </address>
    ```
-   
+
    ```twig
    {# templates/bundles/SyliusAdminBundle/Common/_address.html.twig #}
    {% import "@SyliusUi/Macro/flags.html.twig" as flags %}
@@ -116,8 +166,8 @@
        {{ address.countryCode|sylius_country_name|upper }} {{ address.postcode }}
    </address>
    ```
-   
-10. Add invoiceable fields to the address book select data attributes. To do so you have to override the address book select template:
+
+11. Add invoiceable fields to the address book select data attributes. To do so you have to override the address book select template:
 
    ```bash
    cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Checkout/Address/_addressBookSelect.html.twig templates/bundles/SyliusShopBundle/Checkout/Address/_addressBookSelect.html.twig
