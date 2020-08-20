@@ -7,7 +7,6 @@ namespace Webgriffe\SyliusItalianInvoiceableOrderPlugin\Comparator;
 use Sylius\Component\Addressing\Comparator\AddressComparatorInterface;
 use Sylius\Component\Addressing\Model\AddressInterface;
 use Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface;
-use Webmozart\Assert\Assert;
 
 final class ItalianInvoiceableAddressComparatorDecorator implements AddressComparatorInterface
 {
@@ -19,14 +18,21 @@ final class ItalianInvoiceableAddressComparatorDecorator implements AddressCompa
         $this->defaultAddressComparator = $defaultAddressComparator;
     }
 
-    /**
-     * @param AddressInterface&ItalianInvoiceableAddressInterface $firstAddress
-     * @param AddressInterface&ItalianInvoiceableAddressInterface $secondAddress
-     */
     public function equal(AddressInterface $firstAddress, AddressInterface $secondAddress): bool
     {
-        Assert::allIsInstanceOf([$firstAddress, $secondAddress], ItalianInvoiceableAddressInterface::class);
         $equal = $this->defaultAddressComparator->equal($firstAddress, $secondAddress);
+        if (!$firstAddress instanceof ItalianInvoiceableAddressInterface ||
+            !$secondAddress instanceof ItalianInvoiceableAddressInterface) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Both addresses provided to "%s" must be of type "%s", but "%s" and "%s" provided.',
+                    __METHOD__,
+                    ItalianInvoiceableAddressInterface::class,
+                    get_debug_type($firstAddress),
+                    get_debug_type($secondAddress)
+                )
+            );
+        }
 
         return $equal &&
             $this->normalizeInvoiceableAddress($firstAddress) === $this->normalizeInvoiceableAddress($secondAddress);
