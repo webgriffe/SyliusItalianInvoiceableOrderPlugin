@@ -95,6 +95,8 @@ This plugin will add the following fields to your address form:
 
 This plugin will also require the Sylius's *company* field to be populated if the billing recipient type is set to company.
 
+This plugin also replaces the Sylius's `Sylius\Component\Addressing\Comparator\AddressComparatorInterface` implementation by decorating it and by comparing also invoiceable fields. So different invoiceable address information provided during checkout are saved in the customer address book as new addresses.
+
 ## Contributing
 
 To contribute you need to:
