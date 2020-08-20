@@ -10,6 +10,7 @@ use Behat\Behat\Context\Context;
 use Faker\Generator;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\AddressInterface;
+use Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface;
 use Webmozart\Assert\Assert;
 
 final class CheckoutAddressingContext implements Context
@@ -83,7 +84,7 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyAValidBillingSdiCode()
     {
-        $this->addressPage->specifyBillingSdiCode($this->fakerGenerator->numerify('#######'));
+        $this->addressPage->specifyBillingSdiCode(strtoupper($this->fakerGenerator->bothify('*******')));
     }
 
     /**
@@ -167,7 +168,7 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyAnInvalidSDICode(): void
     {
-        $this->addressPage->specifyBillingSdiCode($this->fakerGenerator->bothify('??##'));
+        $this->addressPage->specifyBillingSdiCode(strtoupper($this->fakerGenerator->bothify('****')));
     }
 
     /**
@@ -264,5 +265,29 @@ final class CheckoutAddressingContext implements Context
     public function iDoNotSpecifyTheBillingRecipientTypeInTheBillingAddress(): void
     {
         // Nothing to do to not specify the billing recipient type
+    }
+
+    /**
+     * @When /^I specify the same invoiceable information of (the address) I have in my address book$/
+     */
+    public function iSpecifyTheSameItalianInvoiceableInformationOfTheAddressThatIHaveInMyAddressBook(AddressInterface $address)
+    {
+        /** @var ItalianInvoiceableAddressInterface $address */
+        $this->addressPage->specifyBillingTaxCode($address->getTaxCode());
+        $this->addressPage->specifyBillingVatNumber($address->getVatNumber());
+        $this->addressPage->specifyBillingSdiCode($address->getSdiCode());
+        $this->addressPage->specifyBillingPecAddress($address->getPecAddress());
+    }
+
+    /**
+     * @When /^I specify a different SDI code from that of (the address) I have in the address book$/
+     */
+    public function iSpecifyADifferentPecAddress(AddressInterface $address)
+    {
+        /** @var ItalianInvoiceableAddressInterface $address */
+        do {
+            $newSdiCode = strtoupper($this->fakerGenerator->bothify('*******'));
+        } while ($newSdiCode === $address->getSdiCode());
+        $this->addressPage->specifyBillingSdiCode($newSdiCode);
     }
 }

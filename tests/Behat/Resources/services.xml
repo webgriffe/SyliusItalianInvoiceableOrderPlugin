@@ -13,6 +13,11 @@
             <argument type="service" id="sylius.behat.shared_storage" />
         </service>
 
+        <service id="webgriffe_sylius_italian_invoiceable_order.behat.context.setup.invoiceable_address" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Setup\InvoiceableAddressContext">
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="sylius.manager.customer" />
+        </service>
+
         <!-- Transform -->
 
         <service id="webgriffe_sylius_italian_invoiceable_order.behat.context.transform.address" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Transform\AddressContext">

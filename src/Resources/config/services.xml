@@ -8,5 +8,11 @@
             <tag name="form.type_extension" extended_type="Sylius\Bundle\AddressingBundle\Form\Type\AddressType" />
         </service>
 
+        <service id="webgriffe_sylius_italian_invoiceable_order.address_comparator"
+                 class="Webgriffe\SyliusItalianInvoiceableOrderPlugin\Comparator\ItalianInvoiceableAddressComparatorDecorator"
+                 decorates="sylius.address_comparator">
+            <argument type="service" id="webgriffe_sylius_italian_invoiceable_order.address_comparator.inner" />
+        </service>
+
     </services>
 </container>
