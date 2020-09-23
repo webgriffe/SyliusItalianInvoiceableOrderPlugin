@@ -7,7 +7,7 @@
     "require": {
         "php": "^7.3",
         "sandwich/vies-bundle": "^2.1",
-        "sylius/sylius": "^1.7.5",
+        "sylius/sylius": "^1.8",
         "webmozart/assert": "^1.9"
     },
     "require-dev": {
@@ -24,8 +24,10 @@
         "friends-of-behat/variadic-extension": "^1.3",
         "lakion/mink-debug-extension": "^1.2.3",
         "phpspec/phpspec": "^6.1",
+        "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "0.12.25",
         "phpstan/phpstan-doctrine": "0.12.13",
+        "phpstan/phpstan-strict-rules": "^0.12.0",
         "phpstan/phpstan-webmozart-assert": "0.12.4",
         "phpunit/phpunit": "^8.5",
         "sensiolabs/security-checker": "^6.0",
@@ -52,7 +54,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "0.x-dev"
         }
     },
     "config": {

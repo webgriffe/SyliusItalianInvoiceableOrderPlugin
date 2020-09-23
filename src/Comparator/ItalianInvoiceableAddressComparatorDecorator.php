@@ -40,7 +40,7 @@ final class ItalianInvoiceableAddressComparatorDecorator implements AddressCompa
 
     private function normalizeInvoiceableAddress(ItalianInvoiceableAddressInterface $address): array
     {
-        return array_map(function ($value) {
+        return array_map(function ($value): string {
             return strtolower(trim((string) $value));
         }, [
             $address->getBillingRecipientType(),

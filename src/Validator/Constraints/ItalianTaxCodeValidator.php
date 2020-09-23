@@ -44,6 +44,7 @@ final class ItalianTaxCodeValidator extends ConstraintValidator
         }
 
         $value = strtoupper($value);
+        /** @phpstan-ignore-next-line */
         if (!preg_match('/[A-Z0-9]+$/', $value)) {
             return false;
         }

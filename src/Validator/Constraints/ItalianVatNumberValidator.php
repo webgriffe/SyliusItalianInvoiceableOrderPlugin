@@ -42,6 +42,7 @@ final class ItalianVatNumberValidator extends ConstraintValidator
             return false;
         }
 
+        /** @phpstan-ignore-next-line */
         if (!preg_match('/^\d+$/', $value)) {
             return false;
         }
