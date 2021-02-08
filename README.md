@@ -6,10 +6,7 @@
 <h1 align="center">Italian Invoiceable Order Plugin</h1>
 
 <p align="center">Sylius plugin which allows Italian merchants to collect invoice data for their orders such as tax code, VAT number, SDI code, etc...</p>
-
-
-
-<p align="center"><a href="https://travis-ci.org/webgriffe/SyliusItalianInvoiceableOrderPlugin"><img src="https://travis-ci.org/webgriffe/SyliusItalianInvoiceableOrderPlugin.svg?branch=master" alt="Build Status" /></a></p>
+<p align="center"><a href="https://github.com/webgriffe/SyliusItalianInvoiceableOrderPlugin/actions"><img src="https://github.com/webgriffe/SyliusItalianInvoiceableOrderPlugin/workflows/Build/badge.svg" alt="Build Status" /></a></p>
 
 ## Installation
 
