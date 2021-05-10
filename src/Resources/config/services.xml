@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="app.taxation.eu_zone_code">TAX_EU</parameter>
+    </parameters>
+
     <services>
 
         <service id="webgriffe_sylius_italian_invoiceable_order.form.extension.italian_invoiceable_address"
@@ -12,6 +16,16 @@
                  class="Webgriffe\SyliusItalianInvoiceableOrderPlugin\Comparator\ItalianInvoiceableAddressComparatorDecorator"
                  decorates="sylius.address_comparator">
             <argument type="service" id="webgriffe_sylius_italian_invoiceable_order.address_comparator.inner" />
+        </service>
+
+        <service id="app.taxation.italian_tax_calculation_strategy" class="Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianTaxCalculationStrategy">
+            <argument type="string">italian_tax_calculation_strategy</argument>
+            <argument type="collection">
+                <argument type="service" id="sylius.taxation.order_item_units_taxes_applicator" />
+                <argument type="service" id="sylius.taxation.order_shipment_taxes_applicator" />
+            </argument>
+            <argument>%app.taxation.eu_zone_code%</argument>
+            <tag name="sylius.taxation.calculation_strategy" type="italian_tax_calculation_strategy" label="Italian tax calculation" />
         </service>
 
     </services>

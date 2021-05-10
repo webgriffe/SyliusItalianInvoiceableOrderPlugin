@@ -2,6 +2,9 @@ imports:
     - { resource: "../../Behat/Resources/services.xml" }
     - { resource: "../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml" }
 
+parameters:
+    app.taxation.eu_zone_code: 'EU'
+
 # workaround needed for strange "test.client.history" problem
 # see https://github.com/FriendsOfBehat/SymfonyExtension/issues/88
 services:
