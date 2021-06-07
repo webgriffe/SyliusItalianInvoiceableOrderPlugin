@@ -7,7 +7,7 @@ Feature: Apply correct taxes based on order address
   Background:
     Given the store operates on a single channel worldwide
     And its tax calculation strategy is "Italian tax calculation"
-    And channel "Default" uses "minimit/xtend-theme-sylius" theme
+    #And channel "Default" uses "minimit/xtend-theme-sylius" theme
     And there is a tax zone "EU" containing all European Union countries
     And there is a tax zone "Extra EU" containing all countries outside the European Union
     And there is a shipping zone "Global" containing all countries of the world

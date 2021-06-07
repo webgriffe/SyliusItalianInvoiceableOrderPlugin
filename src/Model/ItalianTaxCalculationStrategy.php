@@ -17,14 +17,14 @@ final class ItalianTaxCalculationStrategy implements TaxCalculationStrategyInter
     /** @var string $type */
     private $type;
 
-    /** @var array|OrderTaxesApplicatorInterface[] */
+    /** @var OrderTaxesApplicatorInterface[] */
     private $applicators;
 
     /** @var string $euTaxZoneCode */
     private $euTaxZoneCode;
 
     /**
-     * @param array|OrderTaxesApplicatorInterface[] $applicators
+     * @param OrderTaxesApplicatorInterface[] $applicators
      */
     public function __construct(string $type, array $applicators, string $euTaxZoneCode)
     {
@@ -61,9 +61,6 @@ final class ItalianTaxCalculationStrategy implements TaxCalculationStrategyInter
         return $channel->getTaxCalculationStrategy() === $this->type;
     }
 
-    /**
-     * @param array|OrderTaxesApplicatorInterface[] $applicators
-     */
     private function assertApplicatorsHaveCorrectType(array $applicators): void
     {
         Assert::allIsInstanceOf(
@@ -78,7 +75,7 @@ final class ItalianTaxCalculationStrategy implements TaxCalculationStrategyInter
         /** @var AddressInterface|null $billingAddress */
         $billingAddress = $order->getBillingAddress();
 
-        Assert::isInstanceOf($billingAddress, ItalianInvoiceableAddressInterface::class);
+        Assert::nullOrIsInstanceOf($billingAddress, ItalianInvoiceableAddressInterface::class);
 
         $companyRecipientType = ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_COMPANY;
 
