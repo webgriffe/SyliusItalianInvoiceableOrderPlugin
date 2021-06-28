@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Ui\Shop\Checkout;
 
+use Behat\Mink\Exception\ElementNotFoundException;
 use Faker\Factory;
 use Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\Checkout\AddressPageInterface;
 use Behat\Behat\Context\Context;
@@ -228,11 +229,27 @@ final class CheckoutAddressingContext implements Context
     public function iShouldBeNotifiedThatOneOfTheBillingSdiCodeOrPecAddressIsRequired()
     {
         $validationMessage = 'At least one of PEC address or SDI code is required';
-        Assert::true(
-            $this->addressPage->checkValidationMessageFor('billing_sdi_code', $validationMessage)
+        Assert::true($this->addressPage->checkValidationMessageFor('billing_sdi_code', $validationMessage));
+        Assert::true($this->addressPage->checkValidationMessageFor('billing_pec_address', $validationMessage));
+    }
+
+    /**
+     * @Then /^I should not be notified that one of the billing SDI code or PEC address is required$/
+     */
+    public function iShouldNotBeNotifiedThatOneOfTheBillingSdiCodeOrPecAddressIsRequired()
+    {
+        $validationMessage = 'At least one of PEC address or SDI code is required';
+        Assert::throws(
+            function () use ($validationMessage) {
+                $this->addressPage->checkValidationMessageFor('billing_sdi_code', $validationMessage);
+            },
+            ElementNotFoundException::class
         );
-        Assert::true(
-            $this->addressPage->checkValidationMessageFor('billing_pec_address', $validationMessage)
+        Assert::throws(
+            function () use ($validationMessage) {
+                $this->addressPage->checkValidationMessageFor('billing_pec_address', $validationMessage);
+            },
+            ElementNotFoundException::class
         );
     }
 
