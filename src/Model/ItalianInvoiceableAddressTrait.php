@@ -113,7 +113,8 @@ trait ItalianInvoiceableAddressTrait
                 $groupSequence[] = sprintf('%s-%s', $this->getBillingRecipientType(), $this->getCountryCode());
             }
         }
-        if ($this->getCountryCode() === 'IT' && $this->getBillingRecipientType() === 'company') {
+        if ($this->getCountryCode() === 'IT' && $this->getBillingRecipientType(
+            ) === ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_COMPANY) {
             if ($this->getPecAddress() === null) {
                 $groupSequence[] = 'pec_address_empty';
             }
