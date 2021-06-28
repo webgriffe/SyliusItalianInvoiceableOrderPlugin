@@ -15,6 +15,8 @@ webgriffe_sylius_italian_invoiceable_order:
             not_blank: 'SDI code should not be blank.'
         pec_address:
             valid: 'Please enter a valid PEC address.'
+        italian_sdi_code_and_pec_address:
+            not_both_blank: 'At least one of PEC address or SDI code is required'
     order:
         billing_recipient_type:
             not_blank: 'A billing recipient type (company or individual) should be specified for the billing address of this order. Please go back to the checkout addressing step and specify a billing recipient type for the billing address.'

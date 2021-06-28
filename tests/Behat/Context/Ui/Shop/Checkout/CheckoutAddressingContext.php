@@ -223,12 +223,16 @@ final class CheckoutAddressingContext implements Context
     }
 
     /**
-     * @Then /^I should be notified that the billing SDI code is required$/
+     * @Then /^I should be notified that one of the billing SDI code or PEC address is required$/
      */
-    public function iShouldBeNotifiedThatTheBillingSdiCodeIsRequired()
+    public function iShouldBeNotifiedThatOneOfTheBillingSdiCodeOrPecAddressIsRequired()
     {
+        $validationMessage = 'At least one of PEC address or SDI code is required';
         Assert::true(
-            $this->addressPage->checkValidationMessageFor('billing_sdi_code', 'SDI code should not be blank.')
+            $this->addressPage->checkValidationMessageFor('billing_sdi_code', $validationMessage)
+        );
+        Assert::true(
+            $this->addressPage->checkValidationMessageFor('billing_pec_address', $validationMessage)
         );
     }
 

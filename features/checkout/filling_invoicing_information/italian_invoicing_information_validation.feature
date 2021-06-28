@@ -57,4 +57,4 @@ Feature: Italian invoicing information validation
         And I complete the addressing step
         Then I should be notified that the billing tax code is required
         And I should be notified that the billing VAT number is required
-        And I should be notified that the billing SDI code is required
+        And I should be notified that one of the billing SDI code or PEC address is required
