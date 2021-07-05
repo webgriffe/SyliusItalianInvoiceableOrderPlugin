@@ -80,6 +80,8 @@ final class ItalianTaxCalculationStrategy implements TaxCalculationStrategyInter
         $companyRecipientType = ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_COMPANY;
 
         //Skip taxes application if we are billing to an EU company (excluding Italy)
+        //@todo: can this be generalized by saying that we can skip taxes application whenever we're billing to a
+        //  company in the EU that is in a country other than the origin country?
         return ($billingAddress !== null) &&
             ($billingAddress->getBillingRecipientType() === $companyRecipientType) &&
             ($zone->getCode() === $this->euTaxZoneCode) &&
