@@ -25,3 +25,11 @@ Feature: Italian invoicing information validation
         And I specify the billing address for the company "" - "Jon Snow" - "Sunset Boulevard", "90210", "Los Angeles" - "United States"
         And I complete the addressing step
         Then I should be notified that the billing company name is required
+
+    @ui
+    Scenario: Not requiring SDI code nor PEC address
+        When I specify the email as "jon.snow@example.com"
+        And I specify the billing address for the company "" - "Jon Snow" - "Sunset Boulevard", "90210", "Los Angeles" - "United States"
+        And I complete the addressing step
+        Then I should be notified that the billing company name is required
+        And I should not be notified that one between the billing SDI code and PEC address is required

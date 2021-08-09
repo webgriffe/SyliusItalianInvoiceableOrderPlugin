@@ -260,8 +260,9 @@
                     <value>company-IT</value>
                 </option>
             </constraint>
-            <constraint name="Symfony\Component\Validator\Constraints\NotBlank">
-                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.italian_sdi_code.not_blank</option>
+            <constraint name="Expression">
+                <option name="expression">this.getPecAddress() !== null or this.getSdiCode() !== null</option>
+                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.pec_or_sdi_required</option>
                 <option name="groups">
                     <value>company-IT</value>
                 </option>
@@ -273,6 +274,13 @@
                 <option name="message">webgriffe_sylius_italian_invoiceable_order.address.pec_address.valid</option>
                 <option name="groups">
                     <value>sylius</value>
+                </option>
+            </constraint>
+            <constraint name="Expression">
+                <option name="expression">this.getSdiCode() !== null or this.getPecAddress() !== null</option>
+                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.pec_or_sdi_required</option>
+                <option name="groups">
+                    <value>company-IT</value>
                 </option>
             </constraint>
         </property>
