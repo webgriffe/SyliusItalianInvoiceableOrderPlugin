@@ -113,6 +113,7 @@ trait ItalianInvoiceableAddressTrait
                 $groupSequence[] = sprintf('%s-%s', $this->getBillingRecipientType(), $this->getCountryCode());
             }
         }
+
         return [$groupSequence];
     }
 }
