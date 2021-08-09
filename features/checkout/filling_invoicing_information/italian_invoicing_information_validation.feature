@@ -68,3 +68,13 @@ Feature: Italian invoicing information validation
         Then I should be notified that the billing tax code is required
         And I should be notified that the billing VAT number is required
         And I should not be notified that one between the billing SDI code and PEC address is required
+
+    @ui
+    Scenario: Not requiring SDI code for an italian company if PEC address is present and valid
+        When I specify the email as "jon.snow@example.com"
+        And I specify the billing address for the company "GoT SpA" - "Jon Snow" - "Viale Italia", "42100", "Reggio Emilia" - "Italy"
+        And I specify a valid billing PEC address
+        And I complete the addressing step
+        Then I should be notified that the billing tax code is required
+        And I should be notified that the billing VAT number is required
+        And I should not be notified that one between the billing SDI code and PEC address is required
