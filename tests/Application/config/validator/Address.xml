@@ -262,7 +262,7 @@
             </constraint>
             <constraint name="Expression">
                 <option name="expression">this.getPecAddress() !== null or this.getSdiCode() !== null</option>
-                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.italian_sdi_code.required_if_pec_is_null</option>
+                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.pec_or_sdi_required</option>
                 <option name="groups">
                     <value>company-IT</value>
                 </option>
@@ -278,7 +278,7 @@
             </constraint>
             <constraint name="Expression">
                 <option name="expression">this.getSdiCode() !== null or this.getPecAddress() !== null</option>
-                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.pec_address.required_if_sdi_is_null</option>
+                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.pec_or_sdi_required</option>
                 <option name="groups">
                     <value>company-IT</value>
                 </option>
