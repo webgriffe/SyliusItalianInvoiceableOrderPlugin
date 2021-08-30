@@ -11,6 +11,7 @@ app:
             not_blank: 'Il codice destinatario SDI non dovrebbe essere vuoto.'
         pec_address:
             valid: 'Per favore, inserisci un indirizzo PEC valido.'
+        pec_or_sdi_required: 'Per favore, inserisci almeno uno tra codice SDI e indirizzo PEC'
     order:
         billing_recipient_type:
             not_blank: 'Un tipo di indirizzo di fatturazione (privato o azienda) dovrebbe essere specificato per questo ordine. Per favore, torna alla sezione d''inserimento dell''indirizzo nel checkout e specifica un tipo di indirizzo di fatturazione (privato o azienda).'
