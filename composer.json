@@ -46,7 +46,7 @@
         "symfony/intl": "^4.4 || ^5.2",
         "symfony/web-profiler-bundle": "^4.4 || ^5.2",
         "vimeo/psalm": "4.4.1",
-        "cweagans/composer-patches": "^1.7"
+        "roave/backward-compatibility-check": "*"
     },
     "config": {
         "sort-packages": true
@@ -54,11 +54,6 @@
     "extra": {
         "branch-alias": {
             "dev-master": "0.x-dev"
-        },
-        "patches": {
-            "roave/backward-compatibility-check": {
-                "Autoloads test files during the BC check": "patches/bc-check-autoload.patch"
-            }
         }
     },
     "autoload": {
