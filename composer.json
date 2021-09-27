@@ -57,13 +57,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\": "src/"
+            "Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\": "src/",
+            "Tests\\Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\Behat\\": "tests/Behat/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\": "tests/Application/src",
-            "Tests\\Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\": "tests/"
+            "App\\": "tests/Application/src"
         },
         "classmap": [
             "tests/Application/Kernel.php"
