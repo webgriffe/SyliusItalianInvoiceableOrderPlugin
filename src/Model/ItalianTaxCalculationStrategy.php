@@ -72,6 +72,11 @@ final class ItalianTaxCalculationStrategy implements TaxCalculationStrategyInter
 
     private function shouldSkipTaxesApplication(OrderInterface $order, ZoneInterface $zone): bool
     {
+        if ($this->euTaxZoneCode === '') {
+            //EU tax zone not configured. Behave as if this strategy was not present, that is always apply taxes.
+            return false;
+        }
+
         /** @var AddressInterface|null $billingAddress */
         $billingAddress = $order->getBillingAddress();
 
