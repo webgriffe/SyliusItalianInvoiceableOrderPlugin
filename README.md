@@ -5,7 +5,7 @@
 </p>
 <h1 align="center">Italian Invoiceable Order Plugin</h1>
 
-<p align="center">Sylius plugin which allows Italian merchants to collect invoice data for their orders such as tax code, VAT number, SDI code, etc...</p>
+<p align="center">Sylius plugin which allows Italian merchants to collect invoice data for their orders such as tax code, VAT number, SDI code, etc... as well as allowing the merchant to only apply taxes to those customers that can (and must) pay taxes in advance.</p>
 <p align="center"><a href="https://github.com/webgriffe/SyliusItalianInvoiceableOrderPlugin/actions"><img src="https://github.com/webgriffe/SyliusItalianInvoiceableOrderPlugin/workflows/Build/badge.svg" alt="Build Status" /></a></p>
 
 ## Installation
@@ -23,11 +23,13 @@
        Webgriffe\SyliusItalianInvoiceableOrderPlugin\WebgriffeSyliusItalianInvoiceableOrderPlugin::class => ['all' => true],
    ```
 
-3. Your `Address` entity must implement the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface` and the `Symfony\Component\Validator\GroupSequenceProviderInterface`. You can use the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressTrait` as implementation for both interfaces.
+3. Define a value for the parameter `app.taxation.eu_zone_code`, which must be the code of a zone representing the EU. This is used to determine if an order is invoiced to a company within the EU or not.
 
-4. Your `Order` entity must implement the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableOrderInterface`. You can use the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableOrderTrait` as default implementation for the interface.
+4. Your `Address` entity must implement the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface` and the `Symfony\Component\Validator\GroupSequenceProviderInterface`. You can use the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressTrait` as implementation for both interfaces.
 
-5. You need to import the `Address` and `Order` validator configuration into your project by copying the configuration files provided by this plugin:
+5. Your `Order` entity must implement the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableOrderInterface`. You can use the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableOrderTrait` as default implementation for the interface.
+
+6. You need to import the `Address` and `Order` validator configuration into your project by copying the configuration files provided by this plugin:
 
    ```bash
    mkdir -p config/validator/
@@ -37,7 +39,9 @@
 
    Or by merging the configuration into your existing `Address` and `Order` validator configuration.
 
-6. To properly enable group sequence validation of your Address entity you must set the `Default` validation group instead of the `sylius` validation group:
+7. Configure Sylius to use the `Italian tax calculation` tax calculation strategy.
+
+8. To properly enable group sequence validation of your Address entity you must set the `Default` validation group instead of the `sylius` validation group:
 
    ```yaml
    # config/services.yaml
@@ -48,35 +52,35 @@
 
    For more information see [here](https://symfony.com/doc/current/validation/sequence_provider.html).
 
-7. Run a diff of your Doctrine's migrations and then run it:
+9. Run a diff of your Doctrine's migrations and then run it:
 
    ```bash
    bin/console doctrine:migrations:diff
    bin/console doctrine:migrations:migrate
    ```
 
-8. Add invoiceable address fields to your shop address form template. To do so you have to override the template:
+10. Add invoiceable address fields to your shop address form template. To do so you have to override the template:
 
-   ```bash
-   cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Common/Form/_address.html.twig templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig
-   ```
+    ```bash
+    cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Common/Form/_address.html.twig templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig
+    ```
    
-   Then in the `templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig` you must add the following:
+    Then in the `templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig` you must add the following:
    
-   ```twig
-   {# templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig #}
-   {% if type != 'shipping-' %}
-    {{ form_row(form.billingRecipientType, sylius_test_form_attribute(type ~ 'billing-recipient-type')) }}
-       {{ form_row(form.taxCode, sylius_test_form_attribute(type ~ 'tax-code')) }}
-       {{ form_row(form.vatNumber, sylius_test_form_attribute(type ~ 'vat-number')) }}
-       {{ form_row(form.sdiCode, sylius_test_form_attribute(type ~ 'sdi-code')) }}
-       {{ form_row(form.pecAddress, sylius_test_form_attribute(type ~ 'pec-address')) }}    
-   {% endif %}
-   ```
+    ```twig
+    {# templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig #}
+    {% if type != 'shipping-' %}
+     {{ form_row(form.billingRecipientType, sylius_test_form_attribute(type ~ 'billing-recipient-type')) }}
+        {{ form_row(form.taxCode, sylius_test_form_attribute(type ~ 'tax-code')) }}
+        {{ form_row(form.vatNumber, sylius_test_form_attribute(type ~ 'vat-number')) }}
+        {{ form_row(form.sdiCode, sylius_test_form_attribute(type ~ 'sdi-code')) }}
+        {{ form_row(form.pecAddress, sylius_test_form_attribute(type ~ 'pec-address')) }}    
+    {% endif %}
+    ```
    
-   You can put the fields in the order you want but we recommend to surround them with the `{% if type != 'shipping-' %}` check. In this way you'll not show those fields in the shipping address section of the checkout where these fields are not relevant.
+    You can put the fields in the order you want but we recommend to surround them with the `{% if type != 'shipping-' %}` check. In this way you'll not show those fields in the shipping address section of the checkout where these fields are not relevant.
    
-9. Add invoiceable address fields to your admin address form template. To do so you have to override the template:
+11. Add invoiceable address fields to your admin address form template. To do so you have to override the template:
 
   ```bash
   cp vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/views/Common/Form/_address.html.twig templates/bundles/SyliusAdminBundle/Common/Form/_address.html.twig
@@ -119,7 +123,7 @@
   {{ form_row(form.phoneNumber) }}
   ```
 
-10. Add invoiceable fields to the address show template for admin and shop. To do so you have to override those templates:
+12. Add invoiceable fields to the address show template for admin and shop. To do so you have to override those templates:
 
    ```bash
    cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Common/_address.html.twig templates/bundles/SyliusShopBundle/Common/_address.html.twig
@@ -164,7 +168,7 @@
    </address>
    ```
 
-11. Add invoiceable fields to the address book select data attributes. To do so you have to override the address book select template:
+13. Add invoiceable fields to the address book select data attributes. To do so you have to override the address book select template:
 
    ```bash
    cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Checkout/Address/_addressBookSelect.html.twig templates/bundles/SyliusShopBundle/Checkout/Address/_addressBookSelect.html.twig
@@ -212,6 +216,7 @@
 ## Features
 
 Once installed this plugin will allow the users of the shop to enter all the invoicing information needed by an Italian company to properly invoice the order.
+In addition this plugin checks the billing data of the order and uses them to decide whether the customer has to pay taxes or not.
 
 This plugin will add the following fields to your address form:
 
@@ -219,13 +224,13 @@ This plugin will add the following fields to your address form:
 * **Tax code**, which in Italy is known as "*Codice Fiscale*". It's, more or less, like the social security number (SSN) in the US but in Italy both companies and individuals have a tax code. This field will be required for Italian individuals and companies and validated according the proper checksum algorithm.
 * **VAT Number**, which in Italy is known as "*Partita IVA*". It's another identification number but for companies only not only in Italy but also in the EU. This field will be required for Italian companies and validated according the proper checksum algorithm. This field will be also required for EU companies and validated using the [EU's VIES service](https://ec.europa.eu/taxation_customs/vies/) using the [MyOnlineStore/ViesBundle](MyOnlineStore/ViesBundle).
 * **SDI Code**, where SDI stands for "*Sistema Di Interscambio*". It's a code that is needed to be able to properly generate an "electronic invoice" which is mandatory in Italy since January the 1st of 2019. This field will be required for Italian companies and validated according the proper rules of the Italian IRS (called "*Agenzia delle Entrate*" in Italy).
-* **PEC address**, where PEC stands for "*Posta Elettronica Certificata*" (the Italian translation of "certified email"). It's like an email address but for a special email type meant to provide a legal equivalent of the traditional mail. See [here](https://en.wikipedia.org/wiki/Certified_email) for more information. This field will not be required even for Italian companies but if entered it must be a valid email address.
+* **PEC address**, where PEC stands for "*Posta Elettronica Certificata*" (the Italian translation of "certified email"). It's like an email address but for a special email type meant to provide a legal equivalent of the traditional mail. See [here](https://en.wikipedia.org/wiki/Certified_email) for more information. This field will not be required even for Italian companies, but if entered it must be a valid email address.
 
 This plugin will also require the Sylius's *company* field to be populated if the billing recipient type is set to company.
 
 This plugin also replaces the Sylius's `Sylius\Component\Addressing\Comparator\AddressComparatorInterface` implementation by decorating it and by comparing also invoiceable fields. So different invoiceable address information provided during checkout are saved in the customer address book as new addresses.
 
-This plugin also allow to select an invoiceable address from the address book in the checkout and properly fill the address form with all the invoicing information.
+This plugin also allows to select an invoiceable address from the address book in the checkout and properly fill the address form with all the invoicing information.
 
 ## Contributing
 
