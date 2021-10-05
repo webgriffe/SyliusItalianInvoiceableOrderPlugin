@@ -324,4 +324,67 @@ final class CheckoutAddressingContext implements Context
         Assert::eq($this->addressPage->getPreFilledBillingSdiCode(), $address->getSdiCode());
         Assert::eq($this->addressPage->getPreFilledBillingPecAddress(), $address->getPecAddress());
     }
+
+    /**
+     * @Given /^I specify a (valid italian individual billing address)$/
+     *
+     * @param AddressInterface&ItalianInvoiceableAddressInterface $address
+     */
+    public function iSpecifyAValidItalianIndividualBillingAddress($address): void
+    {
+        Assert::isInstanceOf($address, AddressInterface::class);
+        Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
+        $this->addressPage->specifyBillingAddress($address);
+        $this->addressPage->specifyBillingTaxCode($address->getTaxCode());
+    }
+    /**
+     * @When /^I specify a (valid italian company billing address)$/
+     *
+     * @param AddressInterface&ItalianInvoiceableAddressInterface $address
+     */
+    public function iSpecifyAValidItalianCompanyBillingAddress($address): void
+    {
+        Assert::isInstanceOf($address, AddressInterface::class);
+        Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
+        $this->addressPage->specifyBillingAddress($address);
+        $this->addressPage->specifyBillingVatNumber($address->getVatNumber());
+        $this->addressPage->specifyBillingTaxCode($address->getTaxCode());
+        $this->addressPage->specifyBillingSdiCode($address->getSdiCode());
+    }
+    /**
+     * @Given /^I specify a (valid german individual billing address)$/
+     *
+     * @param AddressInterface&ItalianInvoiceableAddressInterface $address
+     */
+    public function iSpecifyAValidGermanIndividualBillingAddress($address): void
+    {
+        Assert::isInstanceOf($address, AddressInterface::class);
+        Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
+        $this->addressPage->specifyBillingAddress($address);
+    }
+    /**
+     * @Given /^I specify a (valid german company billing address)$/
+     *
+     * @param AddressInterface&ItalianInvoiceableAddressInterface $address
+     */
+    public function iSpecifyAValidGermanCompanyBillingAddress($address): void
+    {
+        Assert::isInstanceOf($address, AddressInterface::class);
+        Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
+        $this->addressPage->specifyBillingAddress($address);
+        $this->addressPage->specifyBillingVatNumber($address->getVatNumber());
+    }
+
+    /**
+     * @Given /^I specify a (valid US individual billing address)$/
+     * @Given /^I specify a (valid US company billing address)$/
+     *
+     * @param AddressInterface&ItalianInvoiceableAddressInterface $address
+     */
+    public function iSpecifyAValidUSlBillingAddress($address): void
+    {
+        Assert::isInstanceOf($address, AddressInterface::class);
+        Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
+        $this->addressPage->specifyBillingAddress($address);
+    }
 }

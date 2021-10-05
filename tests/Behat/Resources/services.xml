@@ -9,13 +9,23 @@
         <!-- Setup -->
 
         <service id="webgriffe_sylius_italian_invoiceable_order.behat.context.setup.channel" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Setup\ChannelContext">
+            <argument type="service" id="sylius.behat.factory.default_channel" />
             <argument type="service" id="webgriffe_sylius_italian_invoiceable_order.behat.factory.default_italy_channel" />
             <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="sylius.factory.country" />
+            <argument type="service" id="sylius.repository.channel" />
+            <argument type="service" id="sylius.repository.country" />
+            <argument>%sylius.tax_calculation_strategies%</argument>
         </service>
 
         <service id="webgriffe_sylius_italian_invoiceable_order.behat.context.setup.invoiceable_address" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Setup\InvoiceableAddressContext">
             <argument type="service" id="sylius.behat.shared_storage" />
             <argument type="service" id="sylius.manager.customer" />
+        </service>
+
+        <service id="webgriffe_sylius_italian_invoiceable_order.behat.context.setup.zone" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Setup\ZoneContext">
+            <argument type="service" id="sylius.factory.zone" />
+            <argument type="service" id="sylius.repository.zone" />
         </service>
 
         <!-- Transform -->
