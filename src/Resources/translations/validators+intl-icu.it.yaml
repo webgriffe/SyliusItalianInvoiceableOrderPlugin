@@ -1,4 +1,4 @@
-app:
+webgriffe_sylius_italian_invoiceable_order:
     address:
         italian_tax_code:
             valid: 'Per favore, inserisci un codice fiscale valido.'
