@@ -17,7 +17,9 @@ class AddressPage extends BaseAddressPage implements AddressPageInterface
     public function specifyBillingAddress(AddressInterface $billingAddress): void
     {
         Assert::isInstanceOf($billingAddress, ItalianInvoiceableAddressInterface::class);
-        $this->getElement(sprintf('%s_billing_recipient_type', BaseAddressPage::TYPE_BILLING))->selectOption($billingAddress->getBillingRecipientType());
+        if (null !== $billingAddress->getBillingRecipientType()) {
+            $this->getElement(sprintf('%s_billing_recipient_type', BaseAddressPage::TYPE_BILLING))->selectOption($billingAddress->getBillingRecipientType());
+        }
         parent::specifyBillingAddress($billingAddress);
         if (null !== $billingAddress->getCompany()) {
             $this->waitForElement(5, sprintf('%s_company', BaseAddressPage::TYPE_BILLING));
