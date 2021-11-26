@@ -28,19 +28,25 @@ final class ItalianInvoiceableAddressTypeExtension extends AbstractTypeExtension
                     'placeholder' => false,
                 ]
             )
-            ->add('taxCode', TextType::class,
+            ->add(
+                'taxCode',
+                TextType::class,
                 [
                     'label' => 'webgriffe_sylius_italian_invoiceable_order.form.address.tax_code.label',
                     'required' => false,
                 ]
             )
-            ->add('vatNumber', TextType::class,
+            ->add(
+                'vatNumber',
+                TextType::class,
                 [
                     'label' => 'webgriffe_sylius_italian_invoiceable_order.form.address.vat_number.label',
                     'required' => false,
                 ]
             )
-            ->add('sdiCode', TextType::class,
+            ->add(
+                'sdiCode',
+                TextType::class,
                 [
                     'label' => 'webgriffe_sylius_italian_invoiceable_order.form.address.sdi_code.label',
                     'required' => false,
