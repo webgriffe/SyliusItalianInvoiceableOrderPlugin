@@ -6,6 +6,9 @@ namespace Webgriffe\SyliusItalianInvoiceableOrderPlugin\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class ItalianVatNumber extends Constraint
 {
     /** @var string */

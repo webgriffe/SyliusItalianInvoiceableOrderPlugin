@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model;
 
-use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -14,13 +13,13 @@ use Webmozart\Assert\Assert;
 
 final class ItalianTaxCalculationStrategy implements TaxCalculationStrategyInterface
 {
-    /** @var string $type */
+    /** @var string */
     private $type;
 
     /** @var OrderTaxesApplicatorInterface[] */
     private $applicators;
 
-    /** @var string $euTaxZoneCode */
+    /** @var string */
     private $euTaxZoneCode;
 
     /**
@@ -77,7 +76,6 @@ final class ItalianTaxCalculationStrategy implements TaxCalculationStrategyInter
             return false;
         }
 
-        /** @var AddressInterface|null $billingAddress */
         $billingAddress = $order->getBillingAddress();
 
         Assert::nullOrIsInstanceOf($billingAddress, ItalianInvoiceableAddressInterface::class);
