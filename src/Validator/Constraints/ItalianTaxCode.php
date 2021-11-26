@@ -11,5 +11,6 @@ use Symfony\Component\Validator\Constraint;
  */
 final class ItalianTaxCode extends Constraint
 {
-    public string $message = 'app.italian_tax_code.valid';
+    /** @var string */
+    public $message = 'app.italian_tax_code.valid';
 }

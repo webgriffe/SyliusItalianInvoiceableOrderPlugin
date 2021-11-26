@@ -11,5 +11,6 @@ use Symfony\Component\Validator\Constraint;
  */
 final class ItalianVatNumber extends Constraint
 {
-    public string $message = 'app.italian_vat_number.valid';
+    /** @var string */
+    public $message = 'app.italian_vat_number.valid';
 }
