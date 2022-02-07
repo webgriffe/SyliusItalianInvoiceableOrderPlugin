@@ -147,7 +147,7 @@
             </constraint>
             <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
                 <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
-                <option name="format">GR</option>
+                <option name="format">EL</option>
                 <option name="groups">
                     <value>company-GR</value>
                 </option>
