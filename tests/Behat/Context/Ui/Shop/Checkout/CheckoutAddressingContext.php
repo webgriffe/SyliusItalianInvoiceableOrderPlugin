@@ -281,6 +281,14 @@ final class CheckoutAddressingContext implements Context
     }
 
     /**
+     * @When /^I specify a valid billing VAT number for a greek company$/
+     */
+    public function iSpecifyAValidBillingVatNumberForAGreekCompany(): void
+    {
+        $this->addressPage->specifyBillingVatNumber('EL094229666');
+    }
+
+    /**
      * @Given /^I do not specify the billing recipient type in the billing address$/
      */
     public function iDoNotSpecifyTheBillingRecipientTypeInTheBillingAddress(): void
