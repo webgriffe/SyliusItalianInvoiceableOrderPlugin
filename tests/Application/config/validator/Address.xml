@@ -30,42 +30,36 @@
         </property>
 
         <property name="vatNumber">
-            <constraint name="Webgriffe\SyliusItalianInvoiceableOrderPlugin\Validator\Constraints\ItalianVatNumber">
-                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.italian_vat_number.valid</option>
-                <option name="groups">
-                    <value>company-IT</value>
-                </option>
-            </constraint>
             <constraint name="Symfony\Component\Validator\Constraints\NotBlank">
                 <option name="message">webgriffe_sylius_italian_invoiceable_order.address.italian_vat_number.not_blank</option>
                 <option name="groups">
-                    <value>company-IT</value>
                     <value>company-AT</value>
                     <value>company-BE</value>
                     <value>company-BG</value>
-                    <value>company-HR</value>
                     <value>company-CY</value>
                     <value>company-CZ</value>
+                    <value>company-DE</value>
                     <value>company-DK</value>
                     <value>company-EE</value>
+                    <value>company-GR</value><!-- EL -->
+                    <value>company-ES</value>
                     <value>company-FI</value>
                     <value>company-FR</value>
-                    <value>company-DE</value>
-                    <value>company-GR</value>
+                    <value>company-HR</value>
                     <value>company-HU</value>
                     <value>company-IE</value>
+                    <value>company-IT</value>
+                    <value>company-LU</value>
                     <value>company-LV</value>
                     <value>company-LT</value>
-                    <value>company-LU</value>
                     <value>company-MT</value>
                     <value>company-NL</value>
                     <value>company-PL</value>
                     <value>company-PT</value>
                     <value>company-RO</value>
-                    <value>company-SK</value>
-                    <value>company-SI</value>
-                    <value>company-ES</value>
                     <value>company-SE</value>
+                    <value>company-SI</value>
+                    <value>company-SK</value>
                 </option>
             </constraint>
             <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
@@ -91,13 +85,6 @@
             </constraint>
             <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
                 <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
-                <option name="format">HR</option>
-                <option name="groups">
-                    <value>company-HR</value>
-                </option>
-            </constraint>
-            <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
-                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
                 <option name="format">CY</option>
                 <option name="groups">
                     <value>company-CY</value>
@@ -108,6 +95,13 @@
                 <option name="format">CZ</option>
                 <option name="groups">
                     <value>company-CZ</value>
+                </option>
+            </constraint>
+            <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
+                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
+                <option name="format">DE</option>
+                <option name="groups">
+                    <value>company-DE</value>
                 </option>
             </constraint>
             <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
@@ -126,6 +120,20 @@
             </constraint>
             <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
                 <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
+                <option name="format">EL</option>
+                <option name="groups">
+                    <value>company-GR</value><!-- EL -->
+                </option>
+            </constraint>
+            <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
+                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
+                <option name="format">ES</option>
+                <option name="groups">
+                    <value>company-ES</value>
+                </option>
+            </constraint>
+            <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
+                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
                 <option name="format">FI</option>
                 <option name="groups">
                     <value>company-FI</value>
@@ -140,16 +148,9 @@
             </constraint>
             <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
                 <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
-                <option name="format">DE</option>
+                <option name="format">HR</option>
                 <option name="groups">
-                    <value>company-DE</value>
-                </option>
-            </constraint>
-            <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
-                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
-                <option name="format">EL</option>
-                <option name="groups">
-                    <value>company-GR</value>
+                    <value>company-HR</value>
                 </option>
             </constraint>
             <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
@@ -166,6 +167,19 @@
                     <value>company-IE</value>
                 </option>
             </constraint>
+            <constraint name="Webgriffe\SyliusItalianInvoiceableOrderPlugin\Validator\Constraints\ItalianVatNumber">
+                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.italian_vat_number.valid</option>
+                <option name="groups">
+                    <value>company-IT</value>
+                </option>
+            </constraint>
+            <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
+                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
+                <option name="format">LU</option>
+                <option name="groups">
+                    <value>company-LU</value>
+                </option>
+            </constraint>
             <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
                 <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
                 <option name="format">LV</option>
@@ -178,13 +192,6 @@
                 <option name="format">LT</option>
                 <option name="groups">
                     <value>company-LT</value>
-                </option>
-            </constraint>
-            <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
-                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
-                <option name="format">LU</option>
-                <option name="groups">
-                    <value>company-LU</value>
                 </option>
             </constraint>
             <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
@@ -224,9 +231,9 @@
             </constraint>
             <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
                 <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
-                <option name="format">SK</option>
+                <option name="format">SE</option>
                 <option name="groups">
-                    <value>company-SK</value>
+                    <value>company-SE</value>
                 </option>
             </constraint>
             <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
@@ -238,16 +245,9 @@
             </constraint>
             <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
                 <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
-                <option name="format">ES</option>
+                <option name="format">SK</option>
                 <option name="groups">
-                    <value>company-ES</value>
-                </option>
-            </constraint>
-            <constraint name="Sandwich\ViesBundle\Validator\Constraint\VatNumber">
-                <option name="message">webgriffe_sylius_italian_invoiceable_order.address.european_vat_number.valid</option>
-                <option name="format">SE</option>
-                <option name="groups">
-                    <value>company-SE</value>
+                    <value>company-SK</value>
                 </option>
             </constraint>
         </property>
