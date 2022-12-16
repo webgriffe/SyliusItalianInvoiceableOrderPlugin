@@ -1,8 +1,6 @@
 /vendor/
 /node_modules/
 /composer.lock
-.idea/
-package-lock.json
 
 /etc/build/*
 !/etc/build/.gitignore
@@ -13,3 +11,7 @@ package-lock.json
 /behat.yml
 /phpspec.yml
 /phpunit.xml
+
+# Symfony CLI https://symfony.com/doc/current/setup/symfony_server.html#different-php-settings-per-project
+/.php-version
+/php.ini
