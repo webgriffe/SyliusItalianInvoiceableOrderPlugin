@@ -29,7 +29,8 @@ final class ItalianTaxCodeValidator extends ConstraintValidator
         if (!self::isValidItalian16CharsTaxCode($value) && !ItalianVatNumberValidator::isValidItalianVatNumber($value)) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ string }}', $value)
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 

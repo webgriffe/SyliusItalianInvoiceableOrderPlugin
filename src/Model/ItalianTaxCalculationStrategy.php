@@ -65,7 +65,7 @@ final class ItalianTaxCalculationStrategy implements TaxCalculationStrategyInter
         Assert::allIsInstanceOf(
             $applicators,
             OrderTaxesApplicatorInterface::class,
-            'Order taxes applicator should have type "%2$s". Got: %s'
+            'Order taxes applicator should have type "%2$s". Got: %s',
         );
     }
 
