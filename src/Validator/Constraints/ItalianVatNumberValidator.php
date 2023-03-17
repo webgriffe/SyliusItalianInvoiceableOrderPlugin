@@ -28,7 +28,8 @@ final class ItalianVatNumberValidator extends ConstraintValidator
         if (!self::isValidItalianVatNumber($value)) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ string }}', $value)
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 

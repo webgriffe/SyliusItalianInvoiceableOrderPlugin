@@ -26,7 +26,7 @@ final class ItalianInvoiceableAddressTypeExtension extends AbstractTypeExtension
                     'multiple' => false,
                     'required' => true,
                     'placeholder' => false,
-                ]
+                ],
             )
             ->add(
                 'taxCode',
@@ -34,7 +34,7 @@ final class ItalianInvoiceableAddressTypeExtension extends AbstractTypeExtension
                 [
                     'label' => 'webgriffe_sylius_italian_invoiceable_order.form.address.tax_code.label',
                     'required' => false,
-                ]
+                ],
             )
             ->add(
                 'vatNumber',
@@ -42,7 +42,7 @@ final class ItalianInvoiceableAddressTypeExtension extends AbstractTypeExtension
                 [
                     'label' => 'webgriffe_sylius_italian_invoiceable_order.form.address.vat_number.label',
                     'required' => false,
-                ]
+                ],
             )
             ->add(
                 'sdiCode',
@@ -50,7 +50,7 @@ final class ItalianInvoiceableAddressTypeExtension extends AbstractTypeExtension
                 [
                     'label' => 'webgriffe_sylius_italian_invoiceable_order.form.address.sdi_code.label',
                     'required' => false,
-                ]
+                ],
             )
             ->add(
                 'pecAddress',
@@ -58,7 +58,7 @@ final class ItalianInvoiceableAddressTypeExtension extends AbstractTypeExtension
                 [
                     'label' => 'webgriffe_sylius_italian_invoiceable_order.form.address.pec_address.label',
                     'required' => false,
-                ]
+                ],
             )
         ;
     }

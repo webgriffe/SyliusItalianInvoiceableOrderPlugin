@@ -29,8 +29,8 @@ final class ItalianInvoiceableAddressComparatorDecorator implements AddressCompa
                     __METHOD__,
                     ItalianInvoiceableAddressInterface::class,
                     get_debug_type($firstAddress),
-                    get_debug_type($secondAddress)
-                )
+                    get_debug_type($secondAddress),
+                ),
             );
         }
 
