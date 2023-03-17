@@ -28,5 +28,8 @@
             <tag name="sylius.taxation.calculation_strategy" type="italian_tax_calculation_strategy" label="Italian tax calculation" />
         </service>
 
+        <service id="app.validator.constraint.vat_number_validator" class="Webgriffe\SyliusItalianInvoiceableOrderPlugin\Validator\Constraints\VatNumberValidator" decorates="sandwich_vies.validator.constraint.vat_number_validator">
+            <argument type="service" id="sandwich_vies.vies_api"/>
+        </service>
     </services>
 </container>
