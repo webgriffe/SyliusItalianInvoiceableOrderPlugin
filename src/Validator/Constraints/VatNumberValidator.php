@@ -31,7 +31,7 @@ final class VatNumberValidator extends ConstraintValidator
             return;
         }
 
-        $this->viesApi->setHeartBeat(new HeartBeat());
+        $this->viesApi->setHeartBeat(new HeartBeat(Vies::VIES_DOMAIN, Vies::VIES_PORT));
 
         if (!$this->viesApi->getHeartBeat()->isAlive()) {
             //VIES service is not available
