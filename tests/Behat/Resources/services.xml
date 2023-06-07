@@ -69,15 +69,5 @@
             <argument type="service" id="sylius.factory.zone" />
             <argument>%locale%</argument>
         </service>
-
-        <!-- TODO: remove the following Behat services -->
-
-        <service id="webgriffe_sylius_italian_invoiceable_order.context.ui.shop.welcome" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Ui\Shop\WelcomeContext">
-            <argument type="service" id="webgriffe_sylius_italian_invoiceable_order.page.shop.static_welcome" />
-            <argument type="service" id="webgriffe_sylius_italian_invoiceable_order.page.shop.dynamic_welcome" />
-        </service>
-
-        <service id="webgriffe_sylius_italian_invoiceable_order.page.shop.static_welcome" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\StaticWelcomePage" parent="sylius.behat.symfony_page" public="false" />
-        <service id="webgriffe_sylius_italian_invoiceable_order.page.shop.dynamic_welcome" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\DynamicWelcomePage" parent="sylius.behat.symfony_page" public="false" />
     </services>
 </container>
