@@ -10,14 +10,8 @@ use Webmozart\Assert\Assert;
 
 final class CheckoutCompleteContext implements Context
 {
-    /**
-     * @var CompletePageInterface
-     */
-    private $completePage;
-
-    public function __construct(CompletePageInterface $completePage)
+    public function __construct(private CompletePageInterface $completePage)
     {
-        $this->completePage = $completePage;
     }
 
     /**

@@ -18,53 +18,18 @@ use Webmozart\Assert\Assert;
 final class ChannelContext implements Context
 {
     /**
-     * @var DefaultChannelFactoryInterface
+     * @param FactoryInterface<CountryInterface> $countryFactory
+     * @param RepositoryInterface<CountryInterface> $countryRepository
      */
-    private $defaultChannelFactory;
-
-    /**
-     * @var DefaultChannelFactoryInterface
-     */
-    private $defaultItalyChannelFactory;
-
-    /**
-     * @var SharedStorageInterface
-     */
-    private $sharedStorage;
-
-    /**
-     * @var FactoryInterface
-     */
-    private $countryFactory;
-
-    /**
-     * @var ChannelRepositoryInterface
-     */
-    private $channelRepository;
-
-    /**
-     * @var RepositoryInterface
-     */
-    private $countryRepository;
-
-    private $availableTaxCalculationStrategies;
-
     public function __construct(
-        DefaultChannelFactoryInterface $defaultChannelFactory,
-        DefaultChannelFactoryInterface $defaultItalyChannelFactory,
-        SharedStorageInterface $sharedStorage,
-        FactoryInterface $countryFactory,
-        ChannelRepositoryInterface $channelRepository,
-        RepositoryInterface $countryRepository,
-        array $availableTaxCalculationStrategies
+        private DefaultChannelFactoryInterface $defaultChannelFactory,
+        private DefaultChannelFactoryInterface $defaultItalyChannelFactory,
+        private SharedStorageInterface $sharedStorage,
+        private FactoryInterface $countryFactory,
+        private ChannelRepositoryInterface $channelRepository,
+        private RepositoryInterface $countryRepository,
+        private array $availableTaxCalculationStrategies
     ) {
-        $this->defaultChannelFactory = $defaultChannelFactory;
-        $this->defaultItalyChannelFactory = $defaultItalyChannelFactory;
-        $this->sharedStorage = $sharedStorage;
-        $this->countryFactory = $countryFactory;
-        $this->channelRepository = $channelRepository;
-        $this->countryRepository = $countryRepository;
-        $this->availableTaxCalculationStrategies = $availableTaxCalculationStrategies;
     }
 
     /**
@@ -87,7 +52,6 @@ final class ChannelContext implements Context
         /** @var ChannelInterface $channel */
         $channel = $defaultData['channel'];
         foreach (Countries::getCountryCodes() as $countryCode) {
-            /** @var CountryInterface $country */
             $country = $this->countryFactory->createNew();
             $country->setCode($countryCode);
             $country->setEnabled(true);

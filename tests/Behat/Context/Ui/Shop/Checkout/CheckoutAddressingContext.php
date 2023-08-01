@@ -16,23 +16,12 @@ use Webmozart\Assert\Assert;
 
 final class CheckoutAddressingContext implements Context
 {
-    /**
-     * @var AddressPageInterface
-     */
-    private $addressPage;
-    /**
-     * @var SharedStorageInterface
-     */
-    private $sharedStorage;
-    /**
-     * @var Generator
-     */
-    private $fakerGenerator;
+    private Generator $fakerGenerator;
 
-    public function __construct(AddressPageInterface $addressPage, SharedStorageInterface $sharedStorage)
-    {
-        $this->addressPage = $addressPage;
-        $this->sharedStorage = $sharedStorage;
+    public function __construct(
+        private AddressPageInterface $addressPage,
+        private SharedStorageInterface $sharedStorage
+    ) {
         $this->fakerGenerator = Factory::create();
     }
 
@@ -83,7 +72,7 @@ final class CheckoutAddressingContext implements Context
     /**
      * @When /^I specify a valid billing SDI code$/
      */
-    public function iSpecifyAValidBillingSdiCode()
+    public function iSpecifyAValidBillingSdiCode(): void
     {
         $this->addressPage->specifyBillingSdiCode(strtoupper($this->fakerGenerator->bothify('*******')));
     }
@@ -91,7 +80,7 @@ final class CheckoutAddressingContext implements Context
     /**
      * @When /^I specify a valid billing PEC address$/
      */
-    public function iSpecifyAValidBillingPecAddress()
+    public function iSpecifyAValidBillingPecAddress(): void
     {
         $this->addressPage->specifyBillingPecAddress($this->fakerGenerator->email);
     }
@@ -107,7 +96,7 @@ final class CheckoutAddressingContext implements Context
     /**
      * @Then /^I should not see any invoicing related field in the shipping address form$/
      */
-    public function iShouldNotSeeAnyInvoicingRelatedFieldInTheShippingAddressForm()
+    public function iShouldNotSeeAnyInvoicingRelatedFieldInTheShippingAddressForm(): void
     {
         Assert::true($this->addressPage->isWithoutAnyInvoicingRelatedFieldInShippingAddress());
     }
@@ -115,7 +104,7 @@ final class CheckoutAddressingContext implements Context
     /**
      * @Given /^I specify a valid billing tax code for an italian individual$/
      */
-    public function iSpecifyAValidBillingTaxCodeForAnItalianIndividual()
+    public function iSpecifyAValidBillingTaxCodeForAnItalianIndividual(): void
     {
         // Taken random from: https://www.ilcodicefiscale.online/genera/
         $this->addressPage->specifyBillingTaxCode('MCLMBL06S44F839X');
@@ -216,7 +205,7 @@ final class CheckoutAddressingContext implements Context
     /**
      * @Then /^I should be notified that the billing VAT number is required$/
      */
-    public function iShouldBeNotifiedThatTheBillingVatNumberIsRequired()
+    public function iShouldBeNotifiedThatTheBillingVatNumberIsRequired(): void
     {
         Assert::true(
             $this->addressPage->checkValidationMessageFor('billing_vat_number', 'VAT number should not be blank.')
@@ -226,7 +215,7 @@ final class CheckoutAddressingContext implements Context
     /**
      * @Then /^I should be notified that one between the billing SDI code and PEC address is required$/
      */
-    public function iShouldBeNotifiedThatOneBetweenTheBillingSdiCodeAndPecAddressIsRequired()
+    public function iShouldBeNotifiedThatOneBetweenTheBillingSdiCodeAndPecAddressIsRequired(): void
     {
         $validationMessage = 'At least one between PEC address and SDI code is required';
         Assert::true($this->addressPage->checkValidationMessageFor('billing_sdi_code', $validationMessage));
@@ -236,7 +225,7 @@ final class CheckoutAddressingContext implements Context
     /**
      * @Then /^I should not be notified that one between the billing SDI code and PEC address is required$/
      */
-    public function iShouldNotBeNotifiedThatOneBetweenTheBillingSdiCodeAndPecAddressIsRequired()
+    public function iShouldNotBeNotifiedThatOneBetweenTheBillingSdiCodeAndPecAddressIsRequired(): void
     {
         $validationMessage = 'At least one between PEC address and SDI code is required';
         Assert::throws(
@@ -256,7 +245,7 @@ final class CheckoutAddressingContext implements Context
     /**
      * @Then /^I should be notified that the billing company name is required$/
      */
-    public function iShouldBeNotifiedThatTheBillingCompanyNameIsRequired()
+    public function iShouldBeNotifiedThatTheBillingCompanyNameIsRequired(): void
     {
         Assert::true(
             $this->addressPage->checkValidationMessageFor('billing_company', 'Company name should not be blank.')
@@ -299,7 +288,7 @@ final class CheckoutAddressingContext implements Context
     /**
      * @When /^I specify the same invoiceable information of (the address) I have in my address book$/
      */
-    public function iSpecifyTheSameItalianInvoiceableInformationOfTheAddressThatIHaveInMyAddressBook(AddressInterface $address)
+    public function iSpecifyTheSameItalianInvoiceableInformationOfTheAddressThatIHaveInMyAddressBook(AddressInterface $address): void
     {
         /** @var ItalianInvoiceableAddressInterface $address */
         $this->addressPage->specifyBillingTaxCode($address->getTaxCode());
@@ -311,7 +300,7 @@ final class CheckoutAddressingContext implements Context
     /**
      * @When /^I specify a different SDI code from that of (the address) I have in the address book$/
      */
-    public function iSpecifyADifferentPecAddress(AddressInterface $address)
+    public function iSpecifyADifferentPecAddress(AddressInterface $address): void
     {
         /** @var ItalianInvoiceableAddressInterface $address */
         do {
@@ -323,7 +312,7 @@ final class CheckoutAddressingContext implements Context
     /**
      * @Then /^all invoicing information of (the address) I have in my address book should be filled in billing address$/
      */
-    public function addressShouldBeFilledAsBillingAddress(AddressInterface $address)
+    public function addressShouldBeFilledAsBillingAddress(AddressInterface $address): void
     {
         /** @var ItalianInvoiceableAddressInterface $address */
         Assert::eq($this->addressPage->getPreFilledBillingRecipientType(), $address->getBillingRecipientType());

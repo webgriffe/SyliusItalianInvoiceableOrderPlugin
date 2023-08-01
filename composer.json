@@ -10,7 +10,7 @@
     "require": {
         "php": "^8.0",
         "sandwich/vies-bundle": "^2.1",
-        "sylius/sylius": "^1.12",
+        "sylius/sylius": "^1.12.9",
         "sylius/mailer-bundle":  "^1.8 || ^2.0",
         "symfony/webpack-encore-bundle": "^1.15",
         "webmozart/assert": "^1.9"

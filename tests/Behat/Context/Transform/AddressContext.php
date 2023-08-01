@@ -15,27 +15,12 @@ use Webmozart\Assert\Assert;
 
 final class AddressContext implements Context
 {
-    /**
-     * @var ExampleFactoryInterface
-     */
-    private $exampleAddressFactory;
-
-    /**
-     * @var CountryNameConverterInterface
-     */
-    private $countryNameConverter;
-
-    /**
-     * @var Generator
-     */
-    private $fakerGenerator;
+    private Generator $fakerGenerator;
 
     public function __construct(
-        ExampleFactoryInterface $exampleAddressFactory,
-        CountryNameConverterInterface $countryNameConverter
+        private ExampleFactoryInterface $exampleAddressFactory,
+        private CountryNameConverterInterface $countryNameConverter
     ) {
-        $this->exampleAddressFactory = $exampleAddressFactory;
-        $this->countryNameConverter = $countryNameConverter;
         $this->fakerGenerator = Factory::create();
     }
 
