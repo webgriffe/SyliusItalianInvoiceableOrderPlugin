@@ -1,4 +1,4 @@
-FROM nyholm/roave-bc-check-ga
+FROM nyholm/roave-bc-check-ga:latest
 
 RUN docker-php-ext-install -j$(nproc) exif
 
