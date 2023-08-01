@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
+use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Generator;
 use Sylius\Behat\Service\SharedStorageInterface;
@@ -16,32 +17,12 @@ use Webmozart\Assert\Assert;
 
 final class InvoiceableAddressContext implements Context
 {
-    /**
-     * @var SharedStorageInterface
-     */
-    private $sharedStorage;
+    private Generator $fakerGenerator;
 
-    /**
-     * @var \Doctrine\Common\Persistence\ObjectManager|\Doctrine\Persistence\ObjectManager
-     */
-    private $customerManager;
-
-    /**
-     * @var Generator
-     */
-    private $fakerGenerator;
-
-    public function __construct(SharedStorageInterface $sharedStorage, /*ObjectManager*/ $customerManager)
-    {
-        //With the change from Sylius 1.8 to 1.9 the ObjectManager changed place. In order to make this plugin
-        //compatible with both versions, the type hint was removed from the arguments list and moved here as an
-        //explicit check
-        Assert::isInstanceOfAny(
-            $customerManager,
-            ['\Doctrine\Common\Persistence\ObjectManager', '\Doctrine\Persistence\ObjectManager']
-        );
-        $this->sharedStorage = $sharedStorage;
-        $this->customerManager = $customerManager;
+    public function __construct(
+        private SharedStorageInterface $sharedStorage,
+        private ObjectManager $customerManager
+    ) {
         $this->fakerGenerator = Factory::create();
     }
 
@@ -62,7 +43,7 @@ final class InvoiceableAddressContext implements Context
     /**
      * @Given /^(this address) has also all the invoiceable information valid for an italian company$/
      */
-    public function thisAddressHasAlsoTheFollowingInvoiceableInformation(AddressInterface $address)
+    public function thisAddressHasAlsoTheFollowingInvoiceableInformation(AddressInterface $address): void
     {
         // Randomly generated but valid VAT number with http://www.sottomentitespoglie.it/GeneratoreAziende.aspx
         $vatNumberAndTaxCode = '02664480353';

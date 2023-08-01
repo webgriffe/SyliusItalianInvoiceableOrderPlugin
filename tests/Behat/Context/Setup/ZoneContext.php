@@ -13,16 +13,13 @@ use Symfony\Component\Intl\Countries;
 
 final class ZoneContext implements Context
 {
-    /** @var ZoneFactoryInterface */
-    private $zoneFactory;
-
-    /** @var RepositoryInterface */
-    private $zoneRepository;
-
-    public function __construct(ZoneFactoryInterface $zoneFactory, RepositoryInterface $zoneRepository)
-    {
-        $this->zoneFactory = $zoneFactory;
-        $this->zoneRepository = $zoneRepository;
+    /**
+     * @param RepositoryInterface<ZoneInterface> $zoneRepository
+     */
+    public function __construct(
+        private ZoneFactoryInterface $zoneFactory,
+        private RepositoryInterface $zoneRepository,
+    ) {
     }
 
     /**
@@ -44,7 +41,7 @@ final class ZoneContext implements Context
     /**
      * @Given /^there is a (tax|shipping) zone "([^"]*)" containing all countries of the world$/
      */
-    public function thereIsAShippingZoneContainingAllCountriesOfTheWorld(string $scope, string $name)
+    public function thereIsAShippingZoneContainingAllCountriesOfTheWorld(string $scope, string $name): void
     {
         $this->createZone(Countries::getCountryCodes(), $name, $scope);
     }
