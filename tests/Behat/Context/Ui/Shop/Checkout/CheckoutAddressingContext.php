@@ -19,8 +19,8 @@ final class CheckoutAddressingContext implements Context
     private Generator $fakerGenerator;
 
     public function __construct(
-        private AddressPageInterface $addressPage,
-        private SharedStorageInterface $sharedStorage
+        private readonly AddressPageInterface $addressPage,
+        private readonly SharedStorageInterface $sharedStorage
     ) {
         $this->fakerGenerator = Factory::create();
     }
@@ -46,7 +46,7 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyAValidIndividualTaxCode(): void
     {
-        $this->addressPage->specifyBillingTaxCode($this->fakerGenerator->ssn);
+        $this->addressPage->specifyBillingTaxCode($this->fakerGenerator->ssn); //@phpstan-ignore-line
     }
 
     /**
@@ -291,10 +291,10 @@ final class CheckoutAddressingContext implements Context
     public function iSpecifyTheSameItalianInvoiceableInformationOfTheAddressThatIHaveInMyAddressBook(AddressInterface $address): void
     {
         /** @var ItalianInvoiceableAddressInterface $address */
-        $this->addressPage->specifyBillingTaxCode($address->getTaxCode());
-        $this->addressPage->specifyBillingVatNumber($address->getVatNumber());
-        $this->addressPage->specifyBillingSdiCode($address->getSdiCode());
-        $this->addressPage->specifyBillingPecAddress($address->getPecAddress());
+        $this->addressPage->specifyBillingTaxCode((string) $address->getTaxCode());
+        $this->addressPage->specifyBillingVatNumber((string) $address->getVatNumber());
+        $this->addressPage->specifyBillingSdiCode((string) $address->getSdiCode());
+        $this->addressPage->specifyBillingPecAddress((string) $address->getPecAddress());
     }
 
     /**
@@ -329,10 +329,8 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyAValidItalianIndividualBillingAddress($address): void
     {
-        Assert::isInstanceOf($address, AddressInterface::class);
-        Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
         $this->addressPage->specifyBillingAddress($address);
-        $this->addressPage->specifyBillingTaxCode($address->getTaxCode());
+        $this->addressPage->specifyBillingTaxCode((string) $address->getTaxCode());
     }
     /**
      * @When /^I specify a (valid italian company billing address)$/
@@ -341,12 +339,10 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyAValidItalianCompanyBillingAddress($address): void
     {
-        Assert::isInstanceOf($address, AddressInterface::class);
-        Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
         $this->addressPage->specifyBillingAddress($address);
-        $this->addressPage->specifyBillingVatNumber($address->getVatNumber());
-        $this->addressPage->specifyBillingTaxCode($address->getTaxCode());
-        $this->addressPage->specifyBillingSdiCode($address->getSdiCode());
+        $this->addressPage->specifyBillingVatNumber((string) $address->getVatNumber());
+        $this->addressPage->specifyBillingTaxCode((string) $address->getTaxCode());
+        $this->addressPage->specifyBillingSdiCode((string) $address->getSdiCode());
     }
     /**
      * @Given /^I specify a (valid german individual billing address)$/
@@ -355,8 +351,6 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyAValidGermanIndividualBillingAddress($address): void
     {
-        Assert::isInstanceOf($address, AddressInterface::class);
-        Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
         $this->addressPage->specifyBillingAddress($address);
     }
     /**
@@ -366,10 +360,8 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyAValidGermanCompanyBillingAddress($address): void
     {
-        Assert::isInstanceOf($address, AddressInterface::class);
-        Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
         $this->addressPage->specifyBillingAddress($address);
-        $this->addressPage->specifyBillingVatNumber($address->getVatNumber());
+        $this->addressPage->specifyBillingVatNumber((string) $address->getVatNumber());
     }
 
     /**
@@ -380,8 +372,6 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyAValidUSlBillingAddress($address): void
     {
-        Assert::isInstanceOf($address, AddressInterface::class);
-        Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
         $this->addressPage->specifyBillingAddress($address);
     }
 }

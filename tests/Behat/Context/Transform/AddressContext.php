@@ -18,8 +18,8 @@ final class AddressContext implements Context
     private Generator $fakerGenerator;
 
     public function __construct(
-        private ExampleFactoryInterface $exampleAddressFactory,
-        private CountryNameConverterInterface $countryNameConverter
+        private readonly ExampleFactoryInterface $exampleAddressFactory,
+        private readonly CountryNameConverterInterface $countryNameConverter
     ) {
         $this->fakerGenerator = Factory::create();
     }
@@ -28,11 +28,11 @@ final class AddressContext implements Context
      * @Transform /^address for the individual "([^"]+)" - "([^"]+)", "([^"]+)", "([^"]+)" - "([^"]+)"$/
      */
     public function createNewIndividualAddressWith(
-        $customerName,
-        $city,
-        $street,
-        $postcode,
-        $countryName
+        string $customerName,
+        string $city,
+        string $street,
+        string $postcode,
+        string $countryName
     ): AddressInterface {
         [$firstName, $lastName] = explode(' ', $customerName);
 
@@ -57,12 +57,12 @@ final class AddressContext implements Context
      * @Transform /^address for the company "([^"]*)" - "([^"]*)" - "([^"]*)", "([^"]*)", "([^"]*)" - "([^"]*)"$/
      */
     public function createNewCompanyAddressWith(
-        $company,
-        $customerName,
-        $street,
-        $postcode,
-        $city,
-        $countryName
+        string $company,
+        string $customerName,
+        string $street,
+        string $postcode,
+        string $city,
+        string $countryName
     ): AddressInterface {
         [$firstName, $lastName] = explode(' ', $customerName);
 
@@ -90,7 +90,7 @@ final class AddressContext implements Context
      */
     public function createNewValidItalianIndividualBillingAddress()
     {
-        /** @var AddressInterface&ItalianInvoiceableAddressInterface $address */
+        /** @var AddressInterface|(AddressInterface&ItalianInvoiceableAddressInterface) $address */
         $address = $this->exampleAddressFactory->create(['country_code' => 'IT', 'customer' => null]);
         Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
         $address->setBillingRecipientType(ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_INDIVIDUAL);
@@ -105,7 +105,7 @@ final class AddressContext implements Context
      */
     public function createNewValidItalianCompanyBillingAddress()
     {
-        /** @var AddressInterface&ItalianInvoiceableAddressInterface $address */
+        /** @var AddressInterface|(AddressInterface&ItalianInvoiceableAddressInterface) $address */
         $address = $this->exampleAddressFactory->create(['country_code' => 'IT', 'customer' => null]);
         Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
         $address->setBillingRecipientType(ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_COMPANY);
@@ -125,7 +125,7 @@ final class AddressContext implements Context
      */
     public function createNewValidGermanIndividualBillingAddress()
     {
-        /** @var AddressInterface&ItalianInvoiceableAddressInterface $address */
+        /** @var AddressInterface|(AddressInterface&ItalianInvoiceableAddressInterface) $address */
         $address = $this->exampleAddressFactory->create(['country_code' => 'DE', 'customer' => null]);
         Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
         $address->setBillingRecipientType(ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_INDIVIDUAL);
@@ -138,7 +138,7 @@ final class AddressContext implements Context
      */
     public function createNewValidGermanCompanyBillingAddress()
     {
-        /** @var AddressInterface&ItalianInvoiceableAddressInterface $address */
+        /** @var AddressInterface|(AddressInterface&ItalianInvoiceableAddressInterface) $address */
         $address = $this->exampleAddressFactory->create(['country_code' => 'DE', 'customer' => null]);
         Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
         $address->setBillingRecipientType(ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_COMPANY);
@@ -155,7 +155,7 @@ final class AddressContext implements Context
      */
     public function createNewValidUSIndividualBillingAddress()
     {
-        /** @var AddressInterface&ItalianInvoiceableAddressInterface $address */
+        /** @var AddressInterface|(AddressInterface&ItalianInvoiceableAddressInterface) $address */
         $address = $this->exampleAddressFactory->create(['country_code' => 'US', 'customer' => null]);
         Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
         $address->setBillingRecipientType(ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_INDIVIDUAL);
@@ -169,7 +169,7 @@ final class AddressContext implements Context
      */
     public function createNewValidUSCompanyBillingAddress()
     {
-        /** @var AddressInterface&ItalianInvoiceableAddressInterface $address */
+        /** @var AddressInterface|(AddressInterface&ItalianInvoiceableAddressInterface) $address */
         $address = $this->exampleAddressFactory->create(['country_code' => 'US', 'customer' => null]);
         Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
         $address->setBillingRecipientType(ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_COMPANY);

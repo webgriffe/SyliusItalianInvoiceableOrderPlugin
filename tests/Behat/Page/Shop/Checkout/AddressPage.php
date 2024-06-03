@@ -12,7 +12,7 @@ use Webmozart\Assert\Assert;
 class AddressPage extends BaseAddressPage implements AddressPageInterface
 {
     /**
-     * @param AddressInterface&ItalianInvoiceableAddressInterface $billingAddress
+     * @param AddressInterface|(AddressInterface&ItalianInvoiceableAddressInterface) $billingAddress
      */
     public function specifyBillingAddress(AddressInterface $billingAddress): void
     {
@@ -67,9 +67,9 @@ class AddressPage extends BaseAddressPage implements AddressPageInterface
         );
     }
 
-    private function waitForElement(int $timeout, string $elementName): bool
+    private function waitForElement(int $timeout, string $elementName): void
     {
-        return $this->getDocument()->waitFor($timeout, function () use ($elementName) {
+        $this->getDocument()->waitFor($timeout, function () use ($elementName) {
             return $this->hasElement($elementName);
         });
     }
@@ -85,27 +85,34 @@ class AddressPage extends BaseAddressPage implements AddressPageInterface
 
     public function getPreFilledBillingRecipientType(): string
     {
-        return $this->getElement('billing_billing_recipient_type')->getValue();
+        return $this->getStringValue('billing_billing_recipient_type');
     }
 
     public function getPreFilledBillingTaxCode(): string
     {
-        return $this->getElement('billing_tax_code')->getValue();
+        return $this->getStringValue('billing_tax_code');
     }
 
     public function getPreFilledBillingVatNumber(): string
     {
-        return $this->getElement('billing_vat_number')->getValue();
+        return $this->getStringValue('billing_vat_number');
     }
 
     public function getPreFilledBillingSdiCode(): string
     {
-        return $this->getElement('billing_sdi_code')->getValue();
+        return $this->getStringValue('billing_sdi_code');
     }
 
     public function getPreFilledBillingPecAddress(): string
     {
-        return $this->getElement('billing_pec_address')->getValue();
+        return $this->getStringValue('billing_pec_address');
     }
 
+    private function getStringValue(string $element): string
+    {
+        $value = $this->getElement($element)->getValue();
+        Assert::string($value);
+
+        return $value;
+    }
 }
