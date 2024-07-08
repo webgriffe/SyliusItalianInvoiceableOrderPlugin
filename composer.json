@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "dragonbe/vies": "^2.3.2",
         "sandwich/vies-bundle": "^2.1",
         "sylius/sylius": "^1.12",
         "symfony/webpack-encore-bundle": "^1.15",
