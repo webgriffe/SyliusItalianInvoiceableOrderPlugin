@@ -30,7 +30,7 @@ default:
                 - webgriffe_sylius_italian_invoiceable_order.behat.context.ui.shop.checkout.complete
 
             filters:
-                tags: "@filling_invoicing_information && @ui"
+                tags: "@filling_invoicing_information&&@ui"
 
         ui_invoiceable_address_book:
             contexts:
@@ -59,7 +59,7 @@ default:
                 - webgriffe_sylius_italian_invoiceable_order.behat.context.ui.shop.checkout.addressing
 
             filters:
-                tags: "@invoiceable_address_book && @ui"
+                tags: "@invoiceable_address_book&&@ui"
 
         ui_applying_taxes:
             contexts:
@@ -88,4 +88,4 @@ default:
                 - webgriffe_sylius_italian_invoiceable_order.behat.context.ui.shop.checkout.addressing
 
             filters:
-                tags: "@applying_taxes && @ui"
+                tags: "@applying_taxes&&@ui"

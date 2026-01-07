@@ -1,10 +1,11 @@
 <p align="center">
-    <a href="https://sylius.com" target="_blank">
-        <img src="https://demo.sylius.com/assets/shop/img/logo.png" />
+    <a href="https://www.webgriffe.com" target="_blank">
+        <img src="https://sylius.com/wp-content/uploads/2018/08/webgriffe_logo.png" height="120" />
     </a>
 </p>
 <h1 align="center">Italian Invoiceable Order Plugin</h1>
 
+<p align="center"><a href="https://sylius.com/plugins/" target="_blank"><img src="https://sylius.com/assets/badge-approved-by-sylius.png" width="200"></a></p>
 <p align="center">Sylius plugin which allows Italian merchants to collect invoice data for their orders such as tax code, VAT number, SDI code, etc... as well as allowing the merchant to only apply taxes to those customers that can (and must) pay taxes in advance.</p>
 <p align="center"><a href="https://github.com/webgriffe/SyliusItalianInvoiceableOrderPlugin/actions"><img src="https://github.com/webgriffe/SyliusItalianInvoiceableOrderPlugin/workflows/Build/badge.svg" alt="Build Status" /></a></p>
 
@@ -55,8 +56,9 @@
 9. Run a diff of your Doctrine's migrations and then run it:
 
    ```bash
-   bin/console doctrine:migrations:diff
-   bin/console doctrine:migrations:migrate
+   vendor/bin/console cache:clear
+   vendor/bin/console doctrine:migrations:diff
+   vendor/bin/console doctrine:migrations:migrate
    ```
 
 10. Add invoiceable address fields to your shop address form template. To do so you have to override the template:
@@ -236,33 +238,48 @@ This plugin also allows to select an invoiceable address from the address book i
 
 To contribute you need to:
 
-1. Clone this repository into your development environment
+1. Clone this repository into you development environment and go to the plugin's root directory,
 
-2. Create `tests/Application/.env.local` and `tests/Application/.env.test.local` files to customize env vars according to your specific development environment (for example the `DATABASE_URL` variable).
-
-3. Then, from the plugin's root directory, run the following commands:
+2. Then, from the plugin's root directory, run the following commands:
 
    ```bash
-   (cd tests/Application && yarn install)
-   (cd tests/Application && yarn build)
-   (cd tests/Application && bin/console assets:install public)
-   (cd tests/Application && bin/console doctrine:database:create)
-   (cd tests/Application && bin/console doctrine:schema:create)
-   (cd tests/Application && bin/console sylius:fixtures:load)
-   (cd tests/Application && symfony server:start -d) # Requires Symfony CLI (https://symfony.com/download)
+   composer install
    ```
 
-4. Now at https://127.0.0.1:8000/ you have a full Sylius testing application which runs the plugin.
+3. Copy `tests/TestApplication/.env` in `tests/TestApplication/.env.local` and set configuration specific for your development environment.
 
-### Running plugin tests
+4. Run docker (create a `compose.override.yml` if you need to customize services):
+
+    ```bash
+    docker-compose up -d
+    ```
+
+4. Then, from the plugin's root directory, run the following commands:
+
+    ```bash
+    composer test-app-init
+    ```
+
+5. Run your local server:
+
+      ```bash
+      symfony server:ca:install
+      symfony server:start -d
+      ```
+
+6. Now at http://localhost:8080/ you have a full Sylius testing application which runs the plugin
+
+### Testing
 
 After your changes you must ensure that the tests are still passing.
 
 First setup your test database:
 
 ```bash
-(cd tests/Application && bin/console -e test doctrine:database:create)
-(cd tests/Application && bin/console -e test doctrine:schema:create)
+    APP_ENV=test vendor/bin/console doctrine:database:create
+    APP_ENV=test vendor/bin/console doctrine:migrations:migrate -n
+    # Optionally load data fixtures
+    APP_ENV=test vendor/bin/console sylius:fixtures:load -n
 ```
 
 The current CI suite runs the following tests:
@@ -299,7 +316,7 @@ The current CI suite runs the following tests:
     
       ```bash
       symfony server:ca:install
-      APP_ENV=test symfony server:start --port=8080 --dir=tests/Application/public --daemon
+      APP_ENV=test symfony server:start --port=8080 --dir=tests/TestApplication/public --daemon
       ```
     
     4. Run Behat:
