@@ -1,5 +1,5 @@
 parameters:
-    app.taxation.eu_zone_code: ~
+    app.taxation.eu_zone_code: 'EU'
 
 services:
     webgriffe_sylius_italian_invoiceable_order.form.extension.italian_invoiceable_address:
@@ -9,17 +9,18 @@ services:
     
     webgriffe_sylius_italian_invoiceable_order.address_comparator:
         class: Webgriffe\SyliusItalianInvoiceableOrderPlugin\Comparator\ItalianInvoiceableAddressComparatorDecorator
-        decorates: sylius.address_comparator
+        decorates: sylius.comparator.address
         arguments:
             - '@webgriffe_sylius_italian_invoiceable_order.address_comparator.inner'
     
     app.taxation.italian_tax_calculation_strategy:
-        class: Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianTaxCalculation
+        class: Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianTaxCalculationStrategy
         arguments:
             - 'italian_tax_calculation_strategy'
-            - 
-                - '@sylius.taxation.order_item_units_taxes_applicator'
-                - '@sylius.taxation.order_shipment_taxes_applicator'
+            - [
+                '@sylius.applicator.taxation.order_item_units',
+                '@sylius.applicator.taxation.order_shipment'
+            ]
             - '%app.taxation.eu_zone_code%'
         tags:
             - { name: sylius.taxation.calculation_strategy, type: italian_tax_calculation_strategy, label: 'Italian tax calculation' }
