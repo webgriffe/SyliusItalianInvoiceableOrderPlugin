@@ -1,0 +1,10 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.shared.address':
+            company:
+                enabled: false
+            name:
+                enabled: false
+            billingAddressInfo:
+                template: '@WebgriffeSyliusItalianInvoiceableOrderPlugin/shop/shared/address/billingAddressInfo.html.twig'
+                priority: 1000

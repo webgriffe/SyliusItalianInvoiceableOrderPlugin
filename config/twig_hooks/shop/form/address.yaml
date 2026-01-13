@@ -1,0 +1,9 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.shared.form.address':
+            billingRecipientType:
+                template: '@WebgriffeSyliusItalianInvoiceableOrderPlugin/shop/shared/form/address/billingRecipientType.html.twig'
+                priority: 1000
+            invoiceableBillingData:
+                template: '@WebgriffeSyliusItalianInvoiceableOrderPlugin/shop/shared/form/address/invoiceableBillingData.html.twig'
+                priority: 650

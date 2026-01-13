@@ -1,0 +1,12 @@
+{% if hookable_metadata.context.type is defined %}
+    {% set type = hookable_metadata.context.type ~ '-' %}
+{% else %}
+    {% set type = null %}
+{% endif %}
+
+{% if type != 'shipping-' %}
+    {{ form_row(hookable_metadata.context.form.taxCode, sylius_test_form_attribute(type ~ 'tax-code')) }}
+    {{ form_row(hookable_metadata.context.form.vatNumber, sylius_test_form_attribute(type ~ 'vat-number')) }}
+    {{ form_row(hookable_metadata.context.form.sdiCode, sylius_test_form_attribute(type ~ 'sdi-code')) }}
+    {{ form_row(hookable_metadata.context.form.pecAddress, sylius_test_form_attribute(type ~ 'pec-address')) }}
+{% endif %}

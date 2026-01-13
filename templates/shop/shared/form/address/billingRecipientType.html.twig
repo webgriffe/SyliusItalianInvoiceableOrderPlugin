@@ -1,0 +1,9 @@
+{% if hookable_metadata.context.type is defined %}
+    {% set type = hookable_metadata.context.type ~ '-' %}
+{% else %}
+    {% set type = null %}
+{% endif %}
+
+{% if type != 'shipping-' %}
+    {{ form_row(hookable_metadata.context.form.billingRecipientType, sylius_test_form_attribute(type ~ 'billing-recipient-type')) }}
+{% endif %}
