@@ -24,3 +24,8 @@ services:
             - '%app.taxation.eu_zone_code%'
         tags:
             - { name: sylius.taxation.calculation_strategy, type: italian_tax_calculation_strategy, label: 'Italian tax calculation' }
+    
+    webgriffe_sylius_italian_invoiceable_order.modifier.address_form_values:
+        class: Webgriffe\SyliusItalianInvoiceableOrderPlugin\Modifier\AddressFormValuesModifier
+        tags:
+            - { name: sylius_shop.modifier.address_form_values }
