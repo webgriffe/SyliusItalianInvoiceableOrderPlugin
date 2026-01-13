@@ -13,14 +13,12 @@ use Webmozart\Assert\Assert;
 
 final class ItalianTaxCalculationStrategy implements TaxCalculationStrategyInterface
 {
-    /** @var string */
-    private $type;
+    private string $type;
 
     /** @var OrderTaxesApplicatorInterface[] */
-    private $applicators;
+    private array $applicators;
 
-    /** @var string */
-    private $euTaxZoneCode;
+    private string $euTaxZoneCode;
 
     /**
      * @param OrderTaxesApplicatorInterface[] $applicators
