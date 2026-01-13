@@ -11,7 +11,7 @@
     "require": {
         "php": "^8.2",
         "dragonbe/vies": "^2.3.2",
-        "sandwich/vies-bundle": "^2.1",
+        "sandwich/vies-bundle": "dev-patch-1",
         "sylius/sylius": "^2.0",
         "webmozart/assert": "^1.9"
     },
@@ -72,6 +72,12 @@
             "require": "^6.4"
         },
         "public-dir": "vendor/sylius/test-application/public"
+    },
+    "repositories": {
+        "sandwich/vies-bundle": {
+            "type": "git",
+            "url": "https://github.com/mmenozzi/ViesBundle.git"
+        }
     },
     "autoload": {
         "psr-4": {
