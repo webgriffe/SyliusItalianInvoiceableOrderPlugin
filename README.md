@@ -24,7 +24,13 @@
        Webgriffe\SyliusItalianInvoiceableOrderPlugin\WebgriffeSyliusItalianInvoiceableOrderPlugin::class => ['all' => true],
    ```
 
-3. Define a value for the parameter `app.taxation.eu_zone_code`, which must be the code of a zone representing the EU. This is used to determine if an order is invoiced to a company within the EU or not.
+3. By default, the parameter `app.taxation.eu_zone_code` is set to "EU", as it must be the code of a zone representing the EU. This is used to determine if an order is invoiced to a company within the EU or not. Please change this parameter according to your Sylius's zone configuration if needed:
+
+   ```yaml
+   # config/services.yaml
+   parameters:
+       app.taxation.eu_zone_code: 'EU' # Change it if needed
+   ```
 
 4. Your `Address` entity must implement the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface` and the `Symfony\Component\Validator\GroupSequenceProviderInterface`. You can use the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressTrait` as implementation for both interfaces.
 
@@ -34,8 +40,8 @@
 
    ```bash
    mkdir -p config/validator/
-   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/Application/config/validator/Address.xml config/validator/
-   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/Application/config/validator/Order.xml config/validator/
+   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/TestApplication/config/validator/Address.xml config/validator/
+   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/TestApplication/config/validator/Order.xml config/validator/
    ```
 
    Or by merging the configuration into your existing `Address` and `Order` validator configuration.
@@ -53,172 +59,47 @@
 
    For more information see [here](https://symfony.com/doc/current/validation/sequence_provider.html).
 
-9. Run a diff of your Doctrine's migrations and then run it:
+9. Run migration
 
    ```bash
    vendor/bin/console cache:clear
-   vendor/bin/console doctrine:migrations:diff
    vendor/bin/console doctrine:migrations:migrate
    ```
 
-10. Add invoiceable address fields to your shop address form template. To do so you have to override the template:
+
+10. Add invoiceable fields to the address show template for admin. To do so you have to override this template:
 
     ```bash
-    cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Common/Form/_address.html.twig templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig
+    vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/templates/shared/helper/address.html.twig
     ```
    
-    Then in the `templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig` you must add the following:
-   
+    by copying directly our implementation provided in the plugin:
+
+    ```bash
+    cp tests/TestApplication/templates/bundles/SyliusAdminBundle/shared/helper/address.html.twig templates/bundles/SyliusAdminBundle/shared/helper/address.html.twig
+    ```
+    
+    or by copying the original template and adding the invoiceable fields by yourself. In this case your template should look like the following:
+    
     ```twig
-    {# templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig #}
-    {% if type != 'shipping-' %}
-     {{ form_row(form.billingRecipientType, sylius_test_form_attribute(type ~ 'billing-recipient-type')) }}
-        {{ form_row(form.taxCode, sylius_test_form_attribute(type ~ 'tax-code')) }}
-        {{ form_row(form.vatNumber, sylius_test_form_attribute(type ~ 'vat-number')) }}
-        {{ form_row(form.sdiCode, sylius_test_form_attribute(type ~ 'sdi-code')) }}
-        {{ form_row(form.pecAddress, sylius_test_form_attribute(type ~ 'pec-address')) }}    
-    {% endif %}
+    {% macro address(address) %}
+        <address>
+            {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/shared/address/billingAddressInfo.html.twig' with { address } only %}
+            {{ address.phoneNumber }}<br/>
+            {{ address.street }}<br/>
+            {{ address.city }}<br/>
+            {% if address|sylius_province_name is not empty %}
+                {{ address|sylius_province_name }}<br/>
+            {% endif %}
+            {{ address.countryCode|sylius_country_name|upper }} {{ address.postcode }}
+        </address>
+    {% endmacro %}
     ```
-   
-    You can put the fields in the order you want but we recommend to surround them with the `{% if type != 'shipping-' %}` check. In this way you'll not show those fields in the shipping address section of the checkout where these fields are not relevant.
-   
-11. Add invoiceable address fields to your admin address form template. To do so you have to override the template:
-
-  ```bash
-  cp vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/views/Common/Form/_address.html.twig templates/bundles/SyliusAdminBundle/Common/Form/_address.html.twig
-  ```
-
-  Then in the `templates/bundles/SyliusAdminBundle/Common/Form/_address.html.twig` you must add the invoiceable fields. You should add those fields only if the form is bound to the billing address of an order. To do so, your template should like the following:
-
-  ```twig
-  {# templates/bundles/SyliusAdminBundle/Common/Form/_address.html.twig #}
-  {% set shouldShowInvoiceableFields = form.parent.vars.data.billingAddress.id is defined and form.vars.data.id is defined and form.parent.vars.data.billingAddress.id == form.vars.data.id %}
-  
-  {% if shouldShowInvoiceableFields %}
-      {{ form_row(form.billingRecipientType) }}
-  {% endif %}
-  
-  <div class="two fields">
-      {{ form_row(form.firstName) }}
-      {{ form_row(form.lastName) }}
-  </div>
-  
-  {% if shouldShowInvoiceableFields %}
-      {{ form_row(form.taxCode) }}
-      {{ form_row(form.vatNumber) }}
-      {{ form_row(form.sdiCode) }}
-      {{ form_row(form.pecAddress) }}
-  {% endif %}
-  
-  {{ form_row(form.company) }}
-  {{ form_row(form.street) }}
-  {{ form_row(form.countryCode) }}
-  <div class="province-container field" data-url="{{ path('sylius_admin_ajax_render_province_form') }}">
-      {% if form.provinceCode is defined %}
-          {{ form_row(form.provinceCode, {'attr': {'class': 'ui dropdown'}}) }}
-      {% endif %}
-  </div>
-  <div class="two fields">
-      {{ form_row(form.city) }}
-      {{ form_row(form.postcode) }}
-  </div>
-  {{ form_row(form.phoneNumber) }}
-  ```
-
-12. Add invoiceable fields to the address show template for admin and shop. To do so you have to override those templates:
-
-   ```bash
-   cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Common/_address.html.twig templates/bundles/SyliusShopBundle/Common/_address.html.twig
-   cp vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/views/Common/_address.html.twig templates/bundles/SyliusAdminBundle/Common/_address.html.twig
-   ```
-
-   And replace the printing of company, first name and last name with the invoiceable address information template provided by this plugin. Then, those templates should look like the following:
-
-   ```twig
-   {# templates/bundles/SyliusShopBundle/Common/_address.html.twig #}
-   {% import "@SyliusUi/Macro/flags.html.twig" as flags %}
-   
-   <address {{ sylius_test_html_attribute('address-context', "%s %s"|format(address.firstName, address.lastName)) }}>
-       {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Common/_invoiceableAddressInfo.html.twig' %}
-       {% if address.phoneNumber is not null %}
-           {{ address.phoneNumber }}<br/>
-       {% endif %}
-       {{ address.street }}<br/>
-       {{ address.city }}, {{ address.postcode }}<br/>
-       {% if address|sylius_province_name is not empty %}
-           {{ address|sylius_province_name }}<br/>
-       {% endif %}
-       {{ flags.fromCountryCode(address.countryCode) }}
-       {{ address.countryCode|sylius_country_name|upper }}
-   </address>
-   ```
-
-   ```twig
-   {# templates/bundles/SyliusAdminBundle/Common/_address.html.twig #}
-   {% import "@SyliusUi/Macro/flags.html.twig" as flags %}
-   
-   <address>
-       {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Common/_invoiceableAddressInfo.html.twig' %}
-       {{ address.phoneNumber }}<br/>
-       {{ address.street }}<br/>
-       {{ address.city }}<br/>
-       {% if address|sylius_province_name is not empty %}
-           {{ address|sylius_province_name }}<br/>
-       {% endif %}
-       {{ flags.fromCountryCode(address.countryCode) }}
-       {{ address.countryCode|sylius_country_name|upper }} {{ address.postcode }}
-   </address>
-   ```
-
-13. Add invoiceable fields to the address book select data attributes. To do so you have to override the address book select template:
-
-   ```bash
-   cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Checkout/Address/_addressBookSelect.html.twig templates/bundles/SyliusShopBundle/Checkout/Address/_addressBookSelect.html.twig
-   ```
-
-   And include the invoiceable fields data attributes template provided by this plugin:
-
-   ```twig
-   {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Checkout/Address/_addressBookSelectInvoiceableDataAttributes.html.twig' %}
-   ```
-
-   You have to add it in the proper location, just after the other data attributes of the address book select tag. So the whole address book template should look like the following: 
-
-   ```twig
-   {# templates/bundles/SyliusShopBundle/Checkout/Address/_addressBookSelect.html.twig #}
-   {% if app.user is not empty and app.user.customer is not empty and app.user.customer.addresses|length > 0 %}
-       <div class="ui fluid floating dropdown labeled search icon button address-book-select" {{ sylius_test_html_attribute('address-book') }}>
-           <i class="book icon"></i>
-           <span class="text">{{ 'sylius.ui.select_address_from_book'|trans }}</span>
-           <div class="menu">
-               {% for address in app.user.customer.addresses %}
-                   <div class="item" {{ sylius_test_html_attribute('address-book-item') }}
-                        data-id="{{ address.id }}"
-                        data-first-name="{{ address.firstName }}"
-                        data-last-name="{{ address.lastName }}"
-                        data-company="{{ address.company }}"
-                        data-street="{{ address.street }}"
-                        data-country-code="{{ address.countryCode }}"
-                        data-province-code="{{ address.provinceCode }}"
-                        data-province-name="{{ address.provinceName }}"
-                        data-city="{{ address.city }}"
-                        data-postcode="{{ address.postcode }}"
-                        data-phone-number="{{ address.phoneNumber }}"
-   
-                        {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Checkout/Address/_addressBookSelectInvoiceableDataAttributes.html.twig' %}
-                   >
-                       <strong>{{ address.firstName }} {{ address.lastName }}</strong>, {{ address.street }}, {{ address.city }} {{ address.postcode }}, {{ address.countryCode|sylius_country_name }}
-                   </div>
-               {% endfor %}
-           </div>
-       </div>
-   {% endif %}
-   ```
 
 ## Features
 
 Once installed this plugin will allow the users of the shop to enter all the invoicing information needed by an Italian company to properly invoice the order.
-In addition this plugin checks the billing data of the order and uses them to decide whether the customer has to pay taxes or not.
+In addition, this plugin checks the billing data of the order and uses them to decide whether the customer has to pay taxes or not.
 
 This plugin will add the following fields to your address form:
 
