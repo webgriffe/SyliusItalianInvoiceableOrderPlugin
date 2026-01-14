@@ -1,0 +1,17 @@
+{
+    "_hash": "59f8db25d98592f90d51976f2eb05774702429d6c1c373d71fbdd23f38cef29e",
+    "patches": {
+        "sylius/sylius": [
+            {
+                "package": "sylius/sylius",
+                "description": "Cast ID to string in Behat AddressPage class",
+                "url": "patches/sylius-behat-cast-id-to-string.patch",
+                "sha256": "dec5762d48817184e3b019e79c864e66976151666c281a7ee2a39d181493e6f4",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}
