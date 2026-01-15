@@ -6,6 +6,12 @@ twig:
     paths:
         '%kernel.project_dir%/../../../tests/TestApplication/templates': ~
 
+framework:
+    validation:
+        mapping:
+            paths:
+                - '%kernel.project_dir%/../../../tests/TestApplication/config/validation/'
+
 doctrine:
     orm:
         entity_managers:
