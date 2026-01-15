@@ -1,6 +1,5 @@
 {% macro address(address) %}
     <address>
-        dsadas
         {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/shared/address/billingAddressInfo.html.twig' with { address } only %}
         {{ address.phoneNumber }}<br/>
         {{ address.street }}<br/>
