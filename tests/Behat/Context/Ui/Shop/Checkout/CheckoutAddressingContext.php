@@ -86,14 +86,6 @@ final class CheckoutAddressingContext implements Context
     }
 
     /**
-     * @When /^I want to ship to a different shipping address$/
-     */
-    public function iWantToShipToADifferentShippingAddress(): void
-    {
-        $this->addressPage->chooseDifferentShippingAddress();
-    }
-
-    /**
      * @Then /^I should not see any invoicing related field in the shipping address form$/
      */
     public function iShouldNotSeeAnyInvoicingRelatedFieldInTheShippingAddressForm(): void

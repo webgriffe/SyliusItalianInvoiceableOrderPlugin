@@ -15,7 +15,6 @@
             <argument type="service" id="sylius.factory.country" />
             <argument type="service" id="sylius.repository.channel" />
             <argument type="service" id="sylius.repository.country" />
-            <argument>%sylius.tax_calculation_strategies%</argument>
         </service>
 
         <service id="webgriffe_sylius_italian_invoiceable_order.behat.context.setup.invoiceable_address" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Setup\InvoiceableAddressContext">

@@ -7,10 +7,14 @@ namespace Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Service;
 use Sylius\Component\Addressing\Factory\ZoneFactoryInterface;
 use Sylius\Component\Addressing\Model\CountryInterface;
 use Sylius\Component\Addressing\Model\ZoneInterface;
+use Sylius\Component\Addressing\Repository\CountryRepositoryInterface;
+use Sylius\Component\Addressing\Repository\ZoneRepositoryInterface;
 use Sylius\Component\Channel\Factory\ChannelFactoryInterface;
+use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Test\Services\DefaultChannelFactoryInterface;
 use Sylius\Component\Currency\Model\CurrencyInterface;
+use Sylius\Component\Currency\Repository\CurrencyRepositoryInterface;
 use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -29,22 +33,12 @@ class DefaultItalyChannelFactory implements DefaultChannelFactoryInterface
 
     public const DEFAULT_CHANNEL_NAME = 'Italy';
 
-    /**
-     * @param RepositoryInterface<ChannelInterface> $channelRepository
-     * @param RepositoryInterface<CountryInterface> $countryRepository
-     * @param RepositoryInterface<CurrencyInterface> $currencyRepository
-     * @param RepositoryInterface<LocaleInterface> $localeRepository
-     * @param RepositoryInterface<ZoneInterface> $zoneRepository
-     * @param FactoryInterface<CountryInterface> $countryFactory
-     * @param FactoryInterface<CurrencyInterface> $currencyFactory
-     * @param FactoryInterface<LocaleInterface> $localeFactory
-     */
     public function __construct(
-        private RepositoryInterface $channelRepository,
-        private RepositoryInterface $countryRepository,
-        private RepositoryInterface $currencyRepository,
+        private ChannelRepositoryInterface $channelRepository,
+        private CountryRepositoryInterface $countryRepository,
+        private CurrencyRepositoryInterface $currencyRepository,
         private RepositoryInterface $localeRepository,
-        private RepositoryInterface $zoneRepository,
+        private ZoneRepositoryInterface $zoneRepository,
         private ChannelFactoryInterface $channelFactory,
         private FactoryInterface $countryFactory,
         private FactoryInterface $currencyFactory,
@@ -96,6 +90,7 @@ class DefaultItalyChannelFactory implements DefaultChannelFactoryInterface
 
     private function createCountry(): CountryInterface
     {
+        /** @var CountryInterface $country */
         $country = $this->countryFactory->createNew();
         $country->setCode(self::DEFAULT_COUNTRY_CODE);
 
@@ -106,8 +101,8 @@ class DefaultItalyChannelFactory implements DefaultChannelFactoryInterface
     {
         $currencyCode = $currencyCode ?? self::DEFAULT_CURRENCY_CODE;
 
+        /** @var CurrencyInterface|null $currency */
         $currency = $this->currencyRepository->findOneBy(['code' => $currencyCode]);
-
         if (null === $currency) {
             /** @var CurrencyInterface $currency */
             $currency = $this->currencyFactory->createNew();
@@ -121,9 +116,10 @@ class DefaultItalyChannelFactory implements DefaultChannelFactoryInterface
 
     private function provideLocale(?string $localeCode = null): LocaleInterface
     {
+        /** @var LocaleInterface|null $locale */
         $locale = $this->localeRepository->findOneBy(['code' => $this->defaultLocaleCode]);
-
         if (null === $locale) {
+            /** @var LocaleInterface $locale */
             $locale = $this->localeFactory->createNew();
             $locale->setCode($localeCode ?? $this->defaultLocaleCode);
 

@@ -10,14 +10,11 @@ use Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddres
 
 final class ItalianInvoiceableAddressComparatorDecorator implements AddressComparatorInterface
 {
-    /** @var AddressComparatorInterface */
-    private $defaultAddressComparator;
-
-    public function __construct(AddressComparatorInterface $defaultAddressComparator)
+    public function __construct(private AddressComparatorInterface $defaultAddressComparator)
     {
-        $this->defaultAddressComparator = $defaultAddressComparator;
     }
 
+    #[\Override]
     public function equal(AddressInterface $firstAddress, AddressInterface $secondAddress): bool
     {
         $equal = $this->defaultAddressComparator->equal($firstAddress, $secondAddress);
@@ -40,14 +37,17 @@ final class ItalianInvoiceableAddressComparatorDecorator implements AddressCompa
 
     private function normalizeInvoiceableAddress(ItalianInvoiceableAddressInterface $address): array
     {
-        return array_map(function ($value): string {
+        return array_map(
+            function ($value): string {
             return strtolower(trim((string) $value));
-        }, [
-            $address->getBillingRecipientType(),
-            $address->getTaxCode(),
-            $address->getVatNumber(),
-            $address->getSdiCode(),
-            $address->getPecAddress(),
-        ]);
+        },
+            [
+               $address->getBillingRecipientType(),
+               $address->getTaxCode(),
+               $address->getVatNumber(),
+               $address->getSdiCode(),
+               $address->getPecAddress(),
+           ],
+        );
     }
 }

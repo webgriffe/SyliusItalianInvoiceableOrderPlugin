@@ -16,6 +16,7 @@ final readonly class AddressFormValuesModifier implements AddressFormValuesModif
      *
      * @return array<string, mixed>
      */
+    #[\Override]
     public function modify(array $addressData, AddressInterface $address): array
     {
         Assert::isInstanceOf(

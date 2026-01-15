@@ -16,5 +16,5 @@ Feature: Not seeing invoicing information in shipping address
         When I specify the email as "jon.snow@example.com"
         And I specify the billing address for the individual "Jon Snow" - "Sunset Boulevard", "90210", "Los Angeles" - "United States"
         And I specify a valid billing individual tax code
-        And I want to ship to a different shipping address
+        And I do not specify any shipping address information
         Then I should not see any invoicing related field in the shipping address form
