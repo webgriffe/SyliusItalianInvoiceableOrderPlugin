@@ -28,7 +28,7 @@ final class ChannelContext implements Context
         private FactoryInterface $countryFactory,
         private ChannelRepositoryInterface $channelRepository,
         private RepositoryInterface $countryRepository,
-        private array $availableTaxCalculationStrategies
+        private array $availableTaxCalculationStrategies,
     ) {
     }
 

@@ -75,7 +75,7 @@ final class ZoneContext implements Context
             'RO',
             'SE',
             'SI',
-            'SK'
+            'SK',
         ];
     }
 

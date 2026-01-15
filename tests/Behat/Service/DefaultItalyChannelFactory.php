@@ -50,7 +50,7 @@ class DefaultItalyChannelFactory implements DefaultChannelFactoryInterface
         private FactoryInterface $currencyFactory,
         private FactoryInterface $localeFactory,
         private ZoneFactoryInterface $zoneFactory,
-        private string $defaultLocaleCode
+        private string $defaultLocaleCode,
     ) {
     }
 
