@@ -22,6 +22,7 @@ Feature: Having new invoiceable addresses saved in the address book after checko
     And I complete the addressing step
     And I proceed with "Free" shipping method and "Cash on Delivery" payment
     And I confirm my order
+    And I should see the thank you page
     Then I should have a single address in my address book
 
   @ui
@@ -35,4 +36,5 @@ Feature: Having new invoiceable addresses saved in the address book after checko
     And I complete the addressing step
     And I proceed with "Free" shipping method and "Cash on Delivery" payment
     And I confirm my order
+    And I should see the thank you page
     Then I should have 2 addresses in my address book

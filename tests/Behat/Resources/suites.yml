@@ -58,6 +58,7 @@ default:
                 - sylius.behat.context.ui.shop.checkout.complete
                 - sylius.behat.context.ui.shop.address_book
                 - sylius.behat.context.ui.shop.checkout
+                - sylius.behat.context.ui.shop.checkout.thank_you
                 - webgriffe_sylius_italian_invoiceable_order.behat.context.ui.shop.checkout.addressing
 
             filters:

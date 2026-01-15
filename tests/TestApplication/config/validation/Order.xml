@@ -9,7 +9,7 @@
             <constraint name="Symfony\Component\Validator\Constraints\Choice">
                 <option name="message">webgriffe_sylius_italian_invoiceable_order.order.billing_recipient_type.choice</option>
                 <option name="callback">
-                    <value>App\Entity\Addressing\Address</value>
+                    <value>Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Entity\Addressing\Address</value>
                     <value>getBillingRecipientTypes</value>
                 </option>
                 <option name="groups">sylius_checkout_complete</option>
