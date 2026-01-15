@@ -11,7 +11,7 @@ Feature: Italian invoicing information validation
         And this channel operates in the "Germany" country
         And the store ships everywhere for free
         And the store has a product "PHP T-Shirt" priced at "$19.99"
-        And I have product "PHP T-Shirt" in the cart
+        And I added product "PHP T-Shirt" to the cart
         And I am at the checkout addressing step
 
     @ui

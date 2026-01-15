@@ -10,7 +10,7 @@ Feature: Having new invoiceable addresses saved in the address book after checko
     And the store ships everywhere for free
     And the store allows paying with "Cash on Delivery"
     And I am a logged in customer
-    And I have product "Lannister Coat" in the cart
+    And I added product "Lannister Coat" to the cart
 
   @ui
   Scenario: Invoiceable address already existent in my book don't get saved again

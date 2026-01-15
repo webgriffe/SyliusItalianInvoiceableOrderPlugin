@@ -14,7 +14,7 @@ Feature: Choosing an address from address book
 
     @ui @javascript
     Scenario: Choosing billing address with invoicing information from address book
-        Given I have product "PHP T-Shirt" in the cart
+        Given I added product "PHP T-Shirt" to the cart
         And I am at the checkout addressing step
         When I choose "Viale Italia" street for billing address
         Then all invoicing information of the address I have in my address book should be filled in billing address

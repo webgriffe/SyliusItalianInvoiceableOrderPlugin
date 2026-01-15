@@ -51,19 +51,19 @@ class AddressPage extends BaseAddressPage implements AddressPageInterface
     {
         return array_merge(
             [
-                'billing_billing_recipient_type' => '[data-test-billing-billing-recipient-type] input',
-                'billing_tax_code' => '[data-test-billing-tax-code]',
-                'billing_company' => '[data-test-billing-company]',
-                'billing_vat_number' => '[data-test-billing-vat-number]',
-                'billing_sdi_code' => '[data-test-billing-sdi-code]',
-                'billing_pec_address' => '[data-test-billing-pec-address]',
-                'shipping_billing_recipient_type' => '[data-test-shipping-billing-recipient-type] input',
-                'shipping_tax_code' => '[data-test-shipping-tax-code]',
-                'shipping_vat_number' => '[data-test-shipping-vat-number]',
-                'shipping_sdi_code' => '[data-test-shipping-sdi-code]',
-                'shipping_pec_address' => '[data-test-shipping-pec-address]',
+                'billing_billing_recipient_type' => '[data-test-billing-address] [data-test-billing-recipient-type] input',
+                'billing_tax_code' => '[data-test-billing-address] [data-test-tax-code]',
+                'billing_company' => '[data-test-billing-address] [data-test-company]',
+                'billing_vat_number' => '[data-test-billing-address] [data-test-vat-number]',
+                'billing_sdi_code' => '[data-test-billing-address] [data-test-sdi-code]',
+                'billing_pec_address' => '[data-test-billing-address] [data-test-pec-address]',
+                'shipping_billing_recipient_type' => '[data-test-shipping-address] [data-test-billing-recipient-type] input',
+                'shipping_tax_code' => '[data-test-shipping-address] [data-test-tax-code]',
+                'shipping_vat_number' => '[data-test-shipping-address] [data-test-vat-number]',
+                'shipping_sdi_code' => '[data-test-shipping-address] [data-test-sdi-code]',
+                'shipping_pec_address' => '[data-test-shipping-address] [data-test-pec-address]',
             ],
-            parent::getDefinedElements()
+            parent::getDefinedElements(),
         );
     }
 
