@@ -129,26 +129,32 @@ To contribute you need to:
 
 3. Copy `tests/TestApplication/.env` in `tests/TestApplication/.env.local` and set configuration specific for your development environment.
 
-4. Run docker (create a `compose.override.yml` if you need to customize services):
+4. Link node_modules:
+
+    ```bash
+    ln -s vendor/sylius/test-application/node_modules node_modules
+    ```
+
+5. Run docker (create a `compose.override.yml` if you need to customize services):
 
     ```bash
     docker-compose up -d
     ```
 
-4. Then, from the plugin's root directory, run the following commands:
+6. Then, from the plugin's root directory, run the following commands:
 
     ```bash
     composer test-app-init
     ```
 
-5. Run your local server:
+7. Run your local server:
 
       ```bash
       symfony server:ca:install
       symfony server:start -d
       ```
 
-6. Now at http://localhost:8080/ you have a full Sylius testing application which runs the plugin
+8. Now at http://localhost:8080/ you have a full Sylius testing application which runs the plugin
 
 ### Testing
 
@@ -161,6 +167,14 @@ First setup your test database:
     APP_ENV=test vendor/bin/console doctrine:migrations:migrate -n
     # Optionally load data fixtures
     APP_ENV=test vendor/bin/console sylius:fixtures:load -n
+```
+
+And build assets:
+
+```bash
+    (cd vendor/sylius/test-application && yarn install)
+    (cd vendor/sylius/test-application && yarn build)
+    vendor/bin/console assets:install
 ```
 
 The current CI suite runs the following tests:
