@@ -27,7 +27,7 @@ Feature: Filling invoicing information for an order
         And I complete the addressing step
         Then I should be on the checkout shipping step
 
-    @ui
+    @ui @javascript
     Scenario: Filling invoicing information with different shipping address
         When I specify the email as "jon.snow@example.com"
         And I specify the billing address for the individual "Jon Snow" - "Sunset Boulevard", "90210", "Los Angeles" - "United States"
