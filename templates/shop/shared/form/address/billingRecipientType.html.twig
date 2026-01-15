@@ -1,9 +1,7 @@
-{% if hookable_metadata.context.type is defined %}
-    {% set type = hookable_metadata.context.type ~ '-' %}
-{% else %}
-    {% set type = null %}
-{% endif %}
-
-{% if type != 'shipping-' %}
-    {{ form_row(hookable_metadata.context.form.billingRecipientType, sylius_test_form_attribute(type ~ 'billing-recipient-type')) }}
+{#
+PSA: we could check if the "type" is billing or shipping, but this info is not passed through by checkout/address/content/form/addresses/address/form.html.twig template,
+so we have to rely on the form name
+#}
+{% if hookable_metadata.context.form.vars.name is defined and hookable_metadata.context.form.vars.name != 'shippingAddress' %}
+    {{ form_row(hookable_metadata.context.form.billingRecipientType, sylius_test_form_attribute('billing-recipient-type')) }}
 {% endif %}
