@@ -11,18 +11,38 @@
 
 ## Installation
 
+0. This plugin requires the [MyOnlineStore/ViesBundle](https://github.com/MyOnlineStore/ViesBundle) but this is not actually compatible with Symfony 7, there is an open PR: https://github.com/MyOnlineStore/ViesBundle/pull/18
+
+   Thus, you have to run the following command to require a fork of the bundle which is compatible with Symfony 7:
+
+   ```bash
+   composer config repositories.sandwich/vies-bundle git https://github.com/mmenozzi/ViesBundle.git
+   ```
+   
+   and you have to run this command too to allow "dev" versions of the bundle (we need the "dev-patch-1" version):
+
+   ```bash
+   composer config minimum-stability dev
+   ```
+
 1. Require the plugin:
 
    ```bash
    composer require webgriffe/sylius-italian-invoiceable-order-plugin
    ```
 
-2. Add bundles to `config/bundles.php` file:
+2. If they have not been added automatically, you have to add these bundles to `config/bundles.php` file:
 
    ```php
        Sandwich\ViesBundle\SandwichViesBundle::class => ['all' => true],
        Webgriffe\SyliusItalianInvoiceableOrderPlugin\WebgriffeSyliusItalianInvoiceableOrderPlugin::class => ['all' => true],
    ```
+
+3. Configure your ActiveCampaign API connection parameters by creating the `config/packages/webgriffe_sylius_italian_invoiceable_order_plugin.yaml` file with the following content:
+    ```yaml
+    imports:
+        - { resource: "@WebgriffeSyliusItalianInvoiceableOrderPlugin/config/config.yaml" }
+    ```
 
 3. By default, the parameter `app.taxation.eu_zone_code` is set to "EU", as it must be the code of a zone representing the EU. This is used to determine if an order is invoiced to a company within the EU or not. Please change this parameter according to your Sylius's zone configuration if needed:
 
@@ -40,18 +60,32 @@
 
    ```bash
    mkdir -p config/validator/
-   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/TestApplication/config/validator/Address.xml config/validator/
-   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/TestApplication/config/validator/Order.xml config/validator/
+   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/TestApplication/config/validation/Address.xml config/validator/
+   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/TestApplication/config/validation/Order.xml config/validator/
    ```
 
-   Or by merging the configuration into your existing `Address` and `Order` validator configuration.
+   **WAIT! We are not done with this step yet.** You must edit these files to change the namespace `Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin` to your own project namespace: there are 3 references that you have to change among these files.
+
+   If you have the "App" as the base namespace of your app, this command should be enough:
+
+    Linux:
+    ```bash
+    sed -i 's/Tests\\Webgriffe\\SyliusItalianInvoiceableOrderPlugin/App/g' config/validator/Address.xml config/validator/Order.xml
+    ```
+
+    MacOS:
+    ```bash
+    sed -i '' 's/Tests\\Webgriffe\\SyliusItalianInvoiceableOrderPlugin/App/g' config/validator/Address.xml config/validator/Order.xml
+    ```
+
+   If you alread have some validator file for these entities you have to merge the configuration manually.
 
 7. Configure Sylius to use the `Italian tax calculation` tax calculation strategy.
 
 8. To properly enable group sequence validation of your Address entity you must set the `Default` validation group instead of the `sylius` validation group:
 
    ```yaml
-   # config/services.yaml
+   # config/parameters.yaml
    parameters:
        # ...
        sylius.form.type.address.validation_groups: ['Default']
@@ -62,10 +96,9 @@
 9. Run migration
 
    ```bash
-   vendor/bin/console cache:clear
-   vendor/bin/console doctrine:migrations:migrate
+   bin/console cache:clear
+   bin/console doctrine:migrations:migrate
    ```
-
 
 10. Add invoiceable fields to the address show template for admin. To do so you have to override this template:
 
@@ -76,7 +109,8 @@
     by copying directly our implementation provided in the plugin:
 
     ```bash
-    cp tests/TestApplication/templates/bundles/SyliusAdminBundle/shared/helper/address.html.twig templates/bundles/SyliusAdminBundle/shared/helper/address.html.twig
+    mkdir -p templates/bundles/SyliusAdminBundle/shared/helper/
+    cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/TestApplication/templates/bundles/SyliusAdminBundle/shared/helper/address.html.twig templates/bundles/SyliusAdminBundle/shared/helper/address.html.twig
     ```
     
     or by copying the original template and adding the invoiceable fields by yourself. In this case your template should look like the following:
