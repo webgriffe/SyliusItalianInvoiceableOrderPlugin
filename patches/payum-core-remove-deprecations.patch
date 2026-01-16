@@ -1,0 +1,57 @@
+From a9f3ce4601b5e9061351d2cd95c6ee3d03b278d9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mag=C3=AD=20Carbonell?=
+ <92313746+mcarbonell-paymefy@users.noreply.github.com>
+Date: Thu, 15 Jan 2026 19:42:40 +0100
+Subject: [PATCH] Refactor RequestTokenVerifier to address League/Uri
+ deprecations
+
+This commit updates RequestTokenVerifier.php to ensure compatibility with newer versions of the league/uri library while maintaining backward compatibility.
+
+Following the pattern established in previous core updates (commit 4efe88d), the following changes were made:
+- Replaced deprecated static factory calls with the new new() method where available.
+- Added method_exists checks for both HttpUri and Path classes to prevent breaking changes in environments using older versions of the library.
+- Aligned imports and class aliases with existing core standards (using HttpUri as an alias for League\Uri\Http).
+
+These changes eliminate deprecation notices in modern PHP environments and unify the URI handling logic across the project.
+---
+ Security/Util/RequestTokenVerifier.php | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/Security/Util/RequestTokenVerifier.php b/Security/Util/RequestTokenVerifier.php
+index 03f64204..dde5898a 100644
+--- a/Security/Util/RequestTokenVerifier.php
++++ b/Security/Util/RequestTokenVerifier.php
+@@ -3,7 +3,7 @@
+ namespace Payum\Core\Security\Util;
+
+ use League\Uri\Components\Path;
+-use League\Uri\Http;
++use League\Uri\Http as HttpUri;
+
+ class RequestTokenVerifier
+ {
+@@ -14,11 +14,20 @@ class RequestTokenVerifier
+      */
+     public static function isValid($requestUri, $tokenUri)
+     {
+-        $uri = Http::createFromString($requestUri);
+-        $altUri = Http::createFromString($tokenUri);
++        $uri = method_exists(HttpUri::class, 'new') ? HttpUri::new($requestUri) : HttpUri::createFromString(
++                $requestUri
++            );
++        $altUri = method_exists(HttpUri::class, 'new') ? HttpUri::new($tokenUri) : HttpUri::createFromString(
++                $tokenUri
++            );
++
+
+-        $uriPath = Path::createFromUri($uri);
+-        $altUriPath = Path::createFromUri($altUri);
++        $uriPath = method_exists(Path::class, 'new') ? Path::new($uri) : Path::createFromUri(
++                $uri
++            );
++        $altUriPath = method_exists(Path::class, 'new') ? Path::new($altUri) : Path::createFromUri(
++                $altUri
++        );
+
+         return rawurldecode((string) $uriPath) === rawurldecode((string) $altUriPath);
+     }

@@ -77,6 +77,9 @@
         "patches": {
             "sylius/sylius": {
                 "Cast ID to string in Behat AddressPage class": "patches/sylius-behat-cast-id-to-string.patch"
+            },
+            "payum/core": {
+                "Remove deprecations (https://github.com/Payum/Core/pull/8)": "patches/payum-core-remove-deprecations.patch"
             }
         }
     },
