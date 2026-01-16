@@ -1,0 +1,5 @@
+imports:
+    - { resource: 'twig_hooks/**/*.yaml' }
+
+parameters:
+    sylius.form.type.address.validation_groups: [ 'Default' ]

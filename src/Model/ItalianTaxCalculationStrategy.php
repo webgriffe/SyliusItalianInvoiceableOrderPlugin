@@ -13,14 +13,12 @@ use Webmozart\Assert\Assert;
 
 final class ItalianTaxCalculationStrategy implements TaxCalculationStrategyInterface
 {
-    /** @var string */
-    private $type;
+    private string $type;
 
     /** @var OrderTaxesApplicatorInterface[] */
-    private $applicators;
+    private array $applicators;
 
-    /** @var string */
-    private $euTaxZoneCode;
+    private string $euTaxZoneCode;
 
     /**
      * @param OrderTaxesApplicatorInterface[] $applicators
@@ -34,6 +32,7 @@ final class ItalianTaxCalculationStrategy implements TaxCalculationStrategyInter
         $this->euTaxZoneCode = $euTaxZoneCode;
     }
 
+    #[\Override]
     public function applyTaxes(OrderInterface $order, ZoneInterface $zone): void
     {
         if ($this->shouldSkipTaxesApplication($order, $zone)) {
@@ -45,11 +44,13 @@ final class ItalianTaxCalculationStrategy implements TaxCalculationStrategyInter
         }
     }
 
+    #[\Override]
     public function getType(): string
     {
         return $this->type;
     }
 
+    #[\Override]
     public function supports(OrderInterface $order, ZoneInterface $zone): bool
     {
         /** @var ChannelInterface|\Sylius\Component\Channel\Model\ChannelInterface $channel */

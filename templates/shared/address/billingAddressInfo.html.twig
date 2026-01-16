@@ -1,0 +1,17 @@
+{% if address.billingRecipientType == constant('Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\Model\\ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_COMPANY') %}
+    {% if address.company is not null %}
+        <strong>{{ address.company }}</strong>
+    {% endif %}
+    {% if address.vatNumber is defined and address.vatNumber is not null %}
+        {{ 'webgriffe_sylius_italian_invoiceable_order.ui.address.vat_number_short'|trans }}: {{ address.vatNumber }}
+    {% endif %}
+    <span {{ sylius_test_html_attribute('full-name', address.fullName) }}>{{ address.fullName }}</span>
+{% else %}
+    <strong {{ sylius_test_html_attribute('full-name', address.fullName) }}>{{ address.fullName }}</strong>
+    {% if address.taxCode is defined and address.taxCode is not null %}
+        {{ 'webgriffe_sylius_italian_invoiceable_order.ui.address.tax_code_short'|trans }}: {{ address.taxCode }}
+    {% endif %}
+    {% if address.company is not null %}
+        {{ address.company }}
+    {% endif %}
+{% endif %}

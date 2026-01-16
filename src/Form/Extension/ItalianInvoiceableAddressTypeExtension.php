@@ -11,8 +11,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface;
 
+/**
+ * @psalm-suppress MissingTemplateParam
+ */
 final class ItalianInvoiceableAddressTypeExtension extends AbstractTypeExtension
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -71,6 +75,7 @@ final class ItalianInvoiceableAddressTypeExtension extends AbstractTypeExtension
         ];
     }
 
+    #[\Override]
     public static function getExtendedTypes(): array
     {
         return [AddressType::class];

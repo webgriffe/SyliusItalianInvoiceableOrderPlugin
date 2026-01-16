@@ -7,15 +7,15 @@ namespace Webgriffe\SyliusItalianInvoiceableOrderPlugin\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
+/**
+ * @psalm-api
+ */
 final class Configuration implements ConfigurationInterface
 {
-    /**
-     * @psalm-suppress UnusedVariable
-     */
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('webgriffe_sylius_italian_invoiceable_order_plugin');
-        $rootNode = $treeBuilder->getRootNode();
 
         return $treeBuilder;
     }

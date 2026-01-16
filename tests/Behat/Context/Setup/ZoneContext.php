@@ -7,18 +7,15 @@ namespace Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Setu
 use Behat\Behat\Context\Context;
 use Sylius\Component\Addressing\Factory\ZoneFactoryInterface;
 use Sylius\Component\Addressing\Model\ZoneInterface;
+use Sylius\Component\Addressing\Repository\ZoneRepositoryInterface;
 use Sylius\Component\Core\Formatter\StringInflector;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Intl\Countries;
 
 final class ZoneContext implements Context
 {
-    /**
-     * @param RepositoryInterface<ZoneInterface> $zoneRepository
-     */
     public function __construct(
         private ZoneFactoryInterface $zoneFactory,
-        private RepositoryInterface $zoneRepository,
+        private ZoneRepositoryInterface $zoneRepository,
     ) {
     }
 
@@ -75,7 +72,7 @@ final class ZoneContext implements Context
             'RO',
             'SE',
             'SI',
-            'SK'
+            'SK',
         ];
     }
 

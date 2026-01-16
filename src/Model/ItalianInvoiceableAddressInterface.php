@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model;
 
+/**
+ * @psalm-api
+ */
 interface ItalianInvoiceableAddressInterface
 {
-    public const BILLING_RECIPIENT_TYPE_INDIVIDUAL = 'individual';
+    public const string BILLING_RECIPIENT_TYPE_INDIVIDUAL = 'individual';
 
-    public const BILLING_RECIPIENT_TYPE_COMPANY = 'company';
+    public const string BILLING_RECIPIENT_TYPE_COMPANY = 'company';
 
     public function getBillingRecipientType(): ?string;
 

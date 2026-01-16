@@ -1,0 +1,3 @@
+{% set address = hookable_metadata.context.address %}
+
+{% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/shared/address/billingAddressInfo.html.twig' with { address } only %}

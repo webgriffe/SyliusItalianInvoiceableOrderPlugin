@@ -21,7 +21,7 @@ final class InvoiceableAddressContext implements Context
 
     public function __construct(
         private SharedStorageInterface $sharedStorage,
-        private ObjectManager $customerManager
+        private ObjectManager $customerManager,
     ) {
         $this->fakerGenerator = Factory::create();
     }
@@ -45,10 +45,17 @@ final class InvoiceableAddressContext implements Context
      */
     public function thisAddressHasAlsoTheFollowingInvoiceableInformation(AddressInterface $address): void
     {
+        Assert::isInstanceOf(
+            $address,
+            ItalianInvoiceableAddressInterface::class,
+            sprintf(
+                'Address must be an instance of %s to set its invoiceable information.',
+                ItalianInvoiceableAddressInterface::class,
+            ),
+        );
         // Randomly generated but valid VAT number with http://www.sottomentitespoglie.it/GeneratoreAziende.aspx
         $vatNumberAndTaxCode = '02664480353';
 
-        /** @var ItalianInvoiceableAddressInterface $address */
         $address->setTaxCode($vatNumberAndTaxCode);
         $address->setVatNumber($vatNumberAndTaxCode);
         $address->setSdiCode(strtoupper($this->fakerGenerator->bothify('*******')));

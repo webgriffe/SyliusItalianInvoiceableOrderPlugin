@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Ui\Shop\Checkout;
 
+use Behat\Behat\Context\Context;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Faker\Factory;
-use Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\Checkout\AddressPageInterface;
-use Behat\Behat\Context\Context;
 use Faker\Generator;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\AddressInterface;
+use Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\Checkout\AddressPageInterface;
 use Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface;
 use Webmozart\Assert\Assert;
 
@@ -20,7 +20,7 @@ final class CheckoutAddressingContext implements Context
 
     public function __construct(
         private readonly AddressPageInterface $addressPage,
-        private readonly SharedStorageInterface $sharedStorage
+        private readonly SharedStorageInterface $sharedStorage,
     ) {
         $this->fakerGenerator = Factory::create();
     }
@@ -34,7 +34,7 @@ final class CheckoutAddressingContext implements Context
         $key = sprintf(
             'billing_address_%s_%s',
             strtolower((string) $address->getFirstName()),
-            strtolower((string) $address->getLastName())
+            strtolower((string) $address->getLastName()),
         );
         $this->sharedStorage->set($key, $address);
 
@@ -83,14 +83,6 @@ final class CheckoutAddressingContext implements Context
     public function iSpecifyAValidBillingPecAddress(): void
     {
         $this->addressPage->specifyBillingPecAddress($this->fakerGenerator->email);
-    }
-
-    /**
-     * @When /^I want to ship to a different shipping address$/
-     */
-    public function iWantToShipToADifferentShippingAddress(): void
-    {
-        $this->addressPage->chooseDifferentShippingAddress();
     }
 
     /**
@@ -149,7 +141,7 @@ final class CheckoutAddressingContext implements Context
     {
         Assert::true(
             $this->addressPage->checkValidationMessageFor('billing_vat_number', 'Please enter a valid italian VAT number.') ||
-            $this->addressPage->checkValidationMessageFor('billing_vat_number', 'Please enter a valid european VAT number.')
+            $this->addressPage->checkValidationMessageFor('billing_vat_number', 'Please enter a valid european VAT number.'),
         );
     }
 
@@ -169,8 +161,8 @@ final class CheckoutAddressingContext implements Context
         Assert::true(
             $this->addressPage->checkValidationMessageFor(
                 'billing_sdi_code',
-                'Please enter a valid SDI code.'
-            )
+                'Please enter a valid SDI code.',
+            ),
         );
     }
 
@@ -188,7 +180,7 @@ final class CheckoutAddressingContext implements Context
     public function iShouldBeNotifiedThatTheBillingPECAddressIsNotValid(): void
     {
         Assert::true(
-            $this->addressPage->checkValidationMessageFor('billing_pec_address', 'Please enter a valid PEC address.')
+            $this->addressPage->checkValidationMessageFor('billing_pec_address', 'Please enter a valid PEC address.'),
         );
     }
 
@@ -198,7 +190,7 @@ final class CheckoutAddressingContext implements Context
     public function iShouldBeNotifiedThatTheBillingTaxCodeIsRequired(): void
     {
         Assert::true(
-            $this->addressPage->checkValidationMessageFor('billing_tax_code', 'Tax code should not be blank.')
+            $this->addressPage->checkValidationMessageFor('billing_tax_code', 'Tax code should not be blank.'),
         );
     }
 
@@ -208,7 +200,7 @@ final class CheckoutAddressingContext implements Context
     public function iShouldBeNotifiedThatTheBillingVatNumberIsRequired(): void
     {
         Assert::true(
-            $this->addressPage->checkValidationMessageFor('billing_vat_number', 'VAT number should not be blank.')
+            $this->addressPage->checkValidationMessageFor('billing_vat_number', 'VAT number should not be blank.'),
         );
     }
 
@@ -232,13 +224,13 @@ final class CheckoutAddressingContext implements Context
             function () use ($validationMessage) {
                 $this->addressPage->checkValidationMessageFor('billing_sdi_code', $validationMessage);
             },
-            ElementNotFoundException::class
+            ElementNotFoundException::class,
         );
         Assert::throws(
             function () use ($validationMessage) {
                 $this->addressPage->checkValidationMessageFor('billing_pec_address', $validationMessage);
             },
-            ElementNotFoundException::class
+            ElementNotFoundException::class,
         );
     }
 
@@ -248,7 +240,7 @@ final class CheckoutAddressingContext implements Context
     public function iShouldBeNotifiedThatTheBillingCompanyNameIsRequired(): void
     {
         Assert::true(
-            $this->addressPage->checkValidationMessageFor('billing_company', 'Company name should not be blank.')
+            $this->addressPage->checkValidationMessageFor('billing_company', 'Company name should not be blank.'),
         );
     }
 
@@ -290,7 +282,14 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyTheSameItalianInvoiceableInformationOfTheAddressThatIHaveInMyAddressBook(AddressInterface $address): void
     {
-        /** @var ItalianInvoiceableAddressInterface $address */
+        Assert::isInstanceOf(
+            $address,
+            ItalianInvoiceableAddressInterface::class,
+            sprintf(
+                'Address must be an instance of %s to set its invoiceable information.',
+                ItalianInvoiceableAddressInterface::class,
+            ),
+        );
         $this->addressPage->specifyBillingTaxCode((string) $address->getTaxCode());
         $this->addressPage->specifyBillingVatNumber((string) $address->getVatNumber());
         $this->addressPage->specifyBillingSdiCode((string) $address->getSdiCode());
@@ -302,7 +301,14 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyADifferentPecAddress(AddressInterface $address): void
     {
-        /** @var ItalianInvoiceableAddressInterface $address */
+        Assert::isInstanceOf(
+            $address,
+            ItalianInvoiceableAddressInterface::class,
+            sprintf(
+                'Address must be an instance of %s to set its invoiceable information.',
+                ItalianInvoiceableAddressInterface::class,
+            ),
+        );
         do {
             $newSdiCode = strtoupper($this->fakerGenerator->bothify('*******'));
         } while ($newSdiCode === $address->getSdiCode());
@@ -314,7 +320,14 @@ final class CheckoutAddressingContext implements Context
      */
     public function addressShouldBeFilledAsBillingAddress(AddressInterface $address): void
     {
-        /** @var ItalianInvoiceableAddressInterface $address */
+        Assert::isInstanceOf(
+            $address,
+            ItalianInvoiceableAddressInterface::class,
+            sprintf(
+                'Address must be an instance of %s to set its invoiceable information.',
+                ItalianInvoiceableAddressInterface::class,
+            ),
+        );
         Assert::eq($this->addressPage->getPreFilledBillingRecipientType(), $address->getBillingRecipientType());
         Assert::eq($this->addressPage->getPreFilledBillingTaxCode(), $address->getTaxCode());
         Assert::eq($this->addressPage->getPreFilledBillingVatNumber(), $address->getVatNumber());
@@ -332,6 +345,7 @@ final class CheckoutAddressingContext implements Context
         $this->addressPage->specifyBillingAddress($address);
         $this->addressPage->specifyBillingTaxCode((string) $address->getTaxCode());
     }
+
     /**
      * @When /^I specify a (valid italian company billing address)$/
      *
@@ -344,6 +358,7 @@ final class CheckoutAddressingContext implements Context
         $this->addressPage->specifyBillingTaxCode((string) $address->getTaxCode());
         $this->addressPage->specifyBillingSdiCode((string) $address->getSdiCode());
     }
+
     /**
      * @Given /^I specify a (valid german individual billing address)$/
      *
@@ -353,6 +368,7 @@ final class CheckoutAddressingContext implements Context
     {
         $this->addressPage->specifyBillingAddress($address);
     }
+
     /**
      * @Given /^I specify a (valid german company billing address)$/
      *

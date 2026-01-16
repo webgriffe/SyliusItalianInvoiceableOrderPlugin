@@ -1,0 +1,10 @@
+{#
+PSA: we could check if the "type" is billing or shipping, but this info is not passed through by checkout/address/content/form/addresses/address/form.html.twig template,
+so we have to rely on the form name
+#}
+{% if hookable_metadata.context.form.vars.name is defined and hookable_metadata.context.form.vars.name != 'shippingAddress' %}
+    {{ form_row(hookable_metadata.context.form.taxCode, sylius_test_form_attribute('tax-code')) }}
+    {{ form_row(hookable_metadata.context.form.vatNumber, sylius_test_form_attribute('vat-number')) }}
+    {{ form_row(hookable_metadata.context.form.sdiCode, sylius_test_form_attribute('sdi-code')) }}
+    {{ form_row(hookable_metadata.context.form.pecAddress, sylius_test_form_attribute('pec-address')) }}
+{% endif %}

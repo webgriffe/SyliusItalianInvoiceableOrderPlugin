@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\Checkout;
 
 use Sylius\Behat\Page\Shop\Checkout\AddressPage as BaseAddressPage;
+use Sylius\Behat\Service\DriverHelper;
 use Sylius\Component\Core\Model\AddressInterface;
 use Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface;
 use Webmozart\Assert\Assert;
@@ -17,9 +18,18 @@ class AddressPage extends BaseAddressPage implements AddressPageInterface
     public function specifyBillingAddress(AddressInterface $billingAddress): void
     {
         Assert::isInstanceOf($billingAddress, ItalianInvoiceableAddressInterface::class);
-        if (null !== $billingAddress->getBillingRecipientType()) {
-            $this->getElement(sprintf('%s_billing_recipient_type', BaseAddressPage::TYPE_BILLING))->selectOption($billingAddress->getBillingRecipientType());
+        $billingRecipientType = $billingAddress->getBillingRecipientType();
+
+        // we should use the ->selectOption method on the recipient type element but at the moment it is not working when using @javascript..
+        // so we click on the individual option directly
+        if ($billingRecipientType === ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_INDIVIDUAL && DriverHelper::isJavascript($this->getDriver())) {
+            DriverHelper::waitForPageToLoad($this->getSession());
+            $nodeElement = $this->getElement(sprintf('%s_billing_recipient_type_individual', BaseAddressPage::TYPE_BILLING));
+            $nodeElement->click();
+        } elseif (null !== $billingRecipientType) {
+            $this->getElement(sprintf('%s_billing_recipient_type', BaseAddressPage::TYPE_BILLING))->selectOption($billingRecipientType);
         }
+
         parent::specifyBillingAddress($billingAddress);
         if (null !== $billingAddress->getCompany()) {
             $this->waitForElement(5, sprintf('%s_company', BaseAddressPage::TYPE_BILLING));
@@ -51,19 +61,20 @@ class AddressPage extends BaseAddressPage implements AddressPageInterface
     {
         return array_merge(
             [
-                'billing_billing_recipient_type' => '[data-test-billing-billing-recipient-type] input',
-                'billing_tax_code' => '[data-test-billing-tax-code]',
-                'billing_company' => '[data-test-billing-company]',
-                'billing_vat_number' => '[data-test-billing-vat-number]',
-                'billing_sdi_code' => '[data-test-billing-sdi-code]',
-                'billing_pec_address' => '[data-test-billing-pec-address]',
-                'shipping_billing_recipient_type' => '[data-test-shipping-billing-recipient-type] input',
-                'shipping_tax_code' => '[data-test-shipping-tax-code]',
-                'shipping_vat_number' => '[data-test-shipping-vat-number]',
-                'shipping_sdi_code' => '[data-test-shipping-sdi-code]',
-                'shipping_pec_address' => '[data-test-shipping-pec-address]',
+                'billing_billing_recipient_type' => '[data-test-billing-address] [data-test-billing-recipient-type] input',
+                'billing_billing_recipient_type_individual' => '[data-test-billing-address] [data-test-billing-recipient-type] input[value="' . ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_INDIVIDUAL . '"]',
+                'billing_tax_code' => '[data-test-billing-address] [data-test-tax-code]',
+                'billing_company' => '[data-test-billing-address] [data-test-company]',
+                'billing_vat_number' => '[data-test-billing-address] [data-test-vat-number]',
+                'billing_sdi_code' => '[data-test-billing-address] [data-test-sdi-code]',
+                'billing_pec_address' => '[data-test-billing-address] [data-test-pec-address]',
+                'shipping_billing_recipient_type' => '[data-test-shipping-address] [data-test-billing-recipient-type] input',
+                'shipping_tax_code' => '[data-test-shipping-address] [data-test-tax-code]',
+                'shipping_vat_number' => '[data-test-shipping-address] [data-test-vat-number]',
+                'shipping_sdi_code' => '[data-test-shipping-address] [data-test-sdi-code]',
+                'shipping_pec_address' => '[data-test-shipping-address] [data-test-pec-address]',
             ],
-            parent::getDefinedElements()
+            parent::getDefinedElements(),
         );
     }
 

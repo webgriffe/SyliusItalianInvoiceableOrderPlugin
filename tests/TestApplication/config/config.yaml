@@ -1,0 +1,36 @@
+imports:
+    - { resource: "@WebgriffeSyliusItalianInvoiceableOrderPlugin/config/config.yaml" }
+    - { resource: "services_test.php" }
+
+twig:
+    paths:
+        '%kernel.project_dir%/../../../tests/TestApplication/templates': ~
+
+framework:
+    validation:
+        mapping:
+            paths:
+                - '%kernel.project_dir%/../../../tests/TestApplication/config/validation/'
+
+doctrine:
+    orm:
+        entity_managers:
+            default:
+                mappings:
+                    TestApplication:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../../../tests/TestApplication/src/Entity'
+                        prefix: Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin
+
+sylius_addressing:
+    resources:
+        address:
+            classes:
+                model: Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Entity\Addressing\Address
+
+sylius_order:
+    resources:
+        order:
+            classes:
+                model: Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Entity\Order\Order

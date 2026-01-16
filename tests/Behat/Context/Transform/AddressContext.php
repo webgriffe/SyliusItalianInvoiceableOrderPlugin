@@ -19,7 +19,7 @@ final class AddressContext implements Context
 
     public function __construct(
         private readonly ExampleFactoryInterface $exampleAddressFactory,
-        private readonly CountryNameConverterInterface $countryNameConverter
+        private readonly CountryNameConverterInterface $countryNameConverter,
     ) {
         $this->fakerGenerator = Factory::create();
     }
@@ -32,7 +32,7 @@ final class AddressContext implements Context
         string $city,
         string $street,
         string $postcode,
-        string $countryName
+        string $countryName,
     ): AddressInterface {
         [$firstName, $lastName] = explode(' ', $customerName);
 
@@ -50,6 +50,7 @@ final class AddressContext implements Context
         ]);
 
         $address->setBillingRecipientType(ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_INDIVIDUAL);
+
         return $address;
     }
 
@@ -62,7 +63,7 @@ final class AddressContext implements Context
         string $street,
         string $postcode,
         string $city,
-        string $countryName
+        string $countryName,
     ): AddressInterface {
         [$firstName, $lastName] = explode(' ', $customerName);
 
@@ -80,6 +81,7 @@ final class AddressContext implements Context
         ]);
 
         $address->setBillingRecipientType(ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_COMPANY);
+
         return $address;
     }
 
@@ -96,8 +98,10 @@ final class AddressContext implements Context
         $address->setBillingRecipientType(ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_INDIVIDUAL);
         // Taken random from: https://www.ilcodicefiscale.online/genera/
         $address->setTaxCode('MSCLBR02H18A662F');
+
         return $address;
     }
+
     /**
      * @Transform /^valid italian company billing address$/
      *
@@ -116,8 +120,10 @@ final class AddressContext implements Context
         $address->setVatNumber($vatNumberAndTaxCode);
         $address->setTaxCode($vatNumberAndTaxCode);
         $address->setSdiCode(strtoupper($this->fakerGenerator->bothify('*******')));
+
         return $address;
     }
+
     /**
      * @Transform /^valid german individual billing address$/
      *
@@ -129,8 +135,10 @@ final class AddressContext implements Context
         $address = $this->exampleAddressFactory->create(['country_code' => 'DE', 'customer' => null]);
         Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
         $address->setBillingRecipientType(ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_INDIVIDUAL);
+
         return $address;
     }
+
     /**
      * @Transform /^valid german company billing address$/
      *
@@ -145,6 +153,7 @@ final class AddressContext implements Context
         $address->setCompany($this->fakerGenerator->company);
         // This is the real german company Hetzner (https://www.hetzner.com/) VAT number
         $address->setVatNumber('DE812871812');
+
         return $address;
     }
 
@@ -159,6 +168,7 @@ final class AddressContext implements Context
         $address = $this->exampleAddressFactory->create(['country_code' => 'US', 'customer' => null]);
         Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
         $address->setBillingRecipientType(ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_INDIVIDUAL);
+
         return $address;
     }
 
@@ -174,6 +184,7 @@ final class AddressContext implements Context
         Assert::isInstanceOf($address, ItalianInvoiceableAddressInterface::class);
         $address->setBillingRecipientType(ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_COMPANY);
         $address->setCompany($this->fakerGenerator->company);
+
         return $address;
     }
 }

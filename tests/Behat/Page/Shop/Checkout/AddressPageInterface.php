@@ -12,7 +12,7 @@ interface AddressPageInterface extends BaseAddressPageInterface
 
     public function specifyBillingVatNumber(string $vatNumber): void;
 
-    public function specifyBillingSdiCode(string $sdiCode): void ;
+    public function specifyBillingSdiCode(string $sdiCode): void;
 
     public function specifyBillingPecAddress(string $pecAddress): void;
 
@@ -27,5 +27,4 @@ interface AddressPageInterface extends BaseAddressPageInterface
     public function getPreFilledBillingSdiCode(): string;
 
     public function getPreFilledBillingPecAddress(): string;
-
 }

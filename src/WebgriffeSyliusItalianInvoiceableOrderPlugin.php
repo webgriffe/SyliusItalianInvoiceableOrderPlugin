@@ -7,12 +7,16 @@ namespace Webgriffe\SyliusItalianInvoiceableOrderPlugin;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * @psalm-api
+ */
 final class WebgriffeSyliusItalianInvoiceableOrderPlugin extends Bundle
 {
     use SyliusPluginTrait;
 
+    #[\Override]
     public function getPath(): string
     {
-        return __DIR__;
+        return \dirname(__DIR__);
     }
 }

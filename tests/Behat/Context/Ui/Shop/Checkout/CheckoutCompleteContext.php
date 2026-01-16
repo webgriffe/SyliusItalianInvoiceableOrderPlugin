@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Context\Ui\Shop\Checkout;
 
-use Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\Checkout\CompletePageInterface;
 use Behat\Behat\Context\Context;
+use Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\Checkout\CompletePageInterface;
 use Webmozart\Assert\Assert;
 
 final class CheckoutCompleteContext implements Context

@@ -1,14 +1,29 @@
 <p align="center">
-    <a href="https://sylius.com" target="_blank">
-        <img src="https://demo.sylius.com/assets/shop/img/logo.png" />
+    <a href="https://www.webgriffe.com" target="_blank">
+        <img src="https://sylius.com/wp-content/uploads/2018/08/webgriffe_logo.png" height="120" />
     </a>
 </p>
 <h1 align="center">Italian Invoiceable Order Plugin</h1>
 
+<p align="center"><a href="https://sylius.com/plugins/" target="_blank"><img src="https://sylius.com/assets/badge-approved-by-sylius.png" width="200"></a></p>
 <p align="center">Sylius plugin which allows Italian merchants to collect invoice data for their orders such as tax code, VAT number, SDI code, etc... as well as allowing the merchant to only apply taxes to those customers that can (and must) pay taxes in advance.</p>
 <p align="center"><a href="https://github.com/webgriffe/SyliusItalianInvoiceableOrderPlugin/actions"><img src="https://github.com/webgriffe/SyliusItalianInvoiceableOrderPlugin/workflows/Build/badge.svg" alt="Build Status" /></a></p>
 
 ## Installation
+
+0. This plugin requires the [MyOnlineStore/ViesBundle](https://github.com/MyOnlineStore/ViesBundle) but this is not actually compatible with Symfony 7, there is an open PR: https://github.com/MyOnlineStore/ViesBundle/pull/18
+
+   Thus, you have to run the following command to require a fork of the bundle which is compatible with Symfony 7:
+
+   ```bash
+   composer config repositories.sandwich/vies-bundle git https://github.com/mmenozzi/ViesBundle.git
+   ```
+   
+   and you have to run this command too to allow "dev" versions of the bundle (we need the "dev-patch-1" version):
+
+   ```bash
+   composer config minimum-stability dev
+   ```
 
 1. Require the plugin:
 
@@ -16,14 +31,26 @@
    composer require webgriffe/sylius-italian-invoiceable-order-plugin
    ```
 
-2. Add bundles to `config/bundles.php` file:
+2. If they have not been added automatically, you have to add these bundles to `config/bundles.php` file:
 
    ```php
        Sandwich\ViesBundle\SandwichViesBundle::class => ['all' => true],
        Webgriffe\SyliusItalianInvoiceableOrderPlugin\WebgriffeSyliusItalianInvoiceableOrderPlugin::class => ['all' => true],
    ```
 
-3. Define a value for the parameter `app.taxation.eu_zone_code`, which must be the code of a zone representing the EU. This is used to determine if an order is invoiced to a company within the EU or not.
+3. Configure your ActiveCampaign API connection parameters by creating the `config/packages/webgriffe_sylius_italian_invoiceable_order_plugin.yaml` file with the following content:
+    ```yaml
+    imports:
+        - { resource: "@WebgriffeSyliusItalianInvoiceableOrderPlugin/config/config.yaml" }
+    ```
+
+3. By default, the parameter `app.taxation.eu_zone_code` is set to "EU", as it must be the code of a zone representing the EU. This is used to determine if an order is invoiced to a company within the EU or not. Please change this parameter according to your Sylius's zone configuration if needed:
+
+   ```yaml
+   # config/services.yaml
+   parameters:
+       app.taxation.eu_zone_code: 'EU' # Change it if needed
+   ```
 
 4. Your `Address` entity must implement the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface` and the `Symfony\Component\Validator\GroupSequenceProviderInterface`. You can use the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressTrait` as implementation for both interfaces.
 
@@ -33,18 +60,32 @@
 
    ```bash
    mkdir -p config/validator/
-   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/Application/config/validator/Address.xml config/validator/
-   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/Application/config/validator/Order.xml config/validator/
+   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/TestApplication/config/validation/Address.xml config/validator/
+   cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/TestApplication/config/validation/Order.xml config/validator/
    ```
 
-   Or by merging the configuration into your existing `Address` and `Order` validator configuration.
+   **WAIT! We are not done with this step yet.** You must edit these files to change the namespace `Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin` to your own project namespace: there are 3 references that you have to change among these files.
+
+   If you have the "App" as the base namespace of your app, this command should be enough:
+
+    Linux:
+    ```bash
+    sed -i 's/Tests\\Webgriffe\\SyliusItalianInvoiceableOrderPlugin/App/g' config/validator/Address.xml config/validator/Order.xml
+    ```
+
+    MacOS:
+    ```bash
+    sed -i '' 's/Tests\\Webgriffe\\SyliusItalianInvoiceableOrderPlugin/App/g' config/validator/Address.xml config/validator/Order.xml
+    ```
+
+   If you alread have some validator file for these entities you have to merge the configuration manually.
 
 7. Configure Sylius to use the `Italian tax calculation` tax calculation strategy.
 
 8. To properly enable group sequence validation of your Address entity you must set the `Default` validation group instead of the `sylius` validation group:
 
    ```yaml
-   # config/services.yaml
+   # config/parameters.yaml
    parameters:
        # ...
        sylius.form.type.address.validation_groups: ['Default']
@@ -52,171 +93,47 @@
 
    For more information see [here](https://symfony.com/doc/current/validation/sequence_provider.html).
 
-9. Run a diff of your Doctrine's migrations and then run it:
+9. Run migration
 
    ```bash
-   bin/console doctrine:migrations:diff
+   bin/console cache:clear
    bin/console doctrine:migrations:migrate
    ```
 
-10. Add invoiceable address fields to your shop address form template. To do so you have to override the template:
+10. Add invoiceable fields to the address show template for admin. To do so you have to override this template:
 
     ```bash
-    cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Common/Form/_address.html.twig templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig
+    vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/templates/shared/helper/address.html.twig
     ```
    
-    Then in the `templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig` you must add the following:
-   
+    by copying directly our implementation provided in the plugin:
+
+    ```bash
+    mkdir -p templates/bundles/SyliusAdminBundle/shared/helper/
+    cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/TestApplication/templates/bundles/SyliusAdminBundle/shared/helper/address.html.twig templates/bundles/SyliusAdminBundle/shared/helper/address.html.twig
+    ```
+    
+    or by copying the original template and adding the invoiceable fields by yourself. In this case your template should look like the following:
+    
     ```twig
-    {# templates/bundles/SyliusShopBundle/Common/Form/_address.html.twig #}
-    {% if type != 'shipping-' %}
-     {{ form_row(form.billingRecipientType, sylius_test_form_attribute(type ~ 'billing-recipient-type')) }}
-        {{ form_row(form.taxCode, sylius_test_form_attribute(type ~ 'tax-code')) }}
-        {{ form_row(form.vatNumber, sylius_test_form_attribute(type ~ 'vat-number')) }}
-        {{ form_row(form.sdiCode, sylius_test_form_attribute(type ~ 'sdi-code')) }}
-        {{ form_row(form.pecAddress, sylius_test_form_attribute(type ~ 'pec-address')) }}    
-    {% endif %}
+    {% macro address(address) %}
+        <address>
+            {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/shared/address/billingAddressInfo.html.twig' with { address } only %}
+            {{ address.phoneNumber }}<br/>
+            {{ address.street }}<br/>
+            {{ address.city }}<br/>
+            {% if address|sylius_province_name is not empty %}
+                {{ address|sylius_province_name }}<br/>
+            {% endif %}
+            {{ address.countryCode|sylius_country_name|upper }} {{ address.postcode }}
+        </address>
+    {% endmacro %}
     ```
-   
-    You can put the fields in the order you want but we recommend to surround them with the `{% if type != 'shipping-' %}` check. In this way you'll not show those fields in the shipping address section of the checkout where these fields are not relevant.
-   
-11. Add invoiceable address fields to your admin address form template. To do so you have to override the template:
-
-  ```bash
-  cp vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/views/Common/Form/_address.html.twig templates/bundles/SyliusAdminBundle/Common/Form/_address.html.twig
-  ```
-
-  Then in the `templates/bundles/SyliusAdminBundle/Common/Form/_address.html.twig` you must add the invoiceable fields. You should add those fields only if the form is bound to the billing address of an order. To do so, your template should like the following:
-
-  ```twig
-  {# templates/bundles/SyliusAdminBundle/Common/Form/_address.html.twig #}
-  {% set shouldShowInvoiceableFields = form.parent.vars.data.billingAddress.id is defined and form.vars.data.id is defined and form.parent.vars.data.billingAddress.id == form.vars.data.id %}
-  
-  {% if shouldShowInvoiceableFields %}
-      {{ form_row(form.billingRecipientType) }}
-  {% endif %}
-  
-  <div class="two fields">
-      {{ form_row(form.firstName) }}
-      {{ form_row(form.lastName) }}
-  </div>
-  
-  {% if shouldShowInvoiceableFields %}
-      {{ form_row(form.taxCode) }}
-      {{ form_row(form.vatNumber) }}
-      {{ form_row(form.sdiCode) }}
-      {{ form_row(form.pecAddress) }}
-  {% endif %}
-  
-  {{ form_row(form.company) }}
-  {{ form_row(form.street) }}
-  {{ form_row(form.countryCode) }}
-  <div class="province-container field" data-url="{{ path('sylius_admin_ajax_render_province_form') }}">
-      {% if form.provinceCode is defined %}
-          {{ form_row(form.provinceCode, {'attr': {'class': 'ui dropdown'}}) }}
-      {% endif %}
-  </div>
-  <div class="two fields">
-      {{ form_row(form.city) }}
-      {{ form_row(form.postcode) }}
-  </div>
-  {{ form_row(form.phoneNumber) }}
-  ```
-
-12. Add invoiceable fields to the address show template for admin and shop. To do so you have to override those templates:
-
-   ```bash
-   cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Common/_address.html.twig templates/bundles/SyliusShopBundle/Common/_address.html.twig
-   cp vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/views/Common/_address.html.twig templates/bundles/SyliusAdminBundle/Common/_address.html.twig
-   ```
-
-   And replace the printing of company, first name and last name with the invoiceable address information template provided by this plugin. Then, those templates should look like the following:
-
-   ```twig
-   {# templates/bundles/SyliusShopBundle/Common/_address.html.twig #}
-   {% import "@SyliusUi/Macro/flags.html.twig" as flags %}
-   
-   <address {{ sylius_test_html_attribute('address-context', "%s %s"|format(address.firstName, address.lastName)) }}>
-       {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Common/_invoiceableAddressInfo.html.twig' %}
-       {% if address.phoneNumber is not null %}
-           {{ address.phoneNumber }}<br/>
-       {% endif %}
-       {{ address.street }}<br/>
-       {{ address.city }}, {{ address.postcode }}<br/>
-       {% if address|sylius_province_name is not empty %}
-           {{ address|sylius_province_name }}<br/>
-       {% endif %}
-       {{ flags.fromCountryCode(address.countryCode) }}
-       {{ address.countryCode|sylius_country_name|upper }}
-   </address>
-   ```
-
-   ```twig
-   {# templates/bundles/SyliusAdminBundle/Common/_address.html.twig #}
-   {% import "@SyliusUi/Macro/flags.html.twig" as flags %}
-   
-   <address>
-       {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Common/_invoiceableAddressInfo.html.twig' %}
-       {{ address.phoneNumber }}<br/>
-       {{ address.street }}<br/>
-       {{ address.city }}<br/>
-       {% if address|sylius_province_name is not empty %}
-           {{ address|sylius_province_name }}<br/>
-       {% endif %}
-       {{ flags.fromCountryCode(address.countryCode) }}
-       {{ address.countryCode|sylius_country_name|upper }} {{ address.postcode }}
-   </address>
-   ```
-
-13. Add invoiceable fields to the address book select data attributes. To do so you have to override the address book select template:
-
-   ```bash
-   cp vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Checkout/Address/_addressBookSelect.html.twig templates/bundles/SyliusShopBundle/Checkout/Address/_addressBookSelect.html.twig
-   ```
-
-   And include the invoiceable fields data attributes template provided by this plugin:
-
-   ```twig
-   {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Checkout/Address/_addressBookSelectInvoiceableDataAttributes.html.twig' %}
-   ```
-
-   You have to add it in the proper location, just after the other data attributes of the address book select tag. So the whole address book template should look like the following: 
-
-   ```twig
-   {# templates/bundles/SyliusShopBundle/Checkout/Address/_addressBookSelect.html.twig #}
-   {% if app.user is not empty and app.user.customer is not empty and app.user.customer.addresses|length > 0 %}
-       <div class="ui fluid floating dropdown labeled search icon button address-book-select" {{ sylius_test_html_attribute('address-book') }}>
-           <i class="book icon"></i>
-           <span class="text">{{ 'sylius.ui.select_address_from_book'|trans }}</span>
-           <div class="menu">
-               {% for address in app.user.customer.addresses %}
-                   <div class="item" {{ sylius_test_html_attribute('address-book-item') }}
-                        data-id="{{ address.id }}"
-                        data-first-name="{{ address.firstName }}"
-                        data-last-name="{{ address.lastName }}"
-                        data-company="{{ address.company }}"
-                        data-street="{{ address.street }}"
-                        data-country-code="{{ address.countryCode }}"
-                        data-province-code="{{ address.provinceCode }}"
-                        data-province-name="{{ address.provinceName }}"
-                        data-city="{{ address.city }}"
-                        data-postcode="{{ address.postcode }}"
-                        data-phone-number="{{ address.phoneNumber }}"
-   
-                        {% include '@WebgriffeSyliusItalianInvoiceableOrderPlugin/Checkout/Address/_addressBookSelectInvoiceableDataAttributes.html.twig' %}
-                   >
-                       <strong>{{ address.firstName }} {{ address.lastName }}</strong>, {{ address.street }}, {{ address.city }} {{ address.postcode }}, {{ address.countryCode|sylius_country_name }}
-                   </div>
-               {% endfor %}
-           </div>
-       </div>
-   {% endif %}
-   ```
 
 ## Features
 
 Once installed this plugin will allow the users of the shop to enter all the invoicing information needed by an Italian company to properly invoice the order.
-In addition this plugin checks the billing data of the order and uses them to decide whether the customer has to pay taxes or not.
+In addition, this plugin checks the billing data of the order and uses them to decide whether the customer has to pay taxes or not.
 
 This plugin will add the following fields to your address form:
 
@@ -236,33 +153,62 @@ This plugin also allows to select an invoiceable address from the address book i
 
 To contribute you need to:
 
-1. Clone this repository into your development environment
+1. Clone this repository into you development environment and go to the plugin's root directory,
 
-2. Create `tests/Application/.env.local` and `tests/Application/.env.test.local` files to customize env vars according to your specific development environment (for example the `DATABASE_URL` variable).
-
-3. Then, from the plugin's root directory, run the following commands:
+2. Then, from the plugin's root directory, run the following commands:
 
    ```bash
-   (cd tests/Application && yarn install)
-   (cd tests/Application && yarn build)
-   (cd tests/Application && bin/console assets:install public)
-   (cd tests/Application && bin/console doctrine:database:create)
-   (cd tests/Application && bin/console doctrine:schema:create)
-   (cd tests/Application && bin/console sylius:fixtures:load)
-   (cd tests/Application && symfony server:start -d) # Requires Symfony CLI (https://symfony.com/download)
+   composer install
    ```
 
-4. Now at https://127.0.0.1:8000/ you have a full Sylius testing application which runs the plugin.
+3. Copy `tests/TestApplication/.env` in `tests/TestApplication/.env.local` and set configuration specific for your development environment.
 
-### Running plugin tests
+4. Link node_modules:
+
+    ```bash
+    ln -s vendor/sylius/test-application/node_modules node_modules
+    ```
+
+5. Run docker (create a `compose.override.yml` if you need to customize services):
+
+    ```bash
+    docker-compose up -d
+    ```
+
+6. Then, from the plugin's root directory, run the following commands:
+
+    ```bash
+    composer test-app-init
+    ```
+
+7. Run your local server:
+
+      ```bash
+      symfony server:ca:install
+      symfony server:start -d
+      ```
+
+8. Now at http://localhost:8080/ you have a full Sylius testing application which runs the plugin
+
+### Testing
 
 After your changes you must ensure that the tests are still passing.
 
 First setup your test database:
 
 ```bash
-(cd tests/Application && bin/console -e test doctrine:database:create)
-(cd tests/Application && bin/console -e test doctrine:schema:create)
+    APP_ENV=test vendor/bin/console doctrine:database:create
+    APP_ENV=test vendor/bin/console doctrine:migrations:migrate -n
+    # Optionally load data fixtures
+    APP_ENV=test vendor/bin/console sylius:fixtures:load -n
+```
+
+And build assets:
+
+```bash
+    (cd vendor/sylius/test-application && yarn install)
+    (cd vendor/sylius/test-application && yarn build)
+    vendor/bin/console assets:install
 ```
 
 The current CI suite runs the following tests:
@@ -299,7 +245,7 @@ The current CI suite runs the following tests:
     
       ```bash
       symfony server:ca:install
-      APP_ENV=test symfony server:start --port=8080 --dir=tests/Application/public --daemon
+      APP_ENV=test symfony server:start --port=8080 --dir=tests/TestApplication/public --daemon
       ```
     
     4. Run Behat:

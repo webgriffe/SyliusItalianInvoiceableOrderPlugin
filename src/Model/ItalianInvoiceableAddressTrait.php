@@ -8,40 +8,20 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait ItalianInvoiceableAddressTrait
 {
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="billing_recipient_type", type="string", nullable=true)
-     */
-    private $billingRecipientType;
+    #[ORM\Column(name: 'billing_recipient_type', type: 'string', nullable: true)]
+    private ?string $billingRecipientType = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="tax_code", type="string", nullable=true)
-     */
-    private $taxCode;
+    #[ORM\Column(name: 'tax_code', type: 'string', nullable: true)]
+    private ?string $taxCode = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="vat_number", type="string", nullable=true)
-     */
-    private $vatNumber;
+    #[ORM\Column(name: 'vat_number', type: 'string', nullable: true)]
+    private ?string $vatNumber = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="sdi_code", type="string", nullable=true)
-     */
-    private $sdiCode;
+    #[ORM\Column(name: 'sdi_code', type: 'string', nullable: true)]
+    private ?string $sdiCode = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="pec_address", type="string", nullable=true)
-     */
-    private $pecAddress;
+    #[ORM\Column(name: 'pec_address', type: 'string', nullable: true)]
+    private ?string $pecAddress = null;
 
     public function getBillingRecipientType(): ?string
     {
