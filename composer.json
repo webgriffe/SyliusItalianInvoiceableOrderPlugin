@@ -40,7 +40,6 @@
         "polishsymfonycommunity/symfony-mocker-container": "^1.0",
         "psalm/plugin-symfony": "^5.2",
         "rector/rector": "^1.0",
-        "robertfausk/behat-panther-extension": "^1.1",
         "sylius-labs/coding-standard": "^4.4",
         "sylius-labs/suite-tags-extension": "~0.2",
         "sylius/sylius-rector": "^2.0",
