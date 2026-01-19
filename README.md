@@ -38,7 +38,7 @@
        Webgriffe\SyliusItalianInvoiceableOrderPlugin\WebgriffeSyliusItalianInvoiceableOrderPlugin::class => ['all' => true],
    ```
 
-3. Configure your ActiveCampaign API connection parameters by creating the `config/packages/webgriffe_sylius_italian_invoiceable_order_plugin.yaml` file with the following content:
+3. Add the plugin's configs by creating the `config/packages/webgriffe_sylius_italian_invoiceable_order_plugin.yaml` file with the following content:
     ```yaml
     imports:
         - { resource: "@WebgriffeSyliusItalianInvoiceableOrderPlugin/config/config.yaml" }
@@ -190,6 +190,25 @@ To contribute you need to:
 
 8. Now at http://localhost:8080/ you have a full Sylius testing application which runs the plugin
 
+### Static checks
+
+  - Coding Standard
+    ```bash
+    vendor/bin/ecs check --fix
+    ```
+
+  - Psalm
+  
+    ```bash
+    vendor/bin/psalm
+    ```
+
+  - PHPStan
+
+    ```bash
+    vendor/bin/phpstan analyse
+    ```
+
 ### Testing
 
 After your changes you must ensure that the tests are still passing.
@@ -253,26 +272,6 @@ The current CI suite runs the following tests:
       ```bash
       vendor/bin/behat --strict --tags="@javascript"
       ```
-    
-  - Static Analysis
-  
-    - Psalm
-    
-      ```bash
-      vendor/bin/psalm
-      ```
-      
-    - PHPStan
-    
-      ```bash
-      vendor/bin/phpstan analyse -c phpstan.neon -l max src/  
-      ```
-
-  - Coding Standard
-  
-    ```bash
-    vendor/bin/ecs check src
-    ```
 
 ## License
 
