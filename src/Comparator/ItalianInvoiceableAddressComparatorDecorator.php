@@ -39,8 +39,8 @@ final class ItalianInvoiceableAddressComparatorDecorator implements AddressCompa
     {
         return array_map(
             function ($value): string {
-            return strtolower(trim((string) $value));
-        },
+                return strtolower(trim((string) $value));
+            },
             [
                $address->getBillingRecipientType(),
                $address->getTaxCode(),
