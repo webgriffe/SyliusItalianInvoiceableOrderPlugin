@@ -10,8 +10,9 @@ use Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddres
 
 final class ItalianInvoiceableAddressComparatorDecorator implements AddressComparatorInterface
 {
-    public function __construct(private AddressComparatorInterface $defaultAddressComparator)
-    {
+    public function __construct(
+        private AddressComparatorInterface $defaultAddressComparator,
+    ) {
     }
 
     #[\Override]
