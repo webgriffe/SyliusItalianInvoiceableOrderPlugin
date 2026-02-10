@@ -20,7 +20,6 @@
 2. If they have not been added automatically, you have to add these bundles to `config/bundles.php` file:
 
    ```php
-       Sandwich\ViesBundle\SandwichViesBundle::class => ['all' => true],
        Webgriffe\SyliusItalianInvoiceableOrderPlugin\WebgriffeSyliusItalianInvoiceableOrderPlugin::class => ['all' => true],
    ```
 
