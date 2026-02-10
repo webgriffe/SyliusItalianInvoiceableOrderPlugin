@@ -13,12 +13,10 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         cap_add:
             - SYS_NICE # prevent "mbind: Operation not permitted" errors
-        ports:
-            - ${MYSQL_PORT:-3306}:3306
     nginx:
         image: ghcr.io/sylius/sylius-nginx:latest
         depends_on:
             -   php
-    mailhog:
+    mailpit:
         # do not use in production!
-        image: mailhog/mailhog:latest
+        image: axllent/mailpit:latest
