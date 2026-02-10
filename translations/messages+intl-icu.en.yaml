@@ -1,19 +1,19 @@
 webgriffe_sylius_italian_invoiceable_order:
-  form:
-    address:
-      billing_recipient_type:
-        label: 'Individual or Company'
-        company: 'Company'
-        individual: 'Individual'
-      tax_code:
-        label: 'Tax code'
-      vat_number:
-        label: 'VAT number'
-      sdi_code:
-        label: 'SDI code'
-      pec_address:
-        label: 'PEC address'
-  ui:
-    address:
-      tax_code_short: 'Tax Code'
-      vat_number_short: 'VAT No'
+    form:
+        address:
+            billing_recipient_type:
+                label: 'Individual or Company'
+                company: 'Company'
+                individual: 'Individual'
+            tax_code:
+                label: 'Tax code'
+            vat_number:
+                label: 'VAT number'
+            sdi_code:
+                label: 'SDI code'
+            pec_address:
+                label: 'PEC address'
+    ui:
+        address:
+            tax_code_short: 'Tax Code'
+            vat_number_short: 'VAT No'

@@ -11,20 +11,6 @@
 
 ## Installation
 
-0. This plugin requires the [MyOnlineStore/ViesBundle](https://github.com/MyOnlineStore/ViesBundle) but this is not actually compatible with Symfony 7, there is an open PR: https://github.com/MyOnlineStore/ViesBundle/pull/18
-
-   Thus, you have to run the following command to require a fork of the bundle which is compatible with Symfony 7:
-
-   ```bash
-   composer config repositories.sandwich/vies-bundle git https://github.com/mmenozzi/ViesBundle.git
-   ```
-   
-   and you have to run this command too to allow "dev" versions of the bundle (we need the "dev-patch-1" version):
-
-   ```bash
-   composer config minimum-stability dev
-   ```
-
 1. Require the plugin:
 
    ```bash
@@ -44,7 +30,7 @@
         - { resource: "@WebgriffeSyliusItalianInvoiceableOrderPlugin/config/config.yaml" }
     ```
 
-3. By default, the parameter `app.taxation.eu_zone_code` is set to "EU", as it must be the code of a zone representing the EU. This is used to determine if an order is invoiced to a company within the EU or not. Please change this parameter according to your Sylius's zone configuration if needed:
+4. By default, the parameter `app.taxation.eu_zone_code` is set to "EU", as it must be the code of a zone representing the EU. This is used to determine if an order is invoiced to a company within the EU or not. Please change this parameter according to your Sylius's zone configuration if needed:
 
    ```yaml
    # config/services.yaml
@@ -52,11 +38,11 @@
        app.taxation.eu_zone_code: 'EU' # Change it if needed
    ```
 
-4. Your `Address` entity must implement the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface` and the `Symfony\Component\Validator\GroupSequenceProviderInterface`. You can use the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressTrait` as implementation for both interfaces.
+5. Your `Address` entity must implement the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface` and the `Symfony\Component\Validator\GroupSequenceProviderInterface`. You can use the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressTrait` as implementation for both interfaces.
 
-5. Your `Order` entity must implement the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableOrderInterface`. You can use the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableOrderTrait` as default implementation for the interface.
+6. Your `Order` entity must implement the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableOrderInterface`. You can use the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableOrderTrait` as default implementation for the interface.
 
-6. You need to import the `Address` and `Order` validator configuration into your project by copying the configuration files provided by this plugin:
+7. You need to import the `Address` and `Order` validator configuration into your project by copying the configuration files provided by this plugin:
 
    ```bash
    mkdir -p config/validator/
@@ -77,12 +63,21 @@
     ```bash
     sed -i '' 's/Tests\\Webgriffe\\SyliusItalianInvoiceableOrderPlugin/App/g' config/validator/Address.xml config/validator/Order.xml
     ```
+   
+   If you already have some validator file for these entities you have to merge the configuration manually.
+   
+   *NB* Please, note that currently these validation rules are applied in strict mode. This means that if the VIES
+   service is not available for some reason, the validation of the VAT number will fail. This could occur frequently on
+   specific countries like Germany or France due
+   to this problem: https://viesapi.eu/vies-problems-with-verifying-companies-from-germany-de/.
+   If you want to avoid this strict behavior you can change the `strict` option of the
+   `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Validator\Constraints\EuropeanVatNumber` constraint to `false` in the
+   validation configuration file. This way, if the VIES service is not available, the VAT number will be considered
+   valid and the checkout will not be blocked.
 
-   If you alread have some validator file for these entities you have to merge the configuration manually.
+8. Configure Sylius to use the `Italian tax calculation` tax calculation strategy.
 
-7. Configure Sylius to use the `Italian tax calculation` tax calculation strategy.
-
-8. To properly enable group sequence validation of your Address entity you must set the `Default` validation group instead of the `sylius` validation group:
+9. To properly enable group sequence validation of your Address entity you must set the `Default` validation group instead of the `sylius` validation group:
 
    ```yaml
    # config/parameters.yaml
@@ -93,28 +88,27 @@
 
    For more information see [here](https://symfony.com/doc/current/validation/sequence_provider.html).
 
-9. Run migration
+10. Run migration
 
    ```bash
-   bin/console cache:clear
    bin/console doctrine:migrations:migrate
    ```
 
-10. Add invoiceable fields to the address show template for admin. To do so you have to override this template:
+11. Add invoiceable fields to the address show template for admin. To do so you have to override this template:
 
     ```bash
     vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/templates/shared/helper/address.html.twig
     ```
-   
+
     by copying directly our implementation provided in the plugin:
 
     ```bash
     mkdir -p templates/bundles/SyliusAdminBundle/shared/helper/
     cp vendor/webgriffe/sylius-italian-invoiceable-order-plugin/tests/TestApplication/templates/bundles/SyliusAdminBundle/shared/helper/address.html.twig templates/bundles/SyliusAdminBundle/shared/helper/address.html.twig
     ```
-    
+
     or by copying the original template and adding the invoiceable fields by yourself. In this case your template should look like the following:
-    
+
     ```twig
     {% macro address(address) %}
         <address>

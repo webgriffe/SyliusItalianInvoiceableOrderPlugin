@@ -1,19 +1,19 @@
 webgriffe_sylius_italian_invoiceable_order:
-  form:
-    address:
-      billing_recipient_type:
-        label: 'Privato o Azienda'
-        company: 'Azienda'
-        individual: 'Privato'
-      tax_code:
-        label: 'Codice Fiscale'
-      vat_number:
-        label: 'Partita IVA'
-      sdi_code:
-        label: 'Codice destinatario SDI'
-      pec_address:
-        label: 'Indirizzo PEC'
-  ui:
-    address:
-      tax_code_short: 'CF'
-      vat_number_short: 'P.IVA'
+    form:
+        address:
+            billing_recipient_type:
+                label: 'Privato o Azienda'
+                company: 'Azienda'
+                individual: 'Privato'
+            tax_code:
+                label: 'Codice Fiscale'
+            vat_number:
+                label: 'Partita IVA'
+            sdi_code:
+                label: 'Codice destinatario SDI'
+            pec_address:
+                label: 'Indirizzo PEC'
+    ui:
+        address:
+            tax_code_short: 'CF'
+            vat_number_short: 'P.IVA'
