@@ -10,6 +10,7 @@ webgriffe_sylius_italian_invoiceable_order:
             not_blank: 'La partita IVA non dovrebbe essere vuota.'
         european_vat_number:
             valid: 'Per favore, inserisci una partita IVA europea valida.'
+            vies_not_alive: 'Il servizio VIES non è disponibile al momento. Per favore, riprova più tardi.'
         italian_sdi_code:
             valid: 'Per favore, inserisci un codice destinatario SDI valido.'
             not_blank: 'Il codice destinatario SDI non dovrebbe essere vuoto.'

@@ -1,0 +1,23 @@
+webgriffe_sylius_italian_invoiceable_order:
+    address:
+        company:
+            not_blank: 'Le nom de l’entreprise ne doit pas être vide.'
+        italian_tax_code:
+            valid: 'Veuillez saisir un code fiscal italien valide.'
+            not_blank: 'Le code fiscal ne doit pas être vide.'
+        italian_vat_number:
+            valid: 'Veuillez saisir un numéro de TVA italien valide.'
+            not_blank: 'Le numéro de TVA ne doit pas être vide.'
+        european_vat_number:
+            valid: 'Veuillez saisir un numéro de TVA européen valide.'
+            vies_not_alive: 'Le service VIES est actuellement indisponible. Veuillez réessayer plus tard.'
+        italian_sdi_code:
+            valid: 'Veuillez saisir un code SDI valide.'
+            not_blank: 'Le code SDI ne doit pas être vide.'
+        pec_address:
+            valid: 'Veuillez saisir une adresse PEC valide.'
+        pec_or_sdi_required: 'Au moins l’un des deux champs, adresse PEC ou code SDI, est requis.'
+    order:
+        billing_recipient_type:
+            not_blank: 'Un type de destinataire de facturation (entreprise ou particulier) doit être spécifié pour l’adresse de facturation de cette commande. Veuillez revenir à l’étape de saisie des adresses lors du paiement et indiquer un type de destinataire pour l’adresse de facturation.'
+            choice: 'Le type de destinataire de facturation doit être l’un des suivants : {{ choices }}.'

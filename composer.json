@@ -11,7 +11,6 @@
     "require": {
         "php": "^8.2",
         "dragonbe/vies": "^2.3.2",
-        "sandwich/vies-bundle": "dev-patch-1",
         "sylius/sylius": "^2.2",
         "webmozart/assert": "^1.9"
     },

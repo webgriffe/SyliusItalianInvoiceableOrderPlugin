@@ -1,0 +1,23 @@
+webgriffe_sylius_italian_invoiceable_order:
+    address:
+        company:
+            not_blank: 'Der Firmenname darf nicht leer sein.'
+        italian_tax_code:
+            valid: 'Bitte geben Sie eine gültige italienische Steuernummer ein.'
+            not_blank: 'Die Steuernummer darf nicht leer sein.'
+        italian_vat_number:
+            valid: 'Bitte geben Sie eine gültige italienische Umsatzsteuer-Identifikationsnummer ein.'
+            not_blank: 'Die Umsatzsteuer-Identifikationsnummer darf nicht leer sein.'
+        european_vat_number:
+            valid: 'Bitte geben Sie eine gültige europäische Umsatzsteuer-Identifikationsnummer ein.'
+            vies_not_alive: 'Der VIES-Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut.'
+        italian_sdi_code:
+            valid: 'Bitte geben Sie einen gültigen SDI-Code ein.'
+            not_blank: 'Der SDI-Code darf nicht leer sein.'
+        pec_address:
+            valid: 'Bitte geben Sie eine gültige PEC-Adresse ein.'
+        pec_or_sdi_required: 'Mindestens eines der beiden Felder, PEC-Adresse oder SDI-Code, ist erforderlich.'
+    order:
+        billing_recipient_type:
+            not_blank: 'Für die Rechnungsadresse dieser Bestellung muss ein Rechnungsempfängertyp (Unternehmen oder Privatperson) angegeben werden. Bitte kehren Sie zum Adressierungsschritt im Checkout zurück und wählen Sie einen Rechnungsempfängertyp für die Rechnungsadresse aus.'
+            choice: 'Der Rechnungsempfängertyp muss einer der folgenden sein: {{ choices }}.'

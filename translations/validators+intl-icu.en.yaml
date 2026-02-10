@@ -10,6 +10,7 @@ webgriffe_sylius_italian_invoiceable_order:
             not_blank: 'VAT number should not be blank.'
         european_vat_number:
             valid: 'Please enter a valid european VAT number.'
+            vies_not_alive: 'The VIES service is not alive at the moment. Please, try again later.'
         italian_sdi_code:
             valid: 'Please enter a valid SDI code.'
             not_blank: 'SDI code should not be blank.'

@@ -17,8 +17,9 @@
             <errorLevel type="suppress">
                 <file name="src/Comparator/ItalianInvoiceableAddressComparatorDecorator.php" />
                 <file name="src/Form/Extension/ItalianInvoiceableAddressTypeExtension.php" />
-                <file name="src/Model/ItalianTaxCalculationStrategy.php" />
+                <file name="src/Taxation/ItalianTaxCalculationStrategy.php" />
                 <file name="src/Modifier/AddressFormValuesModifier.php" />
+                <file name="src/Validator/Constraints/EuropeanVatNumberValidator.php" />
             </errorLevel>
         </UnusedClass>
     </issueHandlers>
