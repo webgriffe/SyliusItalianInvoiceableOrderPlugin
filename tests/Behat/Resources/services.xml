@@ -68,5 +68,9 @@
             <argument type="service" id="sylius.factory.zone" />
             <argument>%locale%</argument>
         </service>
+
+        <service id="webgriffe_sylius_italian_invoiceable_order.validator.european_vat_number" class="Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Service\InMemoryEuropeanVatNumberValidator">
+            <tag name="validator.constraint_validator" alias="webgriffe_sylius_italian_invoiceable_order.european_vat_number_validator"/>
+        </service>
     </services>
 </container>

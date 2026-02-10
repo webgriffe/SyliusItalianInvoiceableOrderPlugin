@@ -11,6 +11,7 @@ use Faker\Generator;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\AddressInterface;
 use Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Page\Shop\Checkout\AddressPageInterface;
+use Tests\Webgriffe\SyliusItalianInvoiceableOrderPlugin\Behat\Service\InMemoryEuropeanVatNumberValidator;
 use Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface;
 use Webmozart\Assert\Assert;
 
@@ -249,6 +250,7 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyAnInvalidVatNumberForAGermanCompany(): void
     {
+        InMemoryEuropeanVatNumberValidator::$isValid = false;
         $this->addressPage->specifyBillingVatNumber('DE123456789');
     }
 
@@ -257,6 +259,7 @@ final class CheckoutAddressingContext implements Context
      */
     public function iSpecifyAValidBillingVatNumberForAGermanCompany(): void
     {
+        InMemoryEuropeanVatNumberValidator::$isValid = true;
         // This is the real german company Hetzner (https://www.hetzner.com/) VAT number
         $this->addressPage->specifyBillingVatNumber('DE812871812');
     }
