@@ -1,5 +1,5 @@
 imports:
-    - { resource: "@WebgriffeSyliusItalianInvoiceableOrderPlugin/config/config.yaml" }
+    - { resource: "@WebgriffeSyliusItalianInvoiceableOrderPlugin/config/config.php" }
     - { resource: "services_test.php" }
 
 twig:

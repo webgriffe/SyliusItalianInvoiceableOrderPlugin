@@ -1,6 +1,0 @@
-imports:
-    - { resource: 'twig_hooks/**/*.yaml' }
-
-parameters:
-    sylius.form.type.address.validation_groups: [ 'Default' ]
-    app.taxation.eu_zone_code: 'EU'
