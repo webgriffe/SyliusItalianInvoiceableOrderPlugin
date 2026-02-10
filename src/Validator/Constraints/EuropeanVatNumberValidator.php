@@ -16,6 +16,9 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 final class EuropeanVatNumberValidator extends ConstraintValidator
 {
+    /**
+     * @psalm-suppress PossiblyUnusedMethod
+     */
     public function __construct(
         private readonly Vies $viesApi,
         private readonly LoggerInterface $logger,

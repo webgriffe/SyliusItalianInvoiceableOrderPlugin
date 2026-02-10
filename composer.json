@@ -81,12 +81,6 @@
             }
         }
     },
-    "repositories": {
-        "sandwich/vies-bundle": {
-            "type": "git",
-            "url": "https://github.com/mmenozzi/ViesBundle.git"
-        }
-    },
     "autoload": {
         "psr-4": {
             "Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\": "src/"

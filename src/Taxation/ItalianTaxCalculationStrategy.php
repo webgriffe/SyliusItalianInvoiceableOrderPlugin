@@ -14,23 +14,20 @@ use Webmozart\Assert\Assert;
 
 final class ItalianTaxCalculationStrategy implements TaxCalculationStrategyInterface
 {
-    private string $type;
-
-    /** @var OrderTaxesApplicatorInterface[] */
-    private array $applicators;
-
-    private string $euTaxZoneCode;
+    /** @var iterable<OrderTaxesApplicatorInterface> */
+    private iterable $applicators;
 
     /**
-     * @param OrderTaxesApplicatorInterface[] $applicators
+     * @param iterable<OrderTaxesApplicatorInterface>|iterable $applicators
      */
-    public function __construct(string $type, array $applicators, string $euTaxZoneCode)
-    {
-        $this->assertApplicatorsHaveCorrectType($applicators);
+    public function __construct(
+        private string $type,
+        iterable $applicators,
+        private string $euTaxZoneCode,
+    ) {
+        Assert::allIsInstanceOf($applicators, OrderTaxesApplicatorInterface::class);
 
-        $this->type = $type;
         $this->applicators = $applicators;
-        $this->euTaxZoneCode = $euTaxZoneCode;
     }
 
     #[\Override]
@@ -60,15 +57,6 @@ final class ItalianTaxCalculationStrategy implements TaxCalculationStrategyInter
         Assert::isInstanceOf($channel, ChannelInterface::class);
 
         return $channel->getTaxCalculationStrategy() === $this->type;
-    }
-
-    private function assertApplicatorsHaveCorrectType(array $applicators): void
-    {
-        Assert::allIsInstanceOf(
-            $applicators,
-            OrderTaxesApplicatorInterface::class,
-            'Order taxes applicator should have type "%2$s". Got: %s',
-        );
     }
 
     private function shouldSkipTaxesApplication(OrderInterface $order, ZoneInterface $zone): bool
