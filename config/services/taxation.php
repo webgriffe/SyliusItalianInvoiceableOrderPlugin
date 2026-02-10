@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianTaxCalculationStrategy;
+use Webgriffe\SyliusItalianInvoiceableOrderPlugin\Taxation\ItalianTaxCalculationStrategy;
 
 return static function (ContainerConfigurator $containerConfigurator) {
     $services = $containerConfigurator->services();
 
-    $services->set('app.taxation.italian_tax_calculation_strategy', ItalianTaxCalculationStrategy::class)
+    $services->set('webgriffe_sylius_italian_invoiceable_order.strategy.taxation.tax_calculation.italian_tax_calculation_strategy', ItalianTaxCalculationStrategy::class)
         ->args([
             'italian_tax_calculation_strategy',
-            [
-                service('sylius.applicator.taxation.order_item_units'),
-                service('sylius.applicator.taxation.order_shipment'),
-            ],
+            tagged_iterator('sylius.taxation.item_units.applicator'),
             param('app.taxation.eu_zone_code'),
         ])
         ->tag('sylius.taxation.calculation_strategy', [
