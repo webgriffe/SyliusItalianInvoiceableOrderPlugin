@@ -27,7 +27,7 @@
 3. Add the plugin's configs by creating the `config/packages/webgriffe_sylius_italian_invoiceable_order_plugin.yaml` file with the following content:
     ```yaml
     imports:
-        - { resource: "@WebgriffeSyliusItalianInvoiceableOrderPlugin/config/config.yaml" }
+        - { resource: "@WebgriffeSyliusItalianInvoiceableOrderPlugin/config/config.php" }
     ```
 
 4. By default, the parameter `app.taxation.eu_zone_code` is set to "EU", as it must be the code of a zone representing the EU. This is used to determine if an order is invoiced to a company within the EU or not. Please change this parameter according to your Sylius's zone configuration if needed:

@@ -7,3 +7,4 @@
 - The package `sandwich/vies-bundle` has been removed.
 - The constraint `Symfony\Component\Validator\Constraints\Sandwich\ViesBundle\Validator\Constraint\VatNumber` has been replaced with `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Validator\Constraints\EuropeanVatNumber`. Please update your validation rules accordingly with search and replace.
   Please, note also that now is available a new strict option that allows you to block the checkout step if the VIES service is not available. You can enable it by setting the `strict` option to `true` in your validation rules.
+- The file `@WebgriffeSyliusItalianInvoiceableOrderPlugin/config/config.yaml` has been renamed to `@WebgriffeSyliusItalianInvoiceableOrderPlugin/config/config.php`.
