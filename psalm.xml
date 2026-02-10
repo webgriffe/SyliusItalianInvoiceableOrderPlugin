@@ -5,7 +5,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-    phpVersion="8.4"
 >
     <projectFiles>
         <directory name="src" />
@@ -13,10 +12,14 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
-    <plugins>
-        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin">
-            <containerXml>var/cache/dev/Sylius_TestApplication_KernelDevDebugContainer.xml</containerXml>
-            <containerXml>var/cache/test/Sylius_TestApplication_KernelTestDebugContainer.xml</containerXml>
-        </pluginClass>
-    </plugins>
+    <issueHandlers>
+        <UnusedClass>
+            <errorLevel type="suppress">
+                <file name="src/Comparator/ItalianInvoiceableAddressComparatorDecorator.php" />
+                <file name="src/Form/Extension/ItalianInvoiceableAddressTypeExtension.php" />
+                <file name="src/Model/ItalianTaxCalculationStrategy.php" />
+                <file name="src/Modifier/AddressFormValuesModifier.php" />
+            </errorLevel>
+        </UnusedClass>
+    </issueHandlers>
 </psalm>
