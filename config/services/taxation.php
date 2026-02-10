@@ -13,7 +13,7 @@ return static function (ContainerConfigurator $containerConfigurator) {
         ->args([
             'italian_tax_calculation_strategy',
             tagged_iterator('sylius.taxation.item_units.applicator'),
-            param('app.taxation.eu_zone_code'),
+            param('webgriffe_sylius_italian_invoiceable_order.taxation.eu_zone_code'),
         ])
         ->tag('sylius.taxation.calculation_strategy', [
             'type' => 'italian_tax_calculation_strategy',

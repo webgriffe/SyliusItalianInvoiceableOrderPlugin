@@ -30,12 +30,12 @@
         - { resource: "@WebgriffeSyliusItalianInvoiceableOrderPlugin/config/config.php" }
     ```
 
-4. By default, the parameter `app.taxation.eu_zone_code` is set to "EU", as it must be the code of a zone representing the EU. This is used to determine if an order is invoiced to a company within the EU or not. Please change this parameter according to your Sylius's zone configuration if needed:
+4. By default, the parameter `webgriffe_sylius_italian_invoiceable_order.taxation.eu_zone_code` is set to "EU", as it must be the code of a zone representing the EU. This is used to determine if an order is invoiced to a company within the EU or not. Please change this parameter according to your Sylius's zone configuration if needed:
 
    ```yaml
    # config/services.yaml
    parameters:
-       app.taxation.eu_zone_code: 'EU' # Change it if needed
+       webgriffe_sylius_italian_invoiceable_order.taxation.eu_zone_code: 'EU' # Change it if needed
    ```
 
 5. Your `Address` entity must implement the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressInterface` and the `Symfony\Component\Validator\GroupSequenceProviderInterface`. You can use the `Webgriffe\SyliusItalianInvoiceableOrderPlugin\Model\ItalianInvoiceableAddressTrait` as implementation for both interfaces.
