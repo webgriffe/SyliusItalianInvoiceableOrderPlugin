@@ -8,6 +8,16 @@ The v2 is now compatible with Sylius 2.x, so you need to update your Sylius vers
 - The route `@WebgriffeSyliusTableRateShippingPlugin/Resources/config/admin_routing.yml` has been renamed to `@WebgriffeSyliusTableRateShippingPlugin/config/routes/admin.yaml`.
 - The route `webgriffe_sylius_table_rate_shipping_plugin_shop` has been removed as it was unnecessary
 - The migrations are now stored inside the plugin in `src/Migrations`. These should be idempotent, so if the changes made by these migrations are already present, they will do nothing.
+- Important template changes:
+  - Template `@WebgriffeSyliusItalianInvoiceableOrderPlugin/Common/_invoiceableAddressInfo.html.twig` has been renamed to `@WebgriffeSyliusItalianInvoiceableOrderPlugin/shared/address/billingAddressInfo.html.twig`
+  - Template `@WebgriffeSyliusItalianInvoiceableOrderPlugin/Checkout/Address/_addressBookSelectInvoiceableDataAttributes.html.twig` has been removed as Sylius 2 uses UI component for this, so you can remove this template as it is no longer needed. If you have customized this template, you can move the customizations to the new UI component. If you are using the [Sylius Legacy Bundle](https://github.com/Sylius/LegacyShopBridgePlugin) you can still use this template, here is the latest implemenation:
+    ```twig
+    data-billing-recipient-type="{{ address.billingRecipientType }}"
+    data-tax-code="{{ address.taxCode }}"
+    data-vat-number="{{ address.vatNumber }}"
+    data-sdi-code="{{ address.sdiCode }}"
+    data-pec-address="{{ address.pecAddress }}"
+    ```
 
 ## Upgrade from version v1.x to v2.x
 
