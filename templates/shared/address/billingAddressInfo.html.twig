@@ -1,17 +1,31 @@
 {% if address.billingRecipientType == constant('Webgriffe\\SyliusItalianInvoiceableOrderPlugin\\Model\\ItalianInvoiceableAddressInterface::BILLING_RECIPIENT_TYPE_COMPANY') %}
-    {% if address.company is not null %}
-        <strong>{{ address.company }}</strong>
+    {% if address.company %}
+        <strong>{{ address.company }}</strong><br/>
     {% endif %}
-    {% if address.vatNumber is defined and address.vatNumber is not null %}
+    {% if address.vatNumber %}
         {{ 'webgriffe_sylius_italian_invoiceable_order.ui.address.vat_number_short'|trans }}: {{ address.vatNumber }}
+        <br/>
     {% endif %}
-    <span {{ sylius_test_html_attribute('full-name', address.fullName) }}>{{ address.fullName }}</span>
+    {% if address.taxCode %}
+        {{ 'webgriffe_sylius_italian_invoiceable_order.ui.address.tax_code_short'|trans }}: {{ address.taxCode }}<br/>
+    {% endif %}
+    {% if address.sdiCode %}
+        SDI: {{ address.sdiCode }}<br/>
+    {% endif %}
+    {% if address.pecAddress %}
+        PEC: {{ address.pecAddress }}<br/>
+    {% endif %}
+    <span {{ sylius_test_html_attribute('full-name', "%s %s"|format(address.firstName, address.lastName)) }}>
+        {{ address.firstName }} {{ address.lastName }}
+    </span><br/>
 {% else %}
-    <strong {{ sylius_test_html_attribute('full-name', address.fullName) }}>{{ address.fullName }}</strong>
-    {% if address.taxCode is defined and address.taxCode is not null %}
-        {{ 'webgriffe_sylius_italian_invoiceable_order.ui.address.tax_code_short'|trans }}: {{ address.taxCode }}
+    <strong {{ sylius_test_html_attribute('full-name', "%s %s"|format(address.firstName, address.lastName)) }}>
+        {{ address.firstName }} {{ address.lastName }}
+    </strong><br/>
+    {% if address.taxCode %}
+        {{ 'webgriffe_sylius_italian_invoiceable_order.ui.address.tax_code_short'|trans }}: {{ address.taxCode }}<br/>
     {% endif %}
-    {% if address.company is not null %}
-        {{ address.company }}
+    {% if address.company %}
+        {{ address.company }}<br/>
     {% endif %}
 {% endif %}
